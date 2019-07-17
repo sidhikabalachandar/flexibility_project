@@ -1,35 +1,34 @@
-from schrodinger.structure import StructureReader
-
+'''
+This protocol can be used to find the amino acid sequence for each pair of structures
+The result is stored in a pickled 2D array
+The 2D array will be used for pairwise alignment
+'''
 #how to run this file:
 #ml load chemistry
 #ml load schrodinger
-#$SCHRODINGER/run python3 compute_rmsd_schrodinger.py
-#~/miniconda/bin/python3
+#$SCHRODINGER/run python3 sequence_finder.py
 
+from schrodinger.structure import StructureReader
+import os
+import pickle
 
-'''
-This protocol can be used to analyze each pair of structures
-This will work better than defining the residues using all structures and ligands
-because it will be more specific to one pair
-'''
 
 folder = '/scratch/PI/rondror/combind/bpp_data/MAPK14/structures/aligned_files/'
-struc_1 = list(StructureReader(folder + '3HUC/3HUC_out.mae'))[0]
-struc_2 = list(StructureReader(folder + '3GCS/3GCS_out.mae'))[0]
+ligands = os.listdir(folder)
+ligands.remove("4DLI")
 
-str_struc_1 = ''
-for mol in list(struc_1.molecule):
-	if len(mol.residue) != 1:
-		for res in list(mol.residue):
-			str_struc_1 += list(res.atom)[0].pdbcode
+strs = []
+for ligand in ligands:
+	ending = '{}/{}_out.mae'.format(ligand, ligand)
+	s = list(StructureReader(folder + ending))[0]
+	str = ''
+	for mol in list(s.molecule):
+		if len(mol.residue) != 1:
+			for res in list(mol.residue):
+				str += list(res.atom)[0].pdbcode
 
-str_struc_2 = ''
-for mol in list(struc_2.molecule):
-	if len(mol.residue) != 1:
-		for res in list(mol.residue):
-			str_struc_2 += list(res.atom)[0].pdbcode
+	strs.append(str)
 
-f = open('seq.txt', "w+")
-f.write(str_struc_1)
-f.write("\n")
-f.write(str_struc_2)
+outfile = open('/home/users/sidhikab/MAPK14_amino_acid_strs', 'wb')
+pickle.dump(strs, outfile)
+outfile.close()

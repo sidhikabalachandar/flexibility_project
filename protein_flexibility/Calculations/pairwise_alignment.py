@@ -1,25 +1,34 @@
-from Bio import pairwise2
-
+'''
+This protocol can be used to find the pairwise alignemnt between the amino acid strings of each pair of proteins
+'''
 #how to run this file:
-# ~/miniconda/bin/python3
+# ~/miniconda/bin/python3 pairwise_alignment.py
+
+from Bio import pairwise2
+import os
+import pickle
 
 
-'''
-This protocol can be used to analyze each pair of structures
-This will work better than defining the residues using all structures and ligands
-because it will be more specific to one pair
-'''
+infile = open('MAPK14_amino_acid_strs','rb')
+strs = pickle.load(infile)
+infile.close()
 
-with open('seq.txt', "r") as f:
-	lines = f.readlines()
-	str_struc_1 = lines[0]
-	str_struc_2 = lines[1]
+folder = '/scratch/PI/rondror/combind/bpp_data/MAPK14/structures/aligned_files/'
+ligands = os.listdir(folder)
+ligands.remove("4DLI")
 
-alignments = pairwise2.align.globalxx(str_struc_1, str_struc_2)
-paired_str_struc_1 = alignments[0][0]
-paired_str_struc_2 = alignments[0][1]
+paired_strs = []
+for i in range(len(ligands)):
+	str_s1 = strs[i]
+	arr = []
 
-f = open('paired_seq.txt', "w+")
-f.write(paired_str_struc_1)
-#f.write("\n")
-f.write(paired_str_struc_2)
+	for j in range(len(ligands)):
+		str_s2 = strs[j]
+		alignments = pairwise2.align.globalxx(str_s1, str_s2)
+		arr.append((alignments[0][0], alignments[0][1]))
+
+	paired_strs.append(arr)
+
+outfile = open('/home/users/sidhikab/MAPK14_pairwise_alignment', 'wb')
+pickle.dump(paired_strs, outfile)
+outfile.close()
