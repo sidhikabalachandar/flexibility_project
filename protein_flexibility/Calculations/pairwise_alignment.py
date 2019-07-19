@@ -23,6 +23,7 @@ for i in range(len(ligands)):
 	arr = []
 
 	for j in range(len(ligands)):
+
 		str_s2 = strs[j]
 		alignments = pairwise2.align.globalxx(str_s1, str_s2)
 		arr.append((alignments[0][0], alignments[0][1]))

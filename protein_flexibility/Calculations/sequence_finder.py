@@ -6,7 +6,7 @@ The 2D array will be used for pairwise alignment
 #how to run this file:
 #ml load chemistry
 #ml load schrodinger
-#$SCHRODINGER/run python3 sequence_finder.py
+# $SCHRODINGER/run python3 sequence_finder.py
 
 from schrodinger.structure import StructureReader
 import os
@@ -22,10 +22,11 @@ for ligand in ligands:
 	ending = '{}/{}_out.mae'.format(ligand, ligand)
 	s = list(StructureReader(folder + ending))[0]
 	str = ''
-	for mol in list(s.molecule):
-		if len(mol.residue) != 1:
-			for res in list(mol.residue):
-				str += list(res.atom)[0].pdbcode
+	for m in list(s.molecule):
+		if len(m.residue) != 1:
+			for r in list(m.residue):
+				if (list(r.atom)[0].chain == "A"): #to fix for 3GCU
+					str += list(r.atom)[0].pdbcode
 
 	strs.append(str)
 
