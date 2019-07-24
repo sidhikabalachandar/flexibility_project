@@ -10,86 +10,49 @@ import os
 from docking.docking_class import Docking_Set
 import time
 
-
 MAX_NUM_LIGANDS = 25
 GROUP_SIZE = 5
+combind_root = "/scratch/PI/rondror/combind/bpp_data"
 
 
-'''
-Get docking configuration and rmsd set information for all ligands for a given protein
-'''
 def get_docking_info(folder, protein):
+    '''
+    Get docking configuration and rmsd set information for all ligands for a given protein
+    '''
     ligand_folder = folder + "/" + protein + "/docking/grids"
-    ligands = os.listdir(ligand_folder)
-    if len(ligands) > MAX_NUM_LIGANDS:
-        ligands = ligands[:MAX_NUM_LIGANDS]
+    ligands = sorted(os.listdir(ligand_folder))[:MAX_NUM_LIGANDS] #sorted
     docking_config = []
     rmsd_set_info = []
 
     for struc in ligands:
         for ligand in ligands:
             name = '{}_to_{}'.format(ligand, struc)
-            folderDocking = '/home/users/sidhikab/all_protein_docking/{}/{}'.format(protein, name)
-            grid_file = '/scratch/PI/rondror/combind/bpp_data/{}/docking/grids/{}/{}.zip'.format(protein, struc, struc)
-            prepped_ligand_file = '/scratch/PI/rondror/combind/bpp_data/{}/ligands/prepared_ligands/{}_lig/{}_lig.mae'.format(
-                protein, ligand, ligand)
-            ligand_file = '/scratch/PI/rondror/combind/bpp_data/{}/structures/ligands/{}_lig.mae'.format(protein, ligand)
+            output_folder = '/home/users/sidhikab/all_protein_docking/{}/{}'.format(protein, name)
+            root = '/scratch/PI/rondror/combind/bpp_data/'
+            grid_file = folder + '{}/docking/grids/{}/{}.zip'.format(protein, struc, struc)
+            prepped_ligand_file = folder + '{}/ligands/prepared_ligands/{}_lig/{}_lig.mae'.format(protein, ligand, ligand)
+            ligand_file = folder + '{}/structures/ligands/{}_lig.mae'.format(protein, ligand)
 
-            docking_config.append({'folder': folderDocking,
+            docking_config.append({'folder': output_folder,
                                    'name': name,
                                    'grid_file': grid_file,
                                    'prepped_ligand_file': prepped_ligand_file,
                                    'glide_settings': {},
                                    'ligand_file': ligand_file})
-            rmsd_set_info.append({'folder': folderDocking,
-                                  'name': name,
-                                  'ligand_file': ligand_file})
-    return (docking_config, rmsd_set_info)
+    return docking_config
 
 
-'''
-Check if rmsd calculation is finished
-'''
-def rmsd_complete(grid):
-    ligands = os.listdir(grid)
-    for struc in ligands:
-        for ligand in ligands:
-            name = '{}_to_{}'.format(ligand, struc)
-            rmsd_file = '/home/users/sidhikab/MAPK14/{}/{}_rmsd.csv'.format(name, name)
-            if not os.path.isfile(rmsd_file):
-                return False
-    return True
+proteins = os.listdir(combind_root)
+proteins = proteins[-1]
 
-
-folder = "/scratch/PI/rondror/combind/bpp_data"
-proteins = os.listdir(folder)
-proteins = [proteins[4]]
 dock_set = Docking_Set()
 
 for protein in proteins:
     if protein[0] != '.':
-        (docking_config, rmsd_set_info) = get_docking_info(folder, protein)
+        (docking_config, rmsd_set_info) = get_docking_info(combind_root, protein)
         run_config = {'run_folder': '/home/users/sidhikab/all_protein_docking/{}/run'.format(protein),
                       'group_size': GROUP_SIZE,
                       'partition': 'owners',
                       'dry_run': False}
 
-        dock_set.run_docking_set(docking_config, run_config)
-
-error = True
-for i in range(0, 15):
-    time.sleep(300)
-    print("RMSD Minute", i * 5)
-    all_done = True
-    for protein in proteins:
-        if protein[0] != '.':
-            (docking_config, rmsd_set_info) = get_docking_info(folder, protein)
-            grid = "/scratch/PI/rondror/combind/bpp_data/{}/docking/grids".format(protein)
-            if not rmsd_complete(grid):
-                all_done = False
-    if all_done:
-        error = False
-        print("RMSD Completed")
-        break
-if error:
-    print("RMSD did not complete in 70 minutes - possible error")
+        dock_set.run_docking_rmsd_delete(docking_config, run_config)
