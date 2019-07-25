@@ -9,6 +9,7 @@ $ ~/miniconda/bin/python3 dock_rmsd_delete.py
 import os
 import sys
 from docking.docking_class import Docking_Set
+import pickle
 
 def get_docking_info(folder, protein, max_ligands, output_folder_root):
     '''
@@ -58,3 +59,24 @@ if __name__ == '__main__':
                 missing = [item[0]['name'] for item in zip(docking_config, done) if not item[1]]
                 print('{}: Missing {}/{}'.format(protein, len(missing), len(docking_config)))
                 print(missing)
+
+    if sys.argv[1] == 'results':
+        rmsds = {}
+        for protein in proteins:
+            if protein[0] != '.':
+                docking_config = get_docking_info(combind_root, protein, max_ligands, output_folder)
+                run_config = {'run_folder': output_folder + '/{}/run'.format(protein),
+                              'group_size': 8,
+                              'partition': 'owners',
+                              'dry_run': False}
+                docking_results = dock_set.get_docking_results(docking_config)
+                struc_dict = {}
+                for name, rmsd in docking_results.items():
+                    # name is ligand_to_struc
+                    ls = name.split('_to_')
+                    if ls[1] not in struc_dict:
+                        struc_dict[ls[1]] = {}
+                    struc_dict[ls[1]][ls[0]] = rmsd
+                rmsds[protein] = struc_dict
+        with open(output_folder + '/rmsds.pkl', 'wb') as outfile:
+            pickle.dump(rmsds, outfile)
