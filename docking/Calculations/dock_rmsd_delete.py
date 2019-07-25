@@ -37,13 +37,14 @@ if __name__ == '__main__':
     combind_root = '/scratch/PI/rondror/combind/bpp_data'
     output_folder = '/home/users/lxpowers/projects/combind/all_docking'
 
-    proteins = os.listdir(combind_root)
-    proteins = proteins[-1]
+    proteins = sorted(os.listdir(combind_root))
+    proteins = [proteins[-1]]
+    print(proteins)
     dock_set = Docking_Set()
 
     for protein in proteins:
         if protein[0] != '.':
-            (docking_config, rmsd_set_info) = get_docking_info(combind_root, protein, max_ligands, output_folder)
+            docking_config = get_docking_info(combind_root, protein, max_ligands, output_folder)
             run_config = {'run_folder': output_folder+'/{}/run'.format(protein),
                           'group_size': 5,
                           'partition': 'owners',
