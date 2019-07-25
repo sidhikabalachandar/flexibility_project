@@ -7,6 +7,7 @@ $ ~/miniconda/bin/python3 dock_rmsd_delete.py
 """
 
 import os
+import sys
 from docking.docking_class import Docking_Set
 
 def get_docking_info(folder, protein, max_ligands, output_folder_root):
@@ -44,10 +45,17 @@ if __name__ == '__main__':
 
     for protein in proteins:
         if protein[0] != '.':
-            docking_config = get_docking_info(combind_root, protein, max_ligands, output_folder)
-            run_config = {'run_folder': output_folder+'/{}/run'.format(protein),
-                          'group_size': 5,
-                          'partition': 'owners',
-                          'dry_run': True}
+            if sys.argv[1] == 'run_dock':
+                docking_config = get_docking_info(combind_root, protein, max_ligands, output_folder)
+                run_config = {'run_folder': output_folder+'/{}/run'.format(protein),
+                              'group_size': 5,
+                              'partition': 'owners',
+                              'dry_run': True}
 
-            dock_set.run_docking_rmsd_delete(docking_config, run_config)
+                dock_set.run_docking_rmsd_delete(docking_config, run_config)
+            else:
+                #check progress
+                done = dock_set.check_rmsd_set_done(docking_config)
+                missing = [item[0]['name'] for item in zip(docking_config, done) if not item[1]]
+                print('{}: Missing {}/{}'.format(protein, len(missing), len(docking_config)))
+                print(missing)
