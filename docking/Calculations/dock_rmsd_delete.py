@@ -38,7 +38,7 @@ if __name__ == '__main__':
     max_ligands = 25
     combind_root = '/scratch/PI/rondror/combind/bpp_data'
     output_folder = '/home/users/lxpowers/projects/combind/all_docking'
-
+    result_folder = '/home/users/lxpowers/projects/combind/flexibility/flexibility_project/docking/Data'
     proteins = sorted(os.listdir(combind_root))
     proteins = proteins[-20:]
     print(proteins)
@@ -54,7 +54,7 @@ if __name__ == '__main__':
             if sys.argv[1] == 'run_dock':
                 print(protein)
                 dock_set.run_docking_rmsd_delete(docking_config, run_config, incomplete_only=True)
-            else:
+            if sys.argv[1] == 'check':
                 #check progress
                 done = dock_set.check_rmsd_set_done(docking_config)
                 missing = [item[0]['name'] for item in zip(docking_config, done) if not item[1]]
@@ -64,6 +64,7 @@ if __name__ == '__main__':
     if sys.argv[1] == 'results':
         rmsds = {}
         for protein in proteins:
+            print(protein)
             if protein[0] != '.':
                 docking_config = get_docking_info(combind_root, protein, max_ligands, output_folder)
                 run_config = {'run_folder': output_folder + '/{}/run'.format(protein),
@@ -79,5 +80,5 @@ if __name__ == '__main__':
                         struc_dict[ls[1]] = {}
                     struc_dict[ls[1]][ls[0]] = rmsd
                 rmsds[protein] = struc_dict
-        with open(output_folder + '/rmsds.pkl', 'wb') as outfile:
+        with open(result_folder + '/rmsds.pkl', 'wb') as outfile:
             pickle.dump(rmsds, outfile)
