@@ -49,6 +49,7 @@ if __name__ == '__main__':
     proteins = get_proteins(combind_root)
 
     for protein in proteins:
+        print(protein)
         structure_folder = '{}/{}/structures/aligned_files'.format(combind_root, protein)
         pdb_ids = get_ligands(protein, max_ligands, combind_root)
         seqs = {}
