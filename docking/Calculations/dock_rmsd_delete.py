@@ -39,7 +39,7 @@ if __name__ == '__main__':
     output_folder = '/home/users/lxpowers/projects/combind/all_docking'
 
     proteins = sorted(os.listdir(combind_root))
-    proteins = [proteins[-1]]
+    proteins = proteins[-20:]
     print(proteins)
     dock_set = Docking_Set()
 
@@ -47,11 +47,12 @@ if __name__ == '__main__':
         if protein[0] != '.':
             docking_config = get_docking_info(combind_root, protein, max_ligands, output_folder)
             run_config = {'run_folder': output_folder+'/{}/run'.format(protein),
-                          'group_size': 8,
-                          'partition': 'owners',
+                          'group_size': 15,
+                          'partition': 'rondror',
                           'dry_run': False}
             if sys.argv[1] == 'run_dock':
-                dock_set.run_docking_rmsd_delete(docking_config, run_config)
+                print(protein)
+                dock_set.run_docking_rmsd_delete(docking_config, run_config, incomplete_only=True)
             else:
                 #check progress
                 done = dock_set.check_rmsd_set_done(docking_config)
