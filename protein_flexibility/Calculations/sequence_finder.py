@@ -49,12 +49,12 @@ if __name__ == '__main__':
     proteins = get_proteins(combind_root)
 
     for protein in proteins:
-        structure_folder = '{}/{}/structures/aligned_files/'.format(combind_root, protein)
+        structure_folder = '{}/{}/structures/aligned_files'.format(combind_root, protein)
         pdb_ids = get_ligands(protein, max_ligands, combind_root)
         seqs = {}
         for pdb_id in pdb_ids:
-            ending = '{}/{}_out.mae'.format(pdb_id, pdb_id)
+            ending = '/{}/{}_out.mae'.format(pdb_id, pdb_id)
             seqs[pdb_id] = get_sequence_from_str(structure_folder + ending)
 
-        with open('{}/{}_sequences.pkl'.format(result_folder, protein), 'wb') as f:
+        with open('{}sequences/{}_sequences.pkl'.format(result_folder, protein), 'wb') as f:
             pickle.dump(seqs, f)
