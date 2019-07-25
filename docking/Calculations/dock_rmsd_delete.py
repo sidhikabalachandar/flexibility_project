@@ -12,7 +12,7 @@ import time
 
 
 MAX_NUM_LIGANDS = 25
-GROUP_SIZE = 5
+GROUP_SIZE = 10
 
 
 '''
@@ -23,7 +23,7 @@ def get_docking_info(folder, protein):
     ligands = os.listdir(ligand_folder)
     if len(ligands) > MAX_NUM_LIGANDS:
         ligands = ligands[:MAX_NUM_LIGANDS]
-    docking_config = []
+    all_config = []
     rmsd_set_info = []
 
     for struc in ligands:
@@ -35,46 +35,39 @@ def get_docking_info(folder, protein):
                 protein, ligand, ligand)
             ligand_file = '/scratch/PI/rondror/combind/bpp_data/{}/structures/ligands/{}_lig.mae'.format(protein, ligand)
 
-            docking_config.append({'folder': folderDocking,
-                                   'name': name,
-                                   'grid_file': grid_file,
-                                   'prepped_ligand_file': prepped_ligand_file,
-                                   'glide_settings': {},
-                                   'ligand_file': ligand_file})
+            all_config.append({'folder': folderDocking,
+                               'name': name,
+                               'grid_file': grid_file,
+                               'prepped_ligand_file': prepped_ligand_file,
+                               'glide_settings': {},
+                               'ligand_file': ligand_file})
             rmsd_set_info.append({'folder': folderDocking,
                                   'name': name,
                                   'ligand_file': ligand_file})
-    return (docking_config, rmsd_set_info)
-
-
-'''
-Check if rmsd calculation is finished
-'''
-def rmsd_complete(grid):
-    ligands = os.listdir(grid)
-    for struc in ligands:
-        for ligand in ligands:
-            name = '{}_to_{}'.format(ligand, struc)
-            rmsd_file = '/home/users/sidhikab/MAPK14/{}/{}_rmsd.csv'.format(name, name)
-            if not os.path.isfile(rmsd_file):
-                return False
-    return True
+    return (all_config, rmsd_set_info)
 
 
 folder = "/scratch/PI/rondror/combind/bpp_data"
 proteins = os.listdir(folder)
-proteins = [proteins[4]]
+proteins = sorted(proteins)
+proteins.remove('B1AR')
+proteins.remove('B2AR')
+proteins.remove('CHK1')
+proteins.remove('F2')
+proteins.remove('PLK1')
+proteins = proteins[2:19]
+
 dock_set = Docking_Set()
 
 for protein in proteins:
     if protein[0] != '.':
-        (docking_config, rmsd_set_info) = get_docking_info(folder, protein)
+        (all_config, rmsd_set_info) = get_docking_info(folder, protein)
         run_config = {'run_folder': '/home/users/sidhikab/all_protein_docking/{}/run'.format(protein),
                       'group_size': GROUP_SIZE,
                       'partition': 'owners',
                       'dry_run': False}
 
-        dock_set.run_docking_set(docking_config, run_config)
+        dock_set.run_docking_rmsd_delete(all_config, run_config)
 
 error = True
 for i in range(0, 15):
@@ -83,9 +76,9 @@ for i in range(0, 15):
     all_done = True
     for protein in proteins:
         if protein[0] != '.':
-            (docking_config, rmsd_set_info) = get_docking_info(folder, protein)
+            (all_config, rmsd_set_info) = get_docking_info(folder, protein)
             grid = "/scratch/PI/rondror/combind/bpp_data/{}/docking/grids".format(protein)
-            if not rmsd_complete(grid):
+            if not dock_set.check_rmsd_set_done(rmsd_set_info):
                 all_done = False
     if all_done:
         error = False

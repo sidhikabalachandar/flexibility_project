@@ -44,6 +44,7 @@ class Docking_Set:
         done_list = []
         for docking_info in docking_set_info:
             Docking_Run = Docking(docking_info['folder'], docking_info['name'])
+
             done_list.append(Docking_Run.check_done_dock())
         return done_list
 
@@ -88,10 +89,13 @@ class Docking_Set:
         Get the rmsds for each list of poses for each ligand
         :return (list of list of ints)
         '''
-        rmsds = []
+        rmsds = {}
         for docking_info in rmsd_set_info:
             Docking_Run = Docking(docking_info['folder'], docking_info['name'])
-            rmsds.append(Docking_Run.get_docking_rmsd_results())
+            if Docking_Run.check_done_rmsd():
+                rmsds[docking_info['name']] = Docking_Run.get_docking_rmsd_results()
+            else:
+                rmsds[docking_info['name']] = None
         return rmsds
 
     def _process(self, run_config, all_docking, type='dock'):
@@ -116,7 +120,7 @@ class Docking_Set:
         Internal method to write a sh file to run a set of commands
         '''
         with open(name, 'w') as f:
-            f.write('#!/bin/bash\nml load chemistry\nml load schrodinger\n')
+            f.write('#!/bin/bash\nml load chemistry\nml load schrodinger/2018-2\n')
             for dock in docking_list:
                 f.write('cd {}\n'.format(dock.get_folder()))
                 if type == 'rmsd':

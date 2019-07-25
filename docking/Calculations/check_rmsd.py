@@ -17,11 +17,7 @@ GROUP_SIZE = 10
 '''
 Get docking configuration and rmsd set information for all ligands for a given protein
 '''
-def get_docking_info(protein):
-    ligand_folder = "/scratch/PI/rondror/combind/bpp_data/" + protein + "/docking/grids"
-    ligands = os.listdir(ligand_folder)
-    if len(ligands) > MAX_NUM_LIGANDS:
-        ligands = ligands[:MAX_NUM_LIGANDS]
+def get_docking_info(ligands, protein):
     rmsd_set_info = []
 
     for struc in ligands:
@@ -38,42 +34,31 @@ def get_docking_info(protein):
     return rmsd_set_info
 
 
-'''
-Check if rmsd calculation is finished
-'''
-def rmsd_complete(protein, grid):
-    ligands = os.listdir(grid)
-    done = True
-    for struc in ligands:
-        for ligand in ligands:
-            name = '{}_to_{}'.format(ligand, struc)
-            rmsd_file = '/home/users/sidhikab/{}/{}/{}_rmsd.csv'.format(protein, name, name)
-            if not os.path.isfile(rmsd_file):
-                print(rmsd_file)
-                done = False
-    return done
-
-
-folder = "/scratch/PI/rondror/combind/bpp_data"
+folder = "/scratch/PI/rondror/combind/bpp_data/"
 proteins = os.listdir(folder)
-proteins = [proteins[0]]
 dock_set = Docking_Set()
 
-error = True
-for i in range(0, 15):
-    print("RMSD Minute", i * 5)
-    all_done = True
-    for protein in proteins:
-        if protein[0] != '.':
-            grid = "/scratch/PI/rondror/combind/bpp_data/{}/docking/grids".format(protein)
-            if not rmsd_complete(protein, grid):
-                print(protein, "not complete")
-                all_done = False
-    if all_done:
-        error = False
-        print("RMSD Completed")
-        break
+all_done = True
+for protein in proteins:
+    if protein[0] != '.':
+        print(protein)
+        ligand_folder = "/scratch/PI/rondror/combind/bpp_data/" + protein + "/docking/grids"
+        ligands = os.listdir(ligand_folder)
+        if len(ligands) > MAX_NUM_LIGANDS:
+            ligands = ligands[:MAX_NUM_LIGANDS]
 
-    time.sleep(300)
-if error:
-    print("RMSD did not complete in 70 minutes - possible error")
+        rmsd_set_info = get_docking_info(ligands, protein)
+        bool_done_list = dock_set.check_rmsd_set_done(rmsd_set_info)
+        name_incomplete = []
+        counter = 0
+        not_done_counter = 0
+        for struc in ligands:
+            for ligand in ligands:
+                if not bool_done_list[counter]:
+                    name = '{}_to_{}'.format(ligand, struc)
+                    name_incomplete.append(name)
+                    not_done_counter += 1
+                counter += 1
+
+        print(not_done_counter, "/", counter, "incomplete")
+        print(name_incomplete)
