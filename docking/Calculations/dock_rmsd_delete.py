@@ -45,13 +45,12 @@ if __name__ == '__main__':
 
     for protein in proteins:
         if protein[0] != '.':
+            docking_config = get_docking_info(combind_root, protein, max_ligands, output_folder)
+            run_config = {'run_folder': output_folder+'/{}/run'.format(protein),
+                          'group_size': 8,
+                          'partition': 'owners',
+                          'dry_run': False}
             if sys.argv[1] == 'run_dock':
-                docking_config = get_docking_info(combind_root, protein, max_ligands, output_folder)
-                run_config = {'run_folder': output_folder+'/{}/run'.format(protein),
-                              'group_size': 5,
-                              'partition': 'owners',
-                              'dry_run': True}
-
                 dock_set.run_docking_rmsd_delete(docking_config, run_config)
             else:
                 #check progress
