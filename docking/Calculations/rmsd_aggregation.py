@@ -34,7 +34,7 @@ def get_docking_info(folder, protein, max_num_ligands):
 
 if __name__ == '__main__':
     folder = "/scratch/PI/rondror/combind/bpp_data"
-    proteins = os.listdir(folder)
+    proteins = os.listdir('/home/users/sidhikab/all_protein_docking/')
     rmsds = {}
     dock_set = Docking_Set()
     max_num_ligands = 25
