@@ -38,8 +38,9 @@ def get_sequence_from_str(file):
     for m in list(s.molecule):
         if len(m.residue) != 1:
             for r in list(m.residue):
-                if (list(r.atom)[0].chain == "A"):  # to fix for MAPK14: 3GCU
-                    str += list(r.atom)[0].pdbcode
+                atom = list(r.atom)[0]
+                if (atom.chain == "A"):  # to fix for MAPK14: 3GCU
+                    str += atom.pdbcode
     return str
 
 if __name__ == '__main__':
@@ -54,8 +55,9 @@ if __name__ == '__main__':
         pdb_ids = get_ligands(protein, max_ligands, combind_root)
         seqs = {}
         for pdb_id in pdb_ids:
+            pdb_id = pdb_id[:4]
             ending = '/{}/{}_out.mae'.format(pdb_id, pdb_id)
             seqs[pdb_id] = get_sequence_from_str(structure_folder + ending)
 
-        with open('{}sequences/{}_sequences.pkl'.format(result_folder, protein), 'wb') as f:
+        with open('{}/sequences/{}_sequences.pkl'.format(result_folder, protein), 'wb') as f:
             pickle.dump(seqs, f)
