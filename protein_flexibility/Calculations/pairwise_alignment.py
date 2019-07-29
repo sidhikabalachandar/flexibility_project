@@ -15,17 +15,16 @@ def compute_protein_alignments(protein, seq_file, save_folder):
 	strs = pickle.load(infile)
 	infile.close()
 	ligands = sorted(strs.keys())
-	paired_strs = []
+	paired_strs = {}
 	for i in range(len(ligands)):
-		str_s1 = strs[i]
-		arr = []
-		for j in range(i, len(ligands)):
-			str_s2 = strs[j]
+		str_s1 = strs[ligands[i]]
+		paired_strs[ligands[i]] = {}
+		for j in range(i+1, len(ligands)):
+			str_s2 = strs[ligands[j]]
 			alignments = pairwise2.align.globalxx(str_s1, str_s2)
-			arr.append((alignments[0][0], alignments[0][1]))
-		paired_strs.append(arr)
+			paired_strs[ligands[i]][ligands[j]] = ((alignments[0][0], alignments[0][1]))
 
-	save_file = save_folder + '/{}_alignment'.format(protein)
+	save_file = save_folder + '/{}_alignment.pkl'.format(protein)
 	outfile = open(save_file, 'wb')
 	pickle.dump(paired_strs, outfile)
 	outfile.close()
@@ -51,8 +50,9 @@ if __name__ == '__main__':
 	if task == 'all':
 		proteins = get_proteins(combind_root)
 		#submit jobs for each protein
-		cmd = 'sbatch -p {} -t 1:00:00 -o {}.out --wrap="~/miniconda3/bin/python3.4  pairwise_alignment.py  protein {}"'
+		cmd = 'sbatch -p {} -t 0:05:00 -o {}.out --wrap="~/miniconda3/bin/python3.4  pairwise_alignment.py  protein {}"'
 		for prot_name in proteins:
+			print(prot_name)
 			os.system(cmd.format(partition, save_folder+'/'+prot_name, prot_name))
 			time.sleep(0.5)
 
