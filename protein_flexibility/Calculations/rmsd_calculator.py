@@ -24,7 +24,8 @@ def get_all_res(s):
 	for m in list(s.molecule):
 		if len(m.residue) != 1:
 			for r in list(m.residue):
-				r_list.append((list(r.atom)[0].pdbcode, list(r.atom)[0].chain, list(r.atom)[0].resnum, list(r.atom)[0].inscode))
+				if list(r.atom)[0].chain == "A":
+					r_list.append((list(r.atom)[0].pdbcode, list(r.atom)[0].chain, list(r.atom)[0].resnum, list(r.atom)[0].inscode))
 	return r_list
 
 
@@ -44,7 +45,7 @@ def map_residues_to_align_index(alignment_string, r_list):
 			break
 		if alignment_string[i] == r_list[counter][0]:
 			r_to_i_map[r_list[counter]] = i
-			counter += 1;
+			counter += 1
 	return r_to_i_map
 
 
