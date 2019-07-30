@@ -152,12 +152,10 @@ def main(args):
     l2 = '3E93'
     l1_path = '/scratch/PI/rondror/combind/bpp_data/MAPK14/ligands/prepared_ligands/{}_lig/{}_lig.mae'.format(l1, l1)
     l2_path = '/scratch/PI/rondror/combind/bpp_data/MAPK14/ligands/prepared_ligands/{}_lig/{}_lig.mae'.format(l2, l2)
-    init_file = '/test/init_file.csv'
+    init_file = '/test/init_file'
     mcss_types_file = 'mcss_type_file.typ'
 
-    small = len(args) == 9
 
     mcss = MCSS(l1, l2)
-    with StructureReader(l1_path) as ligand1, StructureReader(l2_path) as ligand2:
-        ligands = {l1: next(ligand1), l2: next(ligand2)}
-        mcss.compute_mcss(ligands, init_file, mcss_types_file, small)
+    ligands = {l1: next(StructureReader(l1_path)), l2: next(StructureReader(l2_path))}
+    mcss.compute_mcss(ligands, init_file, mcss_types_file)
