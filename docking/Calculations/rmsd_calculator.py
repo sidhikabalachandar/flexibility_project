@@ -47,23 +47,9 @@ def get_docking_info(folder, protein):
     return (docking_config, rmsd_set_info)
 
 
-'''
-Check if rmsd calculation is finished
-'''
-def rmsd_complete(grid):
-    ligands = os.listdir(grid)
-    for struc in ligands:
-        for ligand in ligands:
-            name = '{}_to_{}'.format(ligand, struc)
-            rmsd_file = '/home/users/sidhikab/MAPK14/{}/{}_rmsd.csv'.format(name, name)
-            if not os.path.isfile(rmsd_file):
-                return False
-    return True
-
-
-folder = "/scratch/PI/rondror/combind/bpp_data"
+folder = "/scratch/PI/rondror/combind/bpp_data/"
 proteins = os.listdir(folder)
-proteins = proteins[:4]
+proteins = [proteins[4]]
 
 for protein in proteins:
     if protein[0] != '.':
@@ -83,9 +69,9 @@ for i in range(0, 15):
     all_done = True
     for protein in proteins:
         if protein[0] != '.':
-            (docking_config, rmsd_set_info) = get_docking_info(protein)
+            (docking_config, rmsd_set_info) = get_docking_info(folder, protein)
             grid = "/scratch/PI/rondror/combind/bpp_data/{}/docking/grids".format(protein)
-            if not rmsd_complete(grid):
+            if not dock_set.check_rmsd_set_done(rmsd_set_info):
                 all_done = False
     if all_done:
         error = False
