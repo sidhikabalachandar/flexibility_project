@@ -81,7 +81,7 @@ class MCSS:
         self._set_mcss(mcss_file)
         self.tried_small = small
 
-        with open(init_file, 'w') as fp:
+        with open(init_file, 'a+') as fp:
             fp.write(str(self) + '\n')
 
         os.system('rm {} {}'.format(structure_file, mcss_file))
@@ -142,22 +142,18 @@ class MCSS:
                 print(self.name, 'MCSS size dencreased by one.')
 
         self.n_mcss_atoms = n_mcss_atoms
-        self.smarts_l1 += ligs[self.l1.replace('_crystal', '')]
-        self.smarts_l2 += ligs[self.l2.replace('_crystal', '')]
 
-
-def main(args):
+if __name__ == '__main__':
     #l1, l2, l1_path, l2_path, init_file, mcss_types_file = args[2:8]
     l1 = '3E92'
     l2 = '3E93'
     l1_path = '/scratch/PI/rondror/combind/bpp_data/MAPK14/ligands/prepared_ligands/{}_lig/{}_lig.mae'.format(l1, l1)
     l2_path = '/scratch/PI/rondror/combind/bpp_data/MAPK14/ligands/prepared_ligands/{}_lig/{}_lig.mae'.format(l2, l2)
-    init_file = '/test/init_file.csv'
+    init_file = 'test/init_file'
     mcss_types_file = 'mcss_type_file.typ'
 
-    small = len(args) == 9
 
     mcss = MCSS(l1, l2)
     with StructureReader(l1_path) as ligand1, StructureReader(l2_path) as ligand2:
         ligands = {l1: next(ligand1), l2: next(ligand2)}
-        mcss.compute_mcss(ligands, init_file, mcss_types_file, small)
+        mcss.compute_mcss(ligands, init_file, mcss_types_file)
