@@ -35,6 +35,8 @@ This function gets all of the residues bfactors, name, and secondary structure
 '''
 def get_all_res(s):
     (avg, sdev) = bfactor_stats(s)
+    if sdev == 0:
+        return None
     r_dict = {}
     for m in list(s.molecule):
         if len(m.residue) != 1:
@@ -45,11 +47,13 @@ def get_all_res(s):
 
 if __name__ == '__main__':
     folder = "/scratch/PI/rondror/combind/bpp_data/"
-    #proteins = os.listdir(folder)
-    proteins = ['MAPK14']
+    proteins = os.listdir(folder)
     protein_dict = {}
+    none_counter = 0
 
-    for protein in proteins:
+    for i, protein in enumerate(proteins):
+        #to monitor progress
+        print(i, protein)
         if protein[0] != '.':
             ligand_file = folder + protein + "/structures/aligned_files/"
             ligands = os.listdir(ligand_file)
@@ -57,10 +61,14 @@ if __name__ == '__main__':
             for ligand in ligands:
                 struc = list(StructureReader('{}{}/{}_out.mae'.format(ligand_file, ligand, ligand)))[0]
                 residues = get_all_res(struc)
-                ligand_dict[ligand] = residues
+                if residues != None:
+                    ligand_dict[ligand] = residues
+                else:
+                    none_counter += 1
 
             protein_dict[protein] = ligand_dict
 
-    outfile = open('/home/users/sidhikab/MAPK14_ASL_to_resinfo_dict', 'wb')
+    outfile = open('/home/users/sidhikab/flexibility_project/flexibility_prediction/Data/ASL_to_resinfo_dict', 'wb')
     pickle.dump(protein_dict, outfile)
     outfile.close()
+    print(none_counter, 'ligands had a standard deviation of 0')
