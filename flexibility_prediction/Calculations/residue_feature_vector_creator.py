@@ -11,6 +11,7 @@ import os
 from schrodinger.structure import StructureReader, StructureWriter
 import pickle
 import statistics
+import schrodinger.structutils.analyze as analyze
 
 
 #Loop over each protein
@@ -40,8 +41,30 @@ def get_all_res(s):
     r_dict = {}
     for m in list(s.molecule):
         if len(m.residue) != 1:
-            for r in list(m.residue):
-                r_dict[r.getAsl()] = (r.temperature_factor, r.temperature_factor / avg, (r.temperature_factor - avg) / sdev, list(r.atom)[0].pdbcode, r.secondary_structure)
+            residues = list(m.residue)
+            for i in range(len(residues)):
+                if residues[i].secondary_structure == -1:
+                    continue
+                name = residues[i].pdbres
+                num = residues[i].resnum
+                bfactor = residues[i].temperature_factor
+                normalized_bfactor = (residues[i].temperature_factor - avg) / sdev
+
+                if i == 0:
+                    prevBfactor = (residues[len(residues) - 1].temperature_factor - avg) / sdev
+                    nextBfactor = (residues[i + 1].temperature_factor - avg) / sdev
+                elif i == len(residues) - 1:
+                    prevBfactor = (residues[i - 1].temperature_factor - avg) / sdev
+                    nextBfactor = (residues[0].temperature_factor - avg) / sdev
+                else:
+                    prevBfactor = (residues[i - 1].temperature_factor - avg) / sdev
+                    nextBfactor = (residues[i + 1].temperature_factor - avg) / sdev
+
+                mol_weight = sum(map(lambda x:x.atomic_weight, list(residues[i].atom)))
+                sasa = analyze.calculate_sasa(s, residues[i].atom)
+                secondary_structure =  residues[i].secondary_structure
+
+                r_dict[residues[i].getAsl()] = (name, num, bfactor, normalized_bfactor, prevBfactor, nextBfactor, mol_weight, sasa, secondary_structure)
     return r_dict
 
 
