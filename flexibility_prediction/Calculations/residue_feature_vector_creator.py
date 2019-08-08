@@ -12,6 +12,8 @@ from schrodinger.structure import StructureReader, StructureWriter
 import pickle
 import statistics
 import schrodinger.structutils.analyze as analyze
+import sys
+import time
 
 
 #Loop over each protein
@@ -39,12 +41,14 @@ def get_all_res(s):
     if sdev == 0:
         return None
     r_dict = {}
-    for m in list(s.molecule):
+    for j, m in enumerate(list(s.molecule)):
+        #print('Molecule', j)
         if len(m.residue) != 1:
             residues = list(m.residue)
             for i in range(len(residues)):
                 if residues[i].secondary_structure == -1:
                     continue
+                #print('Residue', i)
                 name = residues[i].pdbres
                 num = residues[i].resnum
                 bfactor = residues[i].temperature_factor
@@ -68,30 +72,61 @@ def get_all_res(s):
     return r_dict
 
 
-if __name__ == '__main__':
-    folder = "/scratch/PI/rondror/combind/bpp_data/"
-    proteins = os.listdir(folder)
-    protein_dict = {}
-    none_counter = 0
+def get_proteins(combind_root):
+	'''
+	Get the list of all proteins
+	:param combind_root: path to the combind root folder
+	:return: list of protein name strings
+	'''
+	proteins = sorted(os.listdir(combind_root))
+	proteins = [p for p in proteins if p[0] != '.']
+	print(proteins)
+	return proteins
 
-    for i, protein in enumerate(proteins):
-        #to monitor progress
-        print(i, protein)
-        if protein[0] != '.':
-            ligand_file = folder + protein + "/structures/aligned_files/"
-            ligands = os.listdir(ligand_file)
-            ligand_dict = {}
-            for ligand in ligands:
-                struc = list(StructureReader('{}{}/{}_out.mae'.format(ligand_file, ligand, ligand)))[0]
-                residues = get_all_res(struc)
-                if residues != None:
-                    ligand_dict[ligand] = residues
-                else:
-                    none_counter += 1
+def get_ligands(protein, max_ligands, combind_root):
+    ligand_folder = combind_root + "/" + protein + "/docking/grids"
+    ligands = sorted(os.listdir(ligand_folder))[:max_ligands]  # sorted
+    return ligands
 
-            protein_dict[protein] = ligand_dict
 
-    outfile = open('/home/users/sidhikab/flexibility_project/flexibility_prediction/Data/ASL_to_resinfo_dict', 'wb')
-    pickle.dump(protein_dict, outfile)
+def create_feature_vector(protein, pickle_file, combind_root):
+    max_ligands = 25
+    ligands = get_ligands(protein, max_ligands, combind_root)
+    ligand_dict = {}
+    for ligand in ligands:
+        print(ligand)
+        ending_1 = '{}/structures/aligned_files/{}/{}_out.mae'.format(protein, ligand, ligand)
+        struc = list(StructureReader(combind_root + '/' + ending_1))[0]
+        residues = get_all_res(struc)
+        if residues != None:
+            ligand_dict[ligand] = residues
+
+    outfile = open(pickle_file, 'wb')
+    pickle.dump(ligand_dict, outfile)
     outfile.close()
-    print(none_counter, 'ligands had a standard deviation of 0')
+
+
+if __name__ == '__main__':
+    task = sys.argv[1]
+    combind_root = '/scratch/PI/rondror/combind/bpp_data/'
+    result_folder = '/home/users/sidhikab/flexibility_project/flexibility_prediction/Data'
+    save_folder = result_folder + '/feature_vectors/'
+    partition = 'rondror'
+
+    if task == 'all':
+        proteins = get_proteins(combind_root)
+        #submit jobs for each protein
+        cmd = 'sbatch -p {} -t 1:00:00 -o {}_rmsd.out --wrap="$SCHRODINGER/run python3 residue_feature_vector_creator.py  protein {}"'
+        for prot_name in proteins:
+            print(prot_name)
+            if not os.path.exists(save_folder + prot_name):
+                os.system(cmd.format(partition, save_folder + '/' + prot_name, prot_name))
+                time.sleep(0.5)
+            else:
+                print("Exists")
+
+    if task == 'protein':
+        protein = sys.argv[2]
+        pickle_file = save_folder + protein
+        print(protein, pickle_file)
+        create_feature_vector(protein, pickle_file, combind_root)
