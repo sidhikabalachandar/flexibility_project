@@ -137,6 +137,7 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 		infile.close()
 
 		for start in ligands:
+			print(start)
 
 			if start not in ASL_to_feature:
 				print(protein, start, "not in dict")
@@ -153,10 +154,12 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 
 					if start < target:
 						(paired_str_s1, paired_str_s2) = paired_strs[start][target]
-						mcss = mcss_data[mcss_data['L1'] == start & mcss_data['L2'] == target].iat[0, 4]
+						L1_mcss_data = mcss_data[mcss_data['L1'] == start]
+						mcss = L1_mcss_data[L1_mcss_data['L2'] == target].iat[0, 4]
 					else:
 						(paired_str_s2, paired_str_s1) = paired_strs[target][start]
-						mcss = mcss_data[mcss_data['L1'] == target & mcss_data['L2'] == start].iat[0, 4]
+						L1_mcss_data = mcss_data[mcss_data['L1'] == target]
+						mcss = L1_mcss_data[L1_mcss_data['L2'] == start].iat[0, 4]
 
 					r_list_s1 = get_all_res(s1)
 					r_list_s2 = get_all_res(s2)
@@ -212,7 +215,7 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 							rmsd_val = rmsd.calculate_in_place_rmsd(s1, a_list_s1[k], s2, a_list_s2[k])
 							feature = ASL_to_feature[start][asl_list_s1[k]]
 							writer.writerow([protein, start, target, feature[0], feature[1], feature[2], feature[3],
-											 feature[4], feature[5], feature[6], feature[7], feature[8], feature[9], mcss, rmsd_val])
+											 feature[4], feature[5], feature[6], feature[7], feature[8], mcss, rmsd_val])
 
 
 
