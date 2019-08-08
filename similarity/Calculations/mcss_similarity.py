@@ -1,5 +1,7 @@
 import os
 from schrodinger.structure import StructureReader, StructureWriter
+import sys
+import time
 
 class MCSS:
     """
@@ -143,17 +145,57 @@ class MCSS:
 
         self.n_mcss_atoms = n_mcss_atoms
 
+
+def compute_protein_mcss(protein, ligands, save_folder):
+    init_file = '{}/{}_mcss.csv'.format(save_folder, protein)
+    for i in range(len(ligands)):
+        for j in range(i + 1, len(ligands)):
+            l1, l2 = ligands[i], ligands[j]
+            l1_path = '/scratch/PI/rondror/combind/bpp_data/MAPK14/ligands/prepared_ligands/{}_lig/{}_lig.mae'.format(l1, l1)
+            l2_path = '/scratch/PI/rondror/combind/bpp_data/MAPK14/ligands/prepared_ligands/{}_lig/{}_lig.mae'.format(l2, l2)
+            mcss_types_file = 'mcss_type_file.typ'
+            mcss = MCSS(l1, l2)
+            with StructureReader(l1_path) as ligand1, StructureReader(l2_path) as ligand2:
+                ligands = {l1: next(ligand1), l2: next(ligand2)}
+                mcss.compute_mcss(ligands, init_file, mcss_types_file)
+
+def get_ligands(protein, max_ligands, combind_root):
+    ligand_folder = combind_root + "/" + protein + "/docking/grids"
+    ligands = sorted(os.listdir(ligand_folder))[:max_ligands]  # sorted
+    return ligands
+
+def get_proteins(combind_root):
+    '''
+    Get the list of all proteins
+    :param combind_root: path to the combind root folder
+    :return: list of protein name strings
+    '''
+    proteins = sorted(os.listdir(combind_root))
+    proteins = [p for p in proteins if p[0] != '.']
+    print(proteins)
+    return proteins
+
 if __name__ == '__main__':
-    #l1, l2, l1_path, l2_path, init_file, mcss_types_file = args[2:8]
-    l1 = '3E92'
-    l2 = '3E93'
-    l1_path = '/scratch/PI/rondror/combind/bpp_data/MAPK14/ligands/prepared_ligands/{}_lig/{}_lig.mae'.format(l1, l1)
-    l2_path = '/scratch/PI/rondror/combind/bpp_data/MAPK14/ligands/prepared_ligands/{}_lig/{}_lig.mae'.format(l2, l2)
-    init_file = 'test/init_file'
-    mcss_types_file = 'mcss_type_file.typ'
+    task = sys.argv[1]
+    combind_root = '/scratch/PI/rondror/combind/bpp_data'
+    result_folder = '/home/users/lxpowers/projects/combind/flexibility/flexibility_project/similarity/Data'
+    save_folder = result_folder + '/mcss'
+    partition = 'owners'
+    max_ligands = 25
+
+    if task == 'all':
+        proteins = get_proteins(combind_root)
+        # submit jobs for each protein
+        cmd = 'sbatch -p {} -t 0:30:00 -o {}.out --wrap="~/miniconda3/bin/python3.4  mcss_similarity.py  protein {}"'
+        for prot_name in proteins:
+            print(prot_name)
+            os.system(cmd.format(partition, save_folder + '/' + prot_name, prot_name))
+            time.sleep(0.5)
+
+    if task == 'protein':
+        protein = sys.argv[2]
+        ligands = get_ligands(protein, max_ligands, combind_root)
+        compute_protein_mcss(protein, ligands, save_folder)
 
 
-    mcss = MCSS(l1, l2)
-    with StructureReader(l1_path) as ligand1, StructureReader(l2_path) as ligand2:
-        ligands = {l1: next(ligand1), l2: next(ligand2)}
-        mcss.compute_mcss(ligands, init_file, mcss_types_file)
+

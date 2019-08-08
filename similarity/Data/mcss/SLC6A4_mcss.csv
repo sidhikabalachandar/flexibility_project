@@ -1,0 +1,16 @@
+L1,L2,L1_natoms,L2_natoms,mcss,_,_,_,_
+5I6X,5I71,24,24,7,0,,,False
+5I6X,5I74,24,24,7,0,,,False
+5I6X,6AWN,24,24,24,0,,,False
+5I6X,6AWO,24,20,10,0,,,False
+5I6X,6AWP,24,22,6,0,,,False
+5I71,5I74,24,24,24,0,,,False
+5I71,6AWN,24,24,7,0,,,False
+5I71,6AWO,24,20,7,0,,,False
+5I71,6AWP,24,22,8,0,,,False
+5I74,6AWN,24,24,7,0,,,False
+5I74,6AWO,24,20,7,0,,,False
+5I74,6AWP,24,22,8,0,,,False
+6AWN,6AWO,24,20,10,0,,,False
+6AWN,6AWP,24,22,6,0,,,False
+6AWO,6AWP,20,22,6,0,,,False
