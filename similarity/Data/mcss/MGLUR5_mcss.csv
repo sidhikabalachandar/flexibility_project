@@ -1,0 +1,11 @@
+L1,L2,L1_natoms,L2_natoms,mcss,_,_,_,_
+4OO9,5CGC,23,21,7,0,,,False
+4OO9,5CGD,23,22,7,0,,,False
+4OO9,6FFH,23,18,6,0,,,False
+4OO9,6FFI,23,17,12,0,,,False
+5CGC,5CGD,21,22,15,0,,,False
+5CGC,6FFH,21,18,7,0,,,False
+5CGC,6FFI,21,17,7,0,,,False
+5CGD,6FFH,22,18,7,0,,,False
+5CGD,6FFI,22,17,7,0,,,False
+6FFH,6FFI,18,17,6,0,,,False

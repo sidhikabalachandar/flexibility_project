@@ -1,8 +1,10 @@
 TRPV1 /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/rmsds/TRPV1_rmsds.csv
+3J5Q
 TRPV1 5IRX pose viewer file has no ligand
-Traceback (most recent call last):
-  File "rmsd_calculator.py", line 234, in <module>
-    compute_protein_rmsds(protein, rmsd_file, ASL_to_feature, combind_root)
-  File "rmsd_calculator.py", line 182, in compute_protein_rmsds
-    for r in valid_r_s1:
-TypeError: 'int' object is not iterable
+TRPV1 5IS0 pose viewer file has no ligand
+5IRX
+TRPV1 3J5Q pose viewer file has no ligand
+TRPV1 5IRX no residues close to the ligand
+5IS0
+TRPV1 5IS0 no residues close to the ligand
+TRPV1 5IS0 no residues close to the ligand

@@ -1,1 +1,1 @@
-protein,start ligand,target ligand,rmsd,bfactor,normalized bfactor,normal variate bfactor,res name,secondary structure
+protein,start ligand,target ligand,name,num,bfactor,normalized bfactor,prev bfactor,next bfactor,mol weight,solvent accessibility,secondary structure,ligand similarity,rmsd

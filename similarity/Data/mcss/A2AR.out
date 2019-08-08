@@ -1,0 +1,10 @@
+['2YDO', '2YDO-expand', '2YDV', '3EML', '3QAK', '3REY', '3RFM', '3UZA', '3UZC', '4UHR', '5IU7', '5IU8', '5IUA', '5IUB', '5MZJ', '5N2R', '5OLH', '5OLO', '5OLV', '5UIG']
+0
+Traceback (most recent call last):
+  File "mcss_similarity.py", line 203, in <module>
+    compute_protein_mcss(protein, ligands, save_folder)
+  File "mcss_similarity.py", line 163, in compute_protein_mcss
+    with StructureReader(l1_path) as ligand1, StructureReader(l2_path) as ligand2:
+  File "/share/software/user/restricted/schrodinger/2018-2/internal/lib/python3.6/site-packages/schrodinger/structure.py", line 5484, in __init__
+    raise IOError("File does not exist: %s" % filename)
+OSError: File does not exist: /scratch/PI/rondror/combind/bpp_data/A2AR/ligands/prepared_ligands/2YDO-expand_lig/2YDO-expand_lig.mae

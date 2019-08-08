@@ -1,1 +1,8 @@
 MEK1 /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/rmsds/MEK1_rmsds.csv
+1S9J
+Traceback (most recent call last):
+  File "rmsd_calculator.py", line 245, in <module>
+    compute_protein_rmsds(protein, rmsd_file, combind_root)
+  File "rmsd_calculator.py", line 216, in compute_protein_rmsds
+    feature = ASL_to_feature[start][asl_list_s1[k]]
+KeyError: '((chain.name "A") AND (res.num 384) AND (res.inscode " "))'
