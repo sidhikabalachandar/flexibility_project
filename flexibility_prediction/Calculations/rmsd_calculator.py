@@ -117,13 +117,16 @@ def get_proteins(combind_root):
 	return proteins
 
 
-def compute_protein_rmsds(protein, rmsd_file, ASL_to_feature, combind_root):
+def compute_protein_rmsds(protein, rmsd_file, combind_root):
 	max_ligands = 25
-
+	infile = open('../Data/feature_vectors/' + protein, 'rb')
+	ASL_to_feature = pickle.load(infile)
+	infile.close()
 
 	with open(rmsd_file, 'w') as csvFile:
 		writer = csv.writer(csvFile)
-		writer.writerow(['protein', 'start ligand', 'target ligand', 'rmsd', 'bfactor', 'normalized bfactor', 'normal variate bfactor', 'res name', 'secondary structure'])
+		writer.writerow(['protein', 'start ligand', 'target ligand', 'name', 'num', 'bfactor', 'normalized bfactor',
+						 'prev bfactor', 'next bfactor', 'mol weight', 'solvent accessibility', 'secondary structure', 'rmsd'])
 
 		ligands = get_ligands(protein, max_ligands, combind_root)
 		infile = open('../../protein_flexibility/Data/alignments/{}_alignment.pkl'.format(protein),'rb')
@@ -132,7 +135,7 @@ def compute_protein_rmsds(protein, rmsd_file, ASL_to_feature, combind_root):
 
 		for start in ligands:
 
-			if start not in ASL_to_feature[protein]:
+			if start not in ASL_to_feature:
 				print(protein, start, "not in dict")
 				#continue
 			ending_1 = '{}/structures/aligned_files/{}/{}_out.mae'.format(protein, start, start)
@@ -201,7 +204,7 @@ def compute_protein_rmsds(protein, rmsd_file, ASL_to_feature, combind_root):
 					for k in range(len(a_list_s1)):
 						if len(a_list_s1[k]) == len(a_list_s2[k]):
 							rmsd_val = rmsd.calculate_in_place_rmsd(s1, a_list_s1[k], s2, a_list_s2[k])
-							feature = ASL_to_feature[protein][start][asl_list_s1[k]]
+							feature = ASL_to_feature[start][asl_list_s1[k]]
 							writer.writerow([protein, start, target, rmsd_val, feature[0], feature[1], feature[2], feature[3], feature[4]])
 
 
@@ -211,9 +214,6 @@ if __name__ == '__main__':
 	result_folder = '/home/users/sidhikab/flexibility_project/flexibility_prediction/Data'
 	save_folder = result_folder+'/rmsds/'
 	partition = 'rondror'
-	infile = open('../Data/ASL_to_resinfo_dict', 'rb')
-	ASL_to_feature = pickle.load(infile)
-	infile.close()
 
 	if task == 'all':
 		proteins = get_proteins(combind_root)
@@ -231,4 +231,4 @@ if __name__ == '__main__':
 		protein = sys.argv[2]
 		rmsd_file = save_folder + '{}_rmsds.csv'.format(protein)
 		print(protein, rmsd_file)
-		compute_protein_rmsds(protein, rmsd_file, ASL_to_feature, combind_root)
+		compute_protein_rmsds(protein, rmsd_file, combind_root)
