@@ -16,6 +16,7 @@ import pickle
 import csv
 import sys
 import time
+import pandas as pd
 
 
 '''
@@ -122,11 +123,13 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 	infile = open('../Data/feature_vectors/' + protein, 'rb')
 	ASL_to_feature = pickle.load(infile)
 	infile.close()
+	mcss_data = pd.read_csv("../../similarity/Data/mcss/{}_mcss.csv".format(protein))
 
 	with open(rmsd_file, 'w') as csvFile:
 		writer = csv.writer(csvFile)
 		writer.writerow(['protein', 'start ligand', 'target ligand', 'name', 'num', 'bfactor', 'normalized bfactor',
-						 'prev bfactor', 'next bfactor', 'mol weight', 'solvent accessibility', 'secondary structure', 'rmsd'])
+						 'prev bfactor', 'next bfactor', 'mol weight', 'solvent accessibility',
+						 'secondary structure', 'ligand similarity', 'rmsd'])
 
 		ligands = get_ligands(protein, max_ligands, combind_root)
 		infile = open('../../protein_flexibility/Data/alignments/{}_alignment.pkl'.format(protein),'rb')
@@ -137,7 +140,8 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 
 			if start not in ASL_to_feature:
 				print(protein, start, "not in dict")
-				#continue
+				continue
+
 			ending_1 = '{}/structures/aligned_files/{}/{}_out.mae'.format(protein, start, start)
 			s1 = list(structure.StructureReader(combind_root + ending_1))[0]
 
@@ -149,8 +153,10 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 
 					if start < target:
 						(paired_str_s1, paired_str_s2) = paired_strs[start][target]
+						mcss = mcss_data[mcss_data['L1'] == start & mcss_data['L2'] == target].iat[0, 4]
 					else:
 						(paired_str_s2, paired_str_s1) = paired_strs[target][start]
+						mcss = mcss_data[mcss_data['L1'] == target & mcss_data['L2'] == start].iat[0, 4]
 
 					r_list_s1 = get_all_res(s1)
 					r_list_s2 = get_all_res(s2)
@@ -165,19 +171,19 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 
 					if valid_r_s1 == set({}):
 						print(protein, start, "no residues close to the ligand")
-						#continue
+						continue
 
 					if valid_r_s1 == 0:
 						print(protein, target, "pose viewer file has no ligand")
-						#continue
+						continue
 
 					if valid_r_s2 == set({}):
 						print(protein, start, "no residues close to the ligand")
-						#continue
+						continue
 
 					if valid_r_s2 == 0:
 						print(protein, target, "pose viewer file has no ligand")
-						#continue
+						continue
 
 					final_r_list_s1 = []
 					final_r_list_s2 = []
@@ -205,7 +211,9 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 						if len(a_list_s1[k]) == len(a_list_s2[k]):
 							rmsd_val = rmsd.calculate_in_place_rmsd(s1, a_list_s1[k], s2, a_list_s2[k])
 							feature = ASL_to_feature[start][asl_list_s1[k]]
-							writer.writerow([protein, start, target, rmsd_val, feature[0], feature[1], feature[2], feature[3], feature[4]])
+							writer.writerow([protein, start, target, feature[0], feature[1], feature[2], feature[3],
+											 feature[4], feature[5], feature[6], feature[7], feature[8], feature[9], mcss, rmsd_val])
+
 
 
 if __name__ == '__main__':

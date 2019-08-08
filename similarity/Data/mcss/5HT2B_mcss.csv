@@ -1,0 +1,16 @@
+L1,L2,L1_natoms,L2_natoms,mcss,_,_,_,_
+4IB4,5TVN,43,24,20,0,,,False
+4IB4,6DRX,43,25,17,0,,,False
+4IB4,6DRY,43,25,20,0,,,False
+4IB4,6DRZ,43,26,20,0,,,False
+4IB4,6DS0,43,26,13,0,,,False
+5TVN,6DRX,24,25,17,0,,,False
+5TVN,6DRY,24,25,22,0,,,False
+5TVN,6DRZ,24,26,22,0,,,False
+5TVN,6DS0,24,26,13,0,,,False
+6DRX,6DRY,25,25,17,0,,,False
+6DRX,6DRZ,25,26,17,0,,,False
+6DRX,6DS0,25,26,13,0,,,False
+6DRY,6DRZ,25,26,25,0,,,False
+6DRY,6DS0,25,26,13,0,,,False
+6DRZ,6DS0,26,26,13,0,,,False
