@@ -128,8 +128,9 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 	with open(rmsd_file, 'w') as csvFile:
 		writer = csv.writer(csvFile)
 		writer.writerow(['protein', 'start ligand', 'target ligand', 'name', 'num', 'bfactor', 'normalized bfactor',
-						 'prev bfactor', 'next bfactor', 'mol weight', 'solvent accessibility',
-						 'secondary structure', 'ligand similarity', 'rmsd'])
+						 'prev prev bfactor', 'prev bfactor', 'next bfactor', 'next next bfactor', 'mol weight',
+						 'solvent accessibility', 'secondary structure', 'ligand similarity', 'ligand similarity ratio',
+						 'ligand size difference', 'ligand size ratio', 'rmsd'])
 
 		ligands = get_ligands(protein, max_ligands, combind_root)
 		infile = open('../../protein_flexibility/Data/alignments/{}_alignment.pkl'.format(protein),'rb')
@@ -137,7 +138,7 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 		infile.close()
 
 		for start in ligands:
-			print(start)
+			print('Start', start)
 
 			if start not in ASL_to_feature:
 				print(protein, start, "not in dict")
@@ -156,10 +157,14 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 						(paired_str_s1, paired_str_s2) = paired_strs[start][target]
 						L1_mcss_data = mcss_data[mcss_data['L1'] == start]
 						mcss = L1_mcss_data[L1_mcss_data['L2'] == target].iat[0, 4]
+						start_atoms = L1_mcss_data[L1_mcss_data['L2'] == target].iat[0, 2]
+						target_atoms = L1_mcss_data[L1_mcss_data['L2'] == target].iat[0, 3]
 					else:
 						(paired_str_s2, paired_str_s1) = paired_strs[target][start]
 						L1_mcss_data = mcss_data[mcss_data['L1'] == target]
 						mcss = L1_mcss_data[L1_mcss_data['L2'] == start].iat[0, 4]
+						start_atoms = L1_mcss_data[L1_mcss_data['L2'] == start].iat[0, 3]
+						target_atoms = L1_mcss_data[L1_mcss_data['L2'] == start].iat[0, 2]
 
 					r_list_s1 = get_all_res(s1)
 					r_list_s2 = get_all_res(s2)
@@ -215,7 +220,9 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 							rmsd_val = rmsd.calculate_in_place_rmsd(s1, a_list_s1[k], s2, a_list_s2[k])
 							feature = ASL_to_feature[start][asl_list_s1[k]]
 							writer.writerow([protein, start, target, feature[0], feature[1], feature[2], feature[3],
-											 feature[4], feature[5], feature[6], feature[7], feature[8], mcss, rmsd_val])
+											 feature[4], feature[5], feature[6], feature[7], feature[8], feature[9],
+											 feature[10], mcss, mcss / start_atoms, start_atoms - target_atoms,
+											 start_atoms / target_atoms, rmsd_val])
 
 
 

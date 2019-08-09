@@ -2,9 +2,9 @@ A2AR /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/featur
 2YDO
 2YDO-expand
 Traceback (most recent call last):
-  File "residue_feature_vector_creator.py", line 132, in <module>
+  File "residue_feature_vector_creator.py", line 125, in <module>
     create_feature_vector(protein, pickle_file, combind_root)
-  File "residue_feature_vector_creator.py", line 99, in create_feature_vector
+  File "residue_feature_vector_creator.py", line 92, in create_feature_vector
     struc = list(StructureReader(combind_root + '/' + ending_1))[0]
   File "/share/software/user/restricted/schrodinger/2018-2/internal/lib/python3.6/site-packages/schrodinger/structure.py", line 5484, in __init__
     raise IOError("File does not exist: %s" % filename)

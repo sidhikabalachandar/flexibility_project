@@ -36,7 +36,7 @@ def bfactor_stats(s):
 '''
 This function gets all of the residues bfactors, name, and secondary structure
 '''
-def get_all_res(s):
+def get_all_res(s, num_neighbors):
     (avg, sdev) = bfactor_stats(s)
     if sdev == 0:
         return None
@@ -48,27 +48,19 @@ def get_all_res(s):
             for i in range(len(residues)):
                 if residues[i].secondary_structure == -1:
                     continue
-                #print('Residue', i)
                 name = residues[i].pdbres
                 num = residues[i].resnum
                 bfactor = residues[i].temperature_factor
                 normalized_bfactor = (residues[i].temperature_factor - avg) / sdev
-
-                if i == 0:
-                    prevBfactor = (residues[len(residues) - 1].temperature_factor - avg) / sdev
-                    nextBfactor = (residues[i + 1].temperature_factor - avg) / sdev
-                elif i == len(residues) - 1:
-                    prevBfactor = (residues[i - 1].temperature_factor - avg) / sdev
-                    nextBfactor = (residues[0].temperature_factor - avg) / sdev
-                else:
-                    prevBfactor = (residues[i - 1].temperature_factor - avg) / sdev
-                    nextBfactor = (residues[i + 1].temperature_factor - avg) / sdev
-
+                prevBfactor = (residues[(i - 1) % len(residues)].temperature_factor - avg) / sdev
+                nextBfactor = (residues[(i + 1) % len(residues)].temperature_factor - avg) / sdev
+                prev2Bfactor = (residues[(i - 2) % len(residues)].temperature_factor - avg) / sdev
+                next2Bfactor = (residues[(i + 2) % len(residues)].temperature_factor - avg) / sdev
                 mol_weight = sum(map(lambda x:x.atomic_weight, list(residues[i].atom)))
                 sasa = analyze.calculate_sasa(s, residues[i].atom)
                 secondary_structure =  residues[i].secondary_structure
 
-                r_dict[residues[i].getAsl()] = (name, num, bfactor, normalized_bfactor, prevBfactor, nextBfactor, mol_weight, sasa, secondary_structure)
+                r_dict[residues[i].getAsl()] = (name, num, bfactor, normalized_bfactor, prevBfactor, prev2Bfactor, nextBfactor, next2Bfactor, mol_weight, sasa, secondary_structure)
     return r_dict
 
 
@@ -91,13 +83,14 @@ def get_ligands(protein, max_ligands, combind_root):
 
 def create_feature_vector(protein, pickle_file, combind_root):
     max_ligands = 25
+    num_neighbors = 2
     ligands = get_ligands(protein, max_ligands, combind_root)
     ligand_dict = {}
     for ligand in ligands:
         print(ligand)
         ending_1 = '{}/structures/aligned_files/{}/{}_out.mae'.format(protein, ligand, ligand)
         struc = list(StructureReader(combind_root + '/' + ending_1))[0]
-        residues = get_all_res(struc)
+        residues = get_all_res(struc, num_neighbors)
         if residues != None:
             ligand_dict[ligand] = residues
 
