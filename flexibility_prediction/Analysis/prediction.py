@@ -66,11 +66,11 @@ if __name__ == '__main__':
     train_data = data[data['protein'].isin(train_prots)]
     test_data = data[data['protein'].isin(test_prots)]
 
-    X_train = train_data.drop(['protein', 'start ligand', 'target ligand', 'rmsd', 'bfactor', 'normalized bfactor', 'res name'],
+    X_train = train_data.drop(['protein', 'start ligand', 'target ligand', 'name', 'num', 'rmsd', 'normal variate bfactor', 'res name'],
                               axis=1).values
     Y_train = train_data['rmsd'].values > 2
 
-    X_test = test_data.drop(['protein', 'start ligand', 'target ligand', 'rmsd', 'bfactor', 'normalized bfactor', 'res name'],
+    X_test = test_data.drop(['protein', 'start ligand', 'target ligand', 'name', 'num', 'rmsd', 'normal variate bfactor', 'res name'],
                             axis=1).values
     Y_test = test_data['rmsd'].values > 2
 
