@@ -17,25 +17,25 @@ def get_docking_info(folder, protein, max_ligands, output_folder_root):
     '''
     ligand_folder = folder + "/" + protein + "/docking/grids"
     ligands = sorted(os.listdir(ligand_folder))[:max_ligands] #sorted
+    # ligands = ['3IW6_to_2BAL', '3O8P_to_2BAL', '3ROC_to_2BAL', '4DLI_to_2BAL', '4F9W_to_2BAL']
     docking_config = []
 
-    # for struc in ligands:
-    #     for ligand in ligands:
-    #         if struc != ligand:
-    struc = '1KV1'
-    ligand = '3GCS'
-    name = '{}_to_{}'.format(ligand, struc)
-    rev_name = '{}_to_{}'.format(struc, ligand)
-    output_folder = output_folder_root + '/{}/{}'.format(protein, name)
-    grid_file = '/home/users/sidhikab/flexibility_project/mutations/Data/grids/{}/{}.zip'.format(rev_name, rev_name)
-    prepped_ligand_file = folder + '/{}/ligands/prepared_ligands/{}_lig/{}_lig.mae'.format(protein, ligand, ligand)
-    ligand_file = folder + '/{}/structures/ligands/{}_lig.mae'.format(protein, ligand)
-    docking_config.append({'folder': output_folder,
-                           'name': name,
-                           'grid_file': grid_file,
-                           'prepped_ligand_file': prepped_ligand_file,
-                           'glide_settings': {},
-                           'ligand_file': ligand_file})
+    # for name in ligands:
+    for struc in ligands:
+        for ligand in ligands:
+            if struc != ligand:
+        # ligand, struc = name.split('_to_')
+                name = '{}_to_{}'.format(ligand, struc)
+                output_folder = output_folder_root + '/{}/{}'.format(protein, name)
+                grid_file = '/scratch/PI/rondror/combind/flexibility/MAPK14_mut_pred/grids/{}/{}.zip'.format(name, name)
+                prepped_ligand_file = folder + '/{}/ligands/prepared_ligands/{}_lig/{}_lig.mae'.format(protein, ligand, ligand)
+                ligand_file = folder + '/{}/structures/ligands/{}_lig.mae'.format(protein, ligand)
+                docking_config.append({'folder': output_folder,
+                                       'name': name,
+                                       'grid_file': grid_file,
+                                       'prepped_ligand_file': prepped_ligand_file,
+                                       'glide_settings': {},
+                                       'ligand_file': ligand_file})
     return docking_config
 
 def get_proteins(combind_root):
@@ -53,8 +53,8 @@ def get_proteins(combind_root):
 if __name__ == '__main__':
     max_ligands = 25
     combind_root = '/scratch/PI/rondror/combind/bpp_data'
-    output_folder = '/home/users/sidhikab/flexibility_project/mutations/Data/mut_rmsds'
-    result_folder = '/home/users/sidhikab/flexibility_project/mutations/Data/mut_rmsds'
+    output_folder = '/scratch/PI/rondror/combind/flexibility/MAPK14_mut_pred/mut_rmsds'
+    result_folder = '/scratch/PI/rondror/combind/flexibility/MAPK14_mut_pred/mut_rmsds'
     proteins = ['MAPK14']
     dock_set = Docking_Set()
 

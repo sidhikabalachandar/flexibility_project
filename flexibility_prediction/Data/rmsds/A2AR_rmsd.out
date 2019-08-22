@@ -1,7 +1,7 @@
 A2AR /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/rmsds/A2AR_rmsds.csv
 Traceback (most recent call last):
-  File "rmsd_calculator.py", line 252, in <module>
+  File "rmsd_calculator.py", line 257, in <module>
     compute_protein_rmsds(protein, rmsd_file, combind_root)
-  File "rmsd_calculator.py", line 123, in compute_protein_rmsds
+  File "rmsd_calculator.py", line 126, in compute_protein_rmsds
     infile = open('../Data/feature_vectors/' + protein, 'rb')
 FileNotFoundError: [Errno 2] No such file or directory: '../Data/feature_vectors/A2AR'

@@ -1,7 +1,26 @@
 PYGM /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/rmsds/PYGM_rmsds.csv
-Traceback (most recent call last):
-  File "rmsd_calculator.py", line 252, in <module>
-    compute_protein_rmsds(protein, rmsd_file, combind_root)
-  File "rmsd_calculator.py", line 123, in compute_protein_rmsds
-    infile = open('../Data/feature_vectors/' + protein, 'rb')
-FileNotFoundError: [Errno 2] No such file or directory: '../Data/feature_vectors/PYGM'
+Start 1A8I
+Start 2G9Q
+Start 2PYI
+Start 2QRG
+Start 2QRH
+Start 2QRM
+Start 2QRP
+Start 2QRQ
+Start 3EBP
+Start 3G2H
+Start 3G2I
+Start 3G2J
+Start 3G2K
+Start 3G2L
+Start 3G2N
+Start 3L79
+Start 3L7A
+Start 3L7B
+Start 3L7C
+Start 3L7D
+Start 3SYM
+Start 3SYR
+Start 4EKY
+Start 4EL0
+Start 4EL5
