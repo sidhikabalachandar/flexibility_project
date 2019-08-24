@@ -15,8 +15,7 @@ Start 4LLK
 PDE10A 4LLK no residues close to the ligand
 Start 4LLP
 PDE10A 4LLP no residues close to the ligand
-Start 4LLX
-PDE10A 4LLX no residues close to the ligand
+../Data/feature_vectors/PDE10A/4LLX.pkl
 Start 4LM0
 PDE10A 4LM0 no residues close to the ligand
 Start 4LM1

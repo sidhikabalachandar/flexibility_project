@@ -1,26 +1,26 @@
 PYGM /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/rmsds/PYGM_rmsds.csv
-Start 1A8I
-Start 2G9Q
-Start 2PYI
-Start 2QRG
-Start 2QRH
-Start 2QRM
-Start 2QRP
-Start 2QRQ
-Start 3EBP
+../Data/feature_vectors/PYGM/1A8I.pkl
+../Data/feature_vectors/PYGM/2G9Q.pkl
+../Data/feature_vectors/PYGM/2PYI.pkl
+../Data/feature_vectors/PYGM/2QRG.pkl
+../Data/feature_vectors/PYGM/2QRH.pkl
+../Data/feature_vectors/PYGM/2QRM.pkl
+../Data/feature_vectors/PYGM/2QRP.pkl
+../Data/feature_vectors/PYGM/2QRQ.pkl
+../Data/feature_vectors/PYGM/3EBP.pkl
 Start 3G2H
 Start 3G2I
 Start 3G2J
 Start 3G2K
 Start 3G2L
 Start 3G2N
-Start 3L79
-Start 3L7A
-Start 3L7B
-Start 3L7C
-Start 3L7D
-Start 3SYM
-Start 3SYR
-Start 4EKY
-Start 4EL0
-Start 4EL5
+../Data/feature_vectors/PYGM/3L79.pkl
+../Data/feature_vectors/PYGM/3L7A.pkl
+../Data/feature_vectors/PYGM/3L7B.pkl
+../Data/feature_vectors/PYGM/3L7C.pkl
+../Data/feature_vectors/PYGM/3L7D.pkl
+../Data/feature_vectors/PYGM/3SYM.pkl
+../Data/feature_vectors/PYGM/3SYR.pkl
+../Data/feature_vectors/PYGM/4EKY.pkl
+../Data/feature_vectors/PYGM/4EL0.pkl
+../Data/feature_vectors/PYGM/4EL5.pkl

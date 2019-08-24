@@ -45,7 +45,7 @@ def get_all_res(s, rot_s):
     if sdev == 0:
         return None
     r_dict = {}
-    counter = 0
+    exception_counter = 0
     for i in range(len(list(s.molecule))):
         m = list(s.molecule)[i]
         rot_m = list(rot_s.molecule)[i]
@@ -61,11 +61,15 @@ def get_all_res(s, rot_s):
                 r_rmsd_ls = []
                 rmsd_ls = []
                 counter = 0
-                for rotamer in list(rotamer_lib.rotamers):
+                for k, rotamer in enumerate(list(rotamer_lib.rotamers)):
                     rotamer.apply()
                     rot_a_ls = rot_r.getAtomList()
-                    no_r_a_ls = [x for x in rot_s.getAtomIndices() if x not in rot_a_ls]
+                    no_r_a_ls = [a.index for a in rot_s.atom if a.index not in rot_a_ls and a.chain != 'L']
                     clash = steric_clash.clash_volume(rot_s, rot_a_ls, rot_s, no_r_a_ls)
+
+                    if 'LEU' in r.pdbres and r.resnum == 167:
+                        print(k, clash)
+
                     if clash < cutoff:
                         counter += 1
                         r_rmsd_ls.append(rmsd.calculate_in_place_rmsd(s, a_ls, rot_s, rot_a_ls))
@@ -80,8 +84,10 @@ def get_all_res(s, rot_s):
                     avg_r_rot_rmsd = 0
                 else:
                     avg_r_rot_rmsd = statistics.mean(r_rmsd_ls)
-            except:
-                print("An exception occurred")
+            except Exception as e:
+                if 'ALA' not in r.pdbres and 'GLY' not in r.pdbres and 'PRO' not in r.pdbres:
+                    print(e)
+                    exception_counter += 1
                 num_rots = 0
                 avg_rot_rmsd = 0
                 num_r_rots = 0
@@ -103,7 +109,7 @@ def get_all_res(s, rot_s):
                                   nextBfactor, next2Bfactor, mol_weight, num_rots, avg_rot_rmsd, num_r_rots,
                                   avg_r_rot_rmsd, sasa, secondary_structure)
 
-    print('Num missing atoms =', counter)
+    print("Num exceptions =", exception_counter)
     return r_dict
 
 
@@ -124,20 +130,13 @@ def get_ligands(protein, max_ligands, combind_root):
     return ligands
 
 
-def create_feature_vector(protein, pickle_file, combind_root):
-    ligands = get_ligands(protein, max_ligands, combind_root)
-    ligand_dict = {}
-    for ligand in ligands:
-        print(ligand)
-        ending_1 = '{}/structures/aligned_files/{}/{}_out.mae'.format(protein, ligand, ligand)
-        s = list(StructureReader(combind_root + ending_1))[0]
-        rot_s = list(StructureReader(combind_root + '/' + ending_1))[0]
-        residues = get_all_res(s, rot_s)
-        if residues != None:
-            ligand_dict[ligand] = residues
-
+def create_feature_vector(protein, ligand, pickle_file, combind_root):
+    ending_1 = '{}/structures/aligned_files/{}/{}_out.mae'.format(protein, ligand, ligand)
+    s = list(StructureReader(combind_root + ending_1))[0]
+    rot_s = list(StructureReader(combind_root + '/' + ending_1))[0]
+    residues = get_all_res(s, rot_s)
     outfile = open(pickle_file, 'wb')
-    pickle.dump(ligand_dict, outfile)
+    pickle.dump(residues, outfile)
     outfile.close()
 
 
@@ -146,27 +145,29 @@ if __name__ == '__main__':
     combind_root = '/scratch/PI/rondror/combind/bpp_data/'
     result_folder = '/home/users/sidhikab/flexibility_project/flexibility_prediction/Data'
     save_folder = result_folder + '/feature_vectors/'
-    partition = 'rondror'
+    partition = 'owners'
     max_ligands = 25
 
     if task == 'all':
         proteins = get_proteins(combind_root)
         #submit jobs for each protein
-        cmd = 'sbatch -p {} -t 2:00:00 -o {}_rmsd.out --wrap="$SCHRODINGER/run python3 residue_feature_vector_creator.py  protein {} ligand {}"'
+        cmd = 'sbatch -p {} -t 1:00:00 -o {}_rmsd.out --wrap="$SCHRODINGER/run python3 residue_feature_vector_creator.py  protein {} ligand {}"'
         for prot_name in proteins:
-            os.system('mkdir -p {}'.format(save_folder))
+            protein_save_folder = save_folder + prot_name
+            os.system('mkdir -p {}'.format(protein_save_folder))
             print(prot_name)
             ligands = get_ligands(prot_name, max_ligands, combind_root)
             for lig_name in ligands:
                 print(lig_name)
-                if not os.path.exists(save_folder + prot_name):
-                    os.system(cmd.format(partition, save_folder + '/' + prot_name, prot_name, lig_name))
+                if not os.path.exists(protein_save_folder + '/' + lig_name):
+                    os.system(cmd.format(partition, protein_save_folder + '/' + lig_name, prot_name, lig_name))
                     time.sleep(0.5)
                 else:
                     print("Exists")
 
     if task == 'protein':
         protein = sys.argv[2]
-        pickle_file = save_folder + protein
-        print(protein, pickle_file)
-        create_feature_vector(protein, pickle_file, combind_root)
+        ligand = sys.argv[4]
+        pickle_file = save_folder + protein + '/' + ligand + '.pkl'
+        print(protein, ligand, pickle_file)
+        create_feature_vector(protein, ligand, pickle_file, combind_root)

@@ -1,26 +1,15 @@
 HSP90AA1 /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/rmsds/HSP90AA1_rmsds.csv
 Start 1YC1
 Start 1YC4
-Start 1YET
-Start 2QFO
-Start 2QG0
-Start 2QG2
-Start 2UWD
-Start 2XAB
-Start 2XDK
-Start 2XDL
-Start 2XDX
-Start 2XHT
-Start 2XJG
-Start 2XJJ
-Start 2XJX
-Start 2YI0
-Start 2YI7
-Start 2YKI
-Start 3B24
-Start 3B25
-Start 3B26
-Start 3B27
-Start 3D0B
-Start 3EKO
-Start 3EKR
+Traceback (most recent call last):
+  File "rmsd_calculator.py", line 260, in <module>
+    compute_protein_rmsds(protein, rmsd_file, combind_root)
+  File "rmsd_calculator.py", line 158, in compute_protein_rmsds
+    s2 = list(structure.StructureReader(combind_root + ending_2))[0]
+  File "/share/software/user/restricted/schrodinger/2018-2/internal/lib/python3.6/site-packages/schrodinger/structure.py", line 4361, in __next__
+    self._open()
+  File "/share/software/user/restricted/schrodinger/2018-2/internal/lib/python3.6/site-packages/schrodinger/structure.py", line 4300, in _open
+    self.fh = mm.m2io_open_file(self.filename, read_mode)
+  File "/share/software/user/restricted/schrodinger/2018-2/internal/lib/python3.6/site-packages/schrodinger/infra/mmcheck.py", line 93, in __call__
+    raise MmException(self, args, rc)
+schrodinger.infra.mmcheck.MmException: m2io_open_file returned error code -1 (M2IO_ERR) for arguments ('/scratch/PI/rondror/combind/bpp_data/HSP90AA1/structures/aligned_files/2XAB/2XAB_out.mae', 16). See the mmerr log (stderr by default) for messages from the mmlibs.

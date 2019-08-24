@@ -122,9 +122,6 @@ def get_proteins(combind_root):
 
 
 def compute_protein_rmsds(protein, rmsd_file, combind_root):
-	infile = open('../Data/feature_vectors/' + protein, 'rb')
-	ASL_to_feature = pickle.load(infile)
-	infile.close()
 	mcss_data = pd.read_csv("../../similarity/Data/mcss/{}_mcss.csv".format(protein))
 
 	with open(rmsd_file, 'w') as csvFile:
@@ -142,11 +139,14 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 		infile.close()
 
 		for start in ligands:
-			print('Start', start)
-
-			if start not in ASL_to_feature:
-				print(protein, start, "not in dict")
+			ASL_to_feature_path = '../Data/feature_vectors/' + protein + '/' + start + '.pkl'
+			if not os.path.exists(ASL_to_feature_path):
+				print(ASL_to_feature_path)
 				continue
+			infile = open(ASL_to_feature_path, 'rb')
+			ASL_to_feature = pickle.load(infile)
+			infile.close()
+			print('Start', start)
 
 			ending_1 = '{}/structures/aligned_files/{}/{}_out.mae'.format(protein, start, start)
 			s1 = list(structure.StructureReader(combind_root + ending_1))[0]
@@ -224,7 +224,7 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 							rmsd_val = rmsd.calculate_in_place_rmsd(s1, a_list_s1[k], s2, a_list_s2[k])
 							backbone_rmsd_val = rmsd.calculate_in_place_rmsd(s1, backbone_a_list_s1[k], s2, backbone_a_list_s2[k])
 							sidechain_rmsd_val = rmsd.calculate_in_place_rmsd(s1, sidechain_a_list_s1[k], s2, sidechain_a_list_s2[k])
-							feature = ASL_to_feature[start][asl_list_s1[k]]
+							feature = ASL_to_feature[asl_list_s1[k]]
 							writer.writerow([protein, start, target, feature[0], feature[1], feature[2], feature[3],
 											 feature[4], feature[5], feature[6], feature[7], feature[8], feature[9],
 											 feature[10], feature[11], feature[12],feature[13], feature[14], mcss,
@@ -239,22 +239,19 @@ if __name__ == '__main__':
 	combind_root = '/scratch/PI/rondror/combind/bpp_data/'
 	result_folder = '/home/users/sidhikab/flexibility_project/flexibility_prediction/Data'
 	save_folder = result_folder+'/rmsds/'
-	partition = 'rondror'
+	partition = 'owners'
 
 	if task == 'all':
 		proteins = get_proteins(combind_root)
 		#submit jobs for each protein
-		cmd = 'sbatch -p {} -t 1:00:00 -o {}_rmsd.out --wrap="$SCHRODINGER/run python3 rmsd_calculator.py protein {} ligand {}"'
+		cmd = 'sbatch -p {} -t 1:00:00 -o {}_rmsd.out --wrap="$SCHRODINGER/run python3 rmsd_calculator.py protein {}"'
 		for prot_name in proteins:
-			os.system('mkdir -p {}'.format())
 			print(prot_name)
-			ligands = get_ligands(prot_name, max_ligands, combind_root)
-			for lig_name in ligands:
-				if not os.path.exists(save_folder + '{}_rmsds.csv'.format(prot_name)):
-					os.system(cmd.format(partition, save_folder + '/' + prot_name, prot_name, lig_name))
-					time.sleep(0.5)
-				else:
-					print("Exists")
+			if not os.path.exists(save_folder + '{}_rmsds.csv'.format(prot_name)):
+				os.system(cmd.format(partition, save_folder + '/' + prot_name, prot_name))
+				time.sleep(0.5)
+			else:
+				print("Exists")
 
 	if task == 'protein':
 		protein = sys.argv[2]
