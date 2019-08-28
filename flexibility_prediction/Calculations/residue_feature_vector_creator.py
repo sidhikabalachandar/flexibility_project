@@ -1,6 +1,5 @@
 """
-The purpose of this code is to collect the b factor, residue identity, and secondary structure
-of each of the residues in the ligand binding pocket of each structure of each protein
+The purpose of this code is to collect the features of each residues of each structure of each protein
 It can be run on sherlock using
 $ ml load chemistry
 $ ml load schrodinger
@@ -19,14 +18,10 @@ import sys
 import time
 
 
-#Loop over each protein
-#Loop over each structure for each protein
-#Loop over each residue near the ligand for each structure
-#create a dictionary structured {protein : {ligand :  {ASL : bfactor, normalized bfactor, pdbcode, secondary structure} } }
-
-
 '''
-This function gets the average bfactor of a structure
+This function gets the mean and standard deviation of all of the bfactors of a structure
+:param s: the protein structure 
+:return: the mean and the standard deviation of the list of bfactors associated with the protein structure
 '''
 def bfactor_stats(s):
     bfactors = []
@@ -36,31 +31,42 @@ def bfactor_stats(s):
                 bfactors.append(r.temperature_factor)
     return (statistics.mean(bfactors), statistics.stdev(bfactors))
 
+
 '''
-This function gets all of the residues bfactors, name, and secondary structure
+This function gets all of the residues features
+:param s: the protein structure 
+:param rot_s: the protein structure that will be mutated to different rotamers
+:return: the dictionary of each residue's ASL to that residue's features
 '''
 def get_all_res(s, rot_s):
     cutoff = 50
     (avg, sdev) = bfactor_stats(s)
+
     if sdev == 0:
         return None
+
     r_dict = {}
     exception_counter = 0
+
     for i in range(len(list(s.molecule))):
         m = list(s.molecule)[i]
         rot_m = list(rot_s.molecule)[i]
         residues = list(m.residue)
+
         for j in range(len(list(m.residue))):
             r = list(m.residue)[j]
             rot_r = list(rot_m.residue)[j]
+
             if r.secondary_structure == -1:
                 continue
+
             try:
                 rotamer_lib = rotamers.Rotamers(rot_s, list(rot_r.atom)[0])
                 a_ls = r.getAtomList()
                 r_rmsd_ls = []
                 rmsd_ls = []
                 counter = 0
+
                 for k, rotamer in enumerate(list(rotamer_lib.rotamers)):
                     rotamer.apply()
                     rot_a_ls = rot_r.getAtomList()
@@ -73,21 +79,30 @@ def get_all_res(s, rot_s):
                     if clash < cutoff:
                         counter += 1
                         r_rmsd_ls.append(rmsd.calculate_in_place_rmsd(s, a_ls, rot_s, rot_a_ls))
+
                     rmsd_ls.append(rmsd.calculate_in_place_rmsd(s, a_ls, rot_s, rot_a_ls))
+
                 num_rots = len(rotamer_lib.rotamers)
+
                 if len(rotamer_lib.rotamers) == 0:
                     avg_rot_rmsd = 0
+
                 else:
                     avg_rot_rmsd = statistics.mean(rmsd_ls)
+
                 num_r_rots = len(r_rmsd_ls)
+
                 if len(r_rmsd_ls) == 0:
                     avg_r_rot_rmsd = 0
+
                 else:
                     avg_r_rot_rmsd = statistics.mean(r_rmsd_ls)
+
             except Exception as e:
                 if 'ALA' not in r.pdbres and 'GLY' not in r.pdbres and 'PRO' not in r.pdbres:
                     print(e)
                     exception_counter += 1
+
                 num_rots = 0
                 avg_rot_rmsd = 0
                 num_r_rots = 0
@@ -113,23 +128,39 @@ def get_all_res(s, rot_s):
     return r_dict
 
 
+'''
+Get the list of all proteins
+:param combind_root: path to the combind root folder
+:return: list of protein name strings
+'''
 def get_proteins(combind_root):
-	'''
-	Get the list of all proteins
-	:param combind_root: path to the combind root folder
-	:return: list of protein name strings
-	'''
 	proteins = sorted(os.listdir(combind_root))
 	proteins = [p for p in proteins if p[0] != '.']
 	print(proteins)
 	return proteins
 
+
+'''
+Get the list of all ligands
+:param protein: name of the protein
+:param max_ligands: maximum number of ligands to analyze for each protein
+:param combind_root: path to the combind root folder
+:return: list of ligand name strings
+'''
 def get_ligands(protein, max_ligands, combind_root):
     ligand_folder = combind_root + protein + "/docking/grids"
     ligands = sorted(os.listdir(ligand_folder))[:max_ligands]  # sorted
     return ligands
 
 
+'''
+Get the dictionary of features for every protein structure and pickle it
+:param protein: name of the protein
+:param ligand: name of the ligand
+:param pickle_file: path to the save location of the pickled file
+:param combind_root: path to the combind root folder
+:return: 
+'''
 def create_feature_vector(protein, ligand, pickle_file, combind_root):
     ending_1 = '{}/structures/aligned_files/{}/{}_out.mae'.format(protein, ligand, ligand)
     s = list(StructureReader(combind_root + ending_1))[0]

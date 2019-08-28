@@ -1,5 +1,5 @@
 """
-The purpose of this code is to mutate the flexibile residues of each structure of MAPK14
+The purpose of this code is to mutate the residues of each structure of MAPK14 that have an RMSD greater than a cutoff
 It can be run on sherlock using
 $ ml load chemistry
 $ ml load schrodinger
@@ -12,6 +12,13 @@ import schrodinger.structure as structure
 import schrodinger.structutils.build as build
 import pickle
 
+
+'''
+Get the list of all ligands
+:param protein: name of the protein
+:param combind_root: path to the combind root folder
+:return: list of ligand name strings
+'''
 def get_ligands(protein, combind_root):
     ligand_folder = combind_root + protein + "/docking/grids"
     ligands = sorted(os.listdir(ligand_folder))# sorted

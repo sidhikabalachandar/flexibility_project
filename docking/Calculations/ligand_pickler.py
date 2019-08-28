@@ -1,18 +1,20 @@
 """
-The purpose of this code is to collect the poses from crystal structures, glide docking, and combind docking
-and aggregate into a single .mae file.
+The purpose of this code is to collect the names of every pair of ligands and structures for MAPK14 and pickle the output
+Format is ligand_to_struc
 This file uses schrodinger structure library to read and save structure files.
 It can be run on sherlock using
-$ ml load chemistry
-$ ml load schrodinger
-$ $SCHRODINGER/run python3 aggregate_ligand_poses.py
+$ ~/miniconda/bin/python3 ligand_pickler.py
 """
 
 import os
 import pickle
 
-def docking(grid):
 
+'''
+collects the names of every pair of ligands and structures for MAPK14 and pickles the output
+:param grid: path to the grid files of MAPK14
+'''
+def docking(grid):
     ligands = os.listdir(grid)
 
     outfile = open('/home/users/sidhikab/MAPK14_ligand_names', 'wb')

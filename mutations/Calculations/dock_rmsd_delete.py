@@ -11,6 +11,15 @@ import sys
 from docking.docking_class import Docking_Set
 import pickle
 
+
+'''
+Get docking configuration and rmsd set information for all ligands for a given protein
+:param folder: path to root folder for protein data
+:param protein: name of protein
+:param max_ligands: maximum number of ligands to collect data for
+:param output_folder_root: path to save location root
+:return: a list of dictionaries containing docking configuration information for every pair of ligands to protein structures for a given protein
+'''
 def get_docking_info(folder, protein, max_ligands, output_folder_root):
     '''
     Get docking configuration and rmsd set information for all ligands for a given protein
@@ -38,6 +47,12 @@ def get_docking_info(folder, protein, max_ligands, output_folder_root):
                                        'ligand_file': ligand_file})
     return docking_config
 
+
+'''
+Get the list of all proteins
+:param combind_root: path to the combind root folder
+:return: list of protein name strings
+'''
 def get_proteins(combind_root):
     '''
     Get the list of all proteins

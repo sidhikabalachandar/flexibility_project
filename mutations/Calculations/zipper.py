@@ -1,5 +1,5 @@
 """
-The purpose of this code is to mutate the flexibile residues of each structure of MAPK14
+The purpose of this code is to create the .zip structure files
 It can be run on sherlock using
 $ ml load chemistry
 $ ml load schrodinger

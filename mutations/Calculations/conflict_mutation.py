@@ -1,5 +1,5 @@
 """
-The purpose of this code is to mutate the flexibile residues of each structure of MAPK14
+The purpose of this code is to mutate the residues that conflict with the target ligand of each pair of target ligand and structure of MAPK14
 It can be run on sherlock using
 $ ml load chemistry
 $ ml load schrodinger
@@ -9,17 +9,33 @@ $ $SCHRODINGER/run python3 conflict_mutation.py
 import os
 import pandas as pd
 import schrodinger.structure as structure
-import schrodinger.structutils.build as build
 import schrodinger.structutils.interactions.steric_clash as steric_clash
+import schrodinger.structutils.build as build
 import sys
 import time
 import pickle
 
+
+
+'''
+Get the list of all ligands
+:param protein: name of the protein
+:param combind_root: path to the combind root folder
+:return: list of ligand name strings
+'''
 def get_ligands(protein, combind_root):
     ligand_folder = combind_root + protein + "/docking/grids"
     ligands = sorted(os.listdir(ligand_folder))# sorted
     return ligands
 
+
+
+'''
+Creates the structure with the conflicting residues mutated to alanine
+:param ligand: name of the ligand
+:param ligands: list of ligand name strings
+:return:
+'''
 def create_muts(ligand, ligands):
     cutoff = 2
     conflict_dict = {}
@@ -43,16 +59,16 @@ def create_muts(ligand, ligands):
                             mutate_list.append(list(r.atom)[0])
 
             conflict_dict[ligand][target] = mutate_info
+            for atom in mutate_list:
+                build.mutate(start_s, atom, 'ALA')
+
+            prot_st = start_s.extract([a.index for a in start_s.atom if a.chain != 'L'])
+            prot_wr = structure.StructureWriter('{}/{}_to_{}.mae'.format(save_location, target, ligand))
+            prot_wr.append(prot_st)
+            prot_wr.close()
+
     with open('/home/users/sidhikab/flexibility_project/mutations/Data/conflict/' + ligand, 'wb') as outfile:
         pickle.dump(conflict_dict, outfile)
-
-            # for atom in mutate_list:
-            #     build.mutate(start_s, atom, 'ALA')
-            #
-            # prot_st = start_s.extract([a.index for a in start_s.atom if a.chain != 'L'])
-            # prot_wr = structure.StructureWriter('{}/{}_to_{}.mae'.format(save_location, target, ligand))
-            # prot_wr.append(prot_st)
-            # prot_wr.close()
 
 
 if __name__ == '__main__':

@@ -1,8 +1,8 @@
 '''
 This protocol can be used to find the pairwise alignemnt between the amino acid strings of each pair of proteins
+how to run this file:
+~/miniconda/bin/python3 pairwise_alignment.py
 '''
-#how to run this file:
-# ~/miniconda/bin/python3 pairwise_alignment.py
 
 from Bio import pairwise2
 import os
@@ -10,6 +10,14 @@ import sys
 import pickle
 import time
 
+
+'''
+This method finds the pairwise alignemnt between the amino acid strings of each pair of proteins
+:param protein: name of the protein
+:param seq_file: path to the file containing the amino acid sequence of the protein
+:param save_folder: path to the location where the alignment string should be saved
+:return:
+'''
 def compute_protein_alignments(protein, seq_file, save_folder):
 	infile = open(seq_file,'rb')
 	strs = pickle.load(infile)
@@ -29,6 +37,12 @@ def compute_protein_alignments(protein, seq_file, save_folder):
 	pickle.dump(paired_strs, outfile)
 	outfile.close()
 
+
+'''
+Get the list of all proteins
+:param combind_root: path to the combind root folder
+:return: list of protein name strings
+'''
 def get_proteins(combind_root):
 	'''
 	Get the list of all proteins
@@ -49,6 +63,7 @@ if __name__ == '__main__':
 
 	if task == 'all':
 		proteins = get_proteins(combind_root)
+
 		#submit jobs for each protein
 		cmd = 'sbatch -p {} -t 0:05:00 -o {}.out --wrap="~/miniconda3/bin/python3.4  pairwise_alignment.py  protein {}"'
 		for prot_name in proteins:

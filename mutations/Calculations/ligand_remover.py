@@ -1,9 +1,9 @@
 """
-The purpose of this code is to mutate the flexibile residues of each structure of MAPK14
+The purpose of this code is to remove the ligands from a list of structure (.mae) files
 It can be run on sherlock using
 $ ml load chemistry
 $ ml load schrodinger
-$ $SCHRODINGER/run python3 zipper.py
+$ $SCHRODINGER/run python3 ligand_remover.py
 """
 
 

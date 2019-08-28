@@ -6,11 +6,12 @@ $ ~/miniconda/bin/python3 protein_ligand_counter.py
 
 import os
 
-folder = "/scratch/PI/rondror/combind/bpp_data"
-proteins = os.listdir(folder)
+if __name__ == '__main__':
+    folder = "/scratch/PI/rondror/combind/bpp_data"
+    proteins = os.listdir(folder)
 
-for protein in proteins:
-    if protein[0] != '.':
-        ligand_folder = folder + "/" + protein + "/docking/grids"
-        ligands = os.listdir(ligand_folder)
-        print(protein, " has ",len(ligands), " ligands")
+    for protein in proteins:
+        if protein[0] != '.':
+            ligand_folder = folder + "/" + protein + "/docking/grids"
+            ligands = os.listdir(ligand_folder)
+            print(protein, " has ",len(ligands), " ligands")

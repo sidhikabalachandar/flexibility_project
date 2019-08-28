@@ -11,15 +11,16 @@ $ $SCHRODINGER/run python3 aggregate_ligand_poses_MAPK14.py
 import os
 from schrodinger.structure import StructureReader, StructureWriter
 
-def aggregate_structures(data_path, save_location, docking_version, scores_version):
-    """
-    :param data_path: (string) location of folder data
-    :param save_location: (string) where to save the new .mae files, directory path
-    :param docking_version: (string) what docking version to use
-    :param scores_version: (string) what score version to sue
-    :return:
-    """
 
+
+"""
+collects the poses of each of the ligands of MAPK14's protein structures and aggregates them into a single .mae file
+:param data_path: (string) location of folder data
+:param save_location: (string) where to save the new .mae files, directory path
+:param scores_version: (string) what score version to sue
+:return:
+"""
+def aggregate_structures(data_path, save_location, scores_version):
     protein = 'MAPK14'
     print(protein)
 
@@ -48,6 +49,5 @@ def aggregate_structures(data_path, save_location, docking_version, scores_versi
 if __name__ == '__main__':
     data_path = '/scratch/PI/rondror/combind/bpp_data'
     save_location = '/home/users/sidhikab'
-    docking_version = 'confgen_es4'
     scores_version = 'stats7/pdb/standard/1.0-mcss_contact_hbond_sb'
-    aggregate_structures(data_path, save_location, docking_version, scores_version)
+    aggregate_structures(data_path, save_location, scores_version)

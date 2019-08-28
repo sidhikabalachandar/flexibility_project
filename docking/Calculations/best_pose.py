@@ -1,5 +1,5 @@
 """
-The purpose of this code is to list the pose of lowest gscore for the docking of each ligand to each struc
+The purpose of this code is to list the pose of lowest gscore for the docking of each ligand to each struc of MAPK14
 This file uses schrodinger structure library to read and save structure files.
 It can be run on sherlock using
 $ ~/miniconda/bin/python3 best_pose.py
@@ -7,9 +7,12 @@ $ ~/miniconda/bin/python3 best_pose.py
 
 import os
 from docking.docking_class import Docking
-
+'''
+Lists the pose of lowest gscore for the docking of each ligand to each struc
+:param grid: path to the grid files of the MAPK14 structures
+:return:
+'''
 def docking(grid):
-
     ligands = os.listdir(grid)
     dock = Docking("/home/users/sidhikab/MAPK14", "")
 

@@ -1,11 +1,12 @@
 '''
-This protocol can be used to find the rmsd between the residues in the binding pocket of every pair of structures ofa protein
+This protocol can be used to find the rmsd between the residues in the binding pocket of every pair of structures of a protein
 Only the residues within 4 angstroms of either structures' ligands are considered
-'''
+
 # how to run this file:
 # ml load chemistry
 # ml load schrodinger
 # $SCHRODINGER/run python3 rmsd_calculator.py
+'''
 
 import schrodinger.structure as structure
 import schrodinger.structutils.measure as measure
@@ -21,6 +22,8 @@ import pandas as pd
 '''
 This function gets the pdbcode, chain, resnum, and inscode of every residue in the protein structure
 It ignores any residues associated with the ligand
+:param s: the protein structure 
+:return: the list of every residue's pdbcode, chain, resnum, and inscode
 '''
 def get_all_res(s):
 	r_list = []
@@ -35,10 +38,11 @@ def get_all_res(s):
 '''
 Maps unique residue identifiers to list index in alignment string
 
-alignment_string: (string) output from alignment program, contains one letter codes and dashes
+:param alignment_string: (string) output from alignment program, contains one letter codes and dashes
 	example: 'TE--S--T-'
-r_list: list of unique identifiers of each residue in order of sequence
+:param r_list: list of unique identifiers of each residue in order of sequence
 	number of residues in r_list must be equal to number of residues in alignment_string
+:return: the map of residues to alignment_string index
 '''
 def map_residues_to_align_index(alignment_string, r_list):
 	r_to_i_map = {}
@@ -55,6 +59,8 @@ def map_residues_to_align_index(alignment_string, r_list):
 '''
 This function inverses an input map
 The keys become values and vice versa
+:param m: the map
+:return: the inversed map
 '''
 def inv_map(m):
 	return {v: k for k, v in m.items()}
@@ -62,6 +68,9 @@ def inv_map(m):
 
 '''
 This function gets the unique identifier for all residues within 4 angstroms of the ligand
+:param s: the protein structure
+:param r_to_i_map: the map of residues to alignment_string index
+:return: a list of information for all residues within 4 angstroms of the ligand
 '''
 def get_res_near_ligand(s, r_to_i_map):
 	cutoff = 4
@@ -72,6 +81,7 @@ def get_res_near_ligand(s, r_to_i_map):
 				ligand_alist += r.getAtomList()
 	if ligand_alist == []:
 		return 0
+
 	#get atom indexes for the ligand
 	close_a_indices = measure.get_atoms_close_to_subset(s, ligand_alist, cutoff)
 	close_r_set = set({})
@@ -84,6 +94,12 @@ def get_res_near_ligand(s, r_to_i_map):
 
 '''
 This function gets the atom list corresponding to a given list of unique residue identifiers from a given protein structure
+:param s: the protein structure
+:param final_r_list: the list of residues being compared between the two protein structures
+:return: a list of ASL values for each residue,
+		 a list of atoms for each residue,
+		 a list of the backbone atom for each residue
+		 a list of sidechain atoms for each residue
 '''
 def get_atoms(s, final_r_list):
 	asl_list = []
@@ -103,12 +119,24 @@ def get_atoms(s, final_r_list):
 	return (asl_list, a_list, backbone_a_list, sidechain_a_list)
 
 
+'''
+Get the list of all ligands
+:param protein: name of the protein
+:param max_ligands: maximum number of ligands to analyze for each protein
+:param combind_root: path to the combind root folder
+:return: list of ligand name strings
+'''
 def get_ligands(protein, max_ligands, combind_root):
     ligand_folder = combind_root + "/" + protein + "/docking/grids"
     ligands = sorted(os.listdir(ligand_folder))[:max_ligands]  # sorted
     return ligands
 
 
+'''
+Get the list of all proteins
+:param combind_root: path to the combind root folder
+:return: list of protein name strings
+'''
 def get_proteins(combind_root):
 	'''
 	Get the list of all proteins
@@ -121,6 +149,13 @@ def get_proteins(combind_root):
 	return proteins
 
 
+'''
+find the rmsd between the residues in the binding pocket of every pair of structures of a protein
+:param protein: name of the protein
+:param rmsd_file: path to save location of rmsd_file
+:param combind_root: path to the combind root folder
+:return: 
+'''
 def compute_protein_rmsds(protein, rmsd_file, combind_root):
 	mcss_data = pd.read_csv("../../similarity/Data/mcss/{}_mcss.csv".format(protein))
 
@@ -140,19 +175,19 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 
 		for start in ligands:
 			ASL_to_feature_path = '../Data/feature_vectors/' + protein + '/' + start + '.pkl'
+
 			if not os.path.exists(ASL_to_feature_path):
 				print(ASL_to_feature_path)
 				continue
+
 			infile = open(ASL_to_feature_path, 'rb')
 			ASL_to_feature = pickle.load(infile)
 			infile.close()
 			print('Start', start)
-
 			ending_1 = '{}/structures/aligned_files/{}/{}_out.mae'.format(protein, start, start)
 			s1 = list(structure.StructureReader(combind_root + ending_1))[0]
 
 			for target in ligands:
-
 				if start != target:
 					ending_2 = '{}/structures/aligned_files/{}/{}_out.mae'.format(protein, target, target)
 					s2 = list(structure.StructureReader(combind_root + ending_2))[0]
@@ -163,6 +198,7 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 						mcss = L1_mcss_data[L1_mcss_data['L2'] == target].iat[0, 4]
 						start_atoms = L1_mcss_data[L1_mcss_data['L2'] == target].iat[0, 2]
 						target_atoms = L1_mcss_data[L1_mcss_data['L2'] == target].iat[0, 3]
+
 					else:
 						(paired_str_s2, paired_str_s1) = paired_strs[target][start]
 						L1_mcss_data = mcss_data[mcss_data['L1'] == target]
@@ -202,17 +238,21 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 
 					for r in valid_r_s1:
 						s1index = r_to_i_map_s1[r]
+
 						if paired_str_s1[s1index] == paired_str_s2[s1index]:
 							if r not in final_r_list_s1:
 								final_r_list_s1.append(r)
+
 							if i_to_r_map_s2[s1index] not in final_r_list_s2:
 								final_r_list_s2.append(i_to_r_map_s2[s1index])
 
 					for r in valid_r_s2:
 						s2index = r_to_i_map_s2[r]
+
 						if paired_str_s2[s2index] == paired_str_s1[s2index]:
 							if r not in final_r_list_s2:
 								final_r_list_s2.append(r)
+								
 							if i_to_r_map_s1[s2index] not in final_r_list_s1:
 								final_r_list_s1.append(i_to_r_map_s1[s2index])
 

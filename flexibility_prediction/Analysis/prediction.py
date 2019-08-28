@@ -1,3 +1,7 @@
+'''
+These functions have been decomposed to make the prediction analysis code cleaner
+'''
+
 import pandas as pd
 import time
 from sklearn.linear_model import LinearRegression
@@ -11,9 +15,9 @@ import matplotlib.pyplot as plt
 
 dict_classifiers = {
     "Linear Regression": LinearRegression(),
-    "Polynomial Regression": LinearRegression(),
-#     "Neural Network": MLPRegressor(hidden_layer_sizes=(8,8,8), activation='relu', solver='adam', max_iter=500),
-    "Decision Tree": DecisionTreeRegressor(random_state = 0),
+    # "Polynomial Regression": LinearRegression(),
+    # "Neural Network": MLPRegressor(hidden_layer_sizes=(8,8,8), activation='relu', solver='adam', max_iter=500),
+    # "Decision Tree": DecisionTreeRegressor(random_state = 0),
     "Decision Tree with Max Depth = 03": DecisionTreeRegressor(max_depth=3, random_state = 0),
     "Decision Tree with Max Depth = 05": DecisionTreeRegressor(max_depth=5, random_state = 0),
     "Decision Tree with Max Depth = 10": DecisionTreeRegressor(max_depth=10, random_state = 0),
@@ -22,18 +26,19 @@ dict_classifiers = {
 }
 
 
-def batch_classify(X_train, Y_train, X_test, Y_test, verbose=True, include_y_pred=False):
-    """
-    This method, takes as input the X, Y matrices of the Train and Test set.
-    And fits them on all of the Classifiers specified in the dict_classifier.
-    The trained models, and accuracies are saved in a dictionary. The reason to use a dictionary
-    is because it is very easy to save the whole dictionary with the pickle module.
-
-    Usually, the SVM, Random Forest and Gradient Boosting Classifier take quiet some time to train.
-    So it is best to train them on a smaller dataset first and
-    decide whether you want to comment them out or not based on the test accuracy score.
-    """
-
+"""
+This method, takes as input the X, Y matrices of the Train and Test set.
+And fits them on all of the Classifiers specified in the dict_classifier.
+The trained models, and accuracies are saved in a dictionary.
+:param X_train: the X matrix of the train set
+:param Y_train: the Y matrix of the train set
+:param X_test: the X matrix of the test set
+:param Y_test: the Y matrix of the test set
+:param lin_reg: the list of coefficients of the linear regression model
+:param dec_tree: the list of feature importance for the decision tree of depth 3 model
+:return: a dictionary of every model to that model's name, R2 value on the train set, R2 value on the test set, train time, and predicted y values for the test set
+"""
+def batch_classify(X_train, Y_train, X_test, Y_test, lin_reg, dec_tree, verbose=True, include_y_pred=False):
     dict_models = {}
     for classifier_name, classifier in list(dict_classifiers.items()):
         coefs = None
@@ -52,7 +57,10 @@ def batch_classify(X_train, Y_train, X_test, Y_test, verbose=True, include_y_pre
         t_end = time.process_time()
 
         if classifier_name == "Linear Regression":
-            coefs = classifier.coef_
+            lin_reg.append(classifier.coef_)
+
+        if classifier_name == "Decision Tree with Max Depth = 03":
+            dec_tree.append(classifier.feature_importances_)
 
         t_diff = t_end - t_start
         train_score = classifier.score(X_train, Y_train)
@@ -73,6 +81,13 @@ def batch_classify(X_train, Y_train, X_test, Y_test, verbose=True, include_y_pre
     return dict_models
 
 
+"""
+This method caluclates the accuracy, recall, and precision of the regression results using a cutoff of 2 angstroms
+:param Y_test: the Y matrix of the test set
+:param classifiers: the names of the models
+:param model: the dictionary of every model to that model's name, R2 value on the train set, R2 value on the test set, train time, and predicted y values for the test set
+:return: a dictionary of every model to that model's accuracy, recall, and precision
+"""
 def scores_calculator(Y_test, classifiers, model):
     score_dict = {}
     for classifier in classifiers:
@@ -110,6 +125,11 @@ def scores_calculator(Y_test, classifiers, model):
 
     return score_dict
 
+
+"""
+This method loads in the X and Y data
+:return: the data dataframe and the list of protein names
+"""
 def load_data():
     files = os.listdir('../Data/rmsds')
     data = pd.read_csv("../Data/rmsds/5HT2B_rmsds.csv")
@@ -122,7 +142,18 @@ def load_data():
     prots = sorted(data['protein'].unique())
     return (data, prots)
 
-def run_pred(train_data, test_data, ignore_cols):
+
+"""
+This method implements one run of the prediction algorithm
+:param train_data: the X and Y data of the train set
+:param test_data: the X and Y data of the test set
+:param ignore_cols: the list of columns to exclude from the data
+:param lin_reg: the list of coefficients of the linear regression model
+:param dec_tree: the list of feature importance for the decision tree of depth 3 model
+:return: a dictionary of every model to that model's name, R2 value on the train set, R2 value on the test set, train time, and predicted y values for the test set
+         a dictionary of every model to that model's accuracy, recall, and precision
+"""
+def run_pred(train_data, test_data, ignore_cols, lin_reg, dec_tree):
     X_train = train_data.drop(ignore_cols, axis=1).values
     Y_train = train_data['complete rmsd'].values
 
@@ -139,10 +170,19 @@ def run_pred(train_data, test_data, ignore_cols):
         X_train_expanded_50 = np.append(X_train_expanded_50, X_true, axis=0)
         Y_train_expanded_50 = np.append(Y_train_expanded_50, Y_true, axis=0)
 
-    dict_models = batch_classify(X_train_expanded_50, Y_train_expanded_50, X_test, Y_test, verbose=False, include_y_pred=True)
+    dict_models = batch_classify(X_train_expanded_50, Y_train_expanded_50, X_test, Y_test, lin_reg, dec_tree, verbose=False, include_y_pred=True)
     scores = scores_calculator(Y_test, list(dict_classifiers.keys()), dict_models)
+    # lin_reg.append()
     return (dict_models, scores)
 
+
+"""
+This method prints the average results over all of the proteins for all of the models
+This method also prints all of the results over all of the proteins for the Decision Tree with Max Depth = 05 model
+:param test_scores: the accuracy, recall, and precision for all test set runs
+:param prots: the list of protein names
+:return: 
+"""
 def results(test_scores, prots):
     avg_scores = {}
     counts = {}
@@ -169,9 +209,18 @@ def results(test_scores, prots):
     print(pd.DataFrame.from_dict(avg_scores, orient='index'))
     print(pd.DataFrame.from_dict(tree_depth_05, orient='index'))
 
+
+"""
+This method graphs the actual rmsds of a given protein's target ligand and structure pair
+:param data: the X and Y data
+:param test_prot: the name of the protein
+:param start: the name of the native ligand to the structure
+:param target: the name of the target
+:return: 
+"""
 def actual_rmsd_grapher(data, test_prot, start, target):
     selected = data[(data['protein'] == test_prot) & (data['start ligand'] == start) & (data['target ligand'] == target)]
-    rmsd = np.array(selected['backbone rmsd'])
+    rmsd = np.array(selected['complete rmsd'])
     rmsd[rmsd > 8] = 8
     rmsd_formatted = np.expand_dims(rmsd, axis=0)
     sns.set_context("talk", font_scale=1.0)
@@ -187,11 +236,19 @@ def actual_rmsd_grapher(data, test_prot, start, target):
     plt.yticks([], [])
     ax.tick_params(axis=u'both', which=u'both', length=0)
     ax.tick_params(axis='both', labelsize=5.5)
+    plt.title(test_prot + ', start ligand =' + start + ', target ligand =' + target)
 
-    plt.colorbar()
-    plt.title('F10, start ligand = 2J94, target ligand = 1Z6E')
-    plt.show()
 
+"""
+This method graphs the predicted rmsds from a given model for a given protein's target ligand and structure pair
+:param dict_models: the dictionary of every model to that model's name, R2 value on the train set, R2 value on the test set, train time, and predicted y values for the test set
+:param model: the name of the model being considered
+:param data: the X and Y data
+:param test_prot: the name of the protein
+:param start: the name of the native ligand to the structure
+:param target: the name of the target
+:return: 
+"""
 def pred_rmsd_grapher(dict_models, model, data, test_prot, start, target):
     selected = data[(data['protein'] == test_prot) & (data['start ligand'] == start) & (data['target ligand'] == target)]
     bin_pred_rmsd_formatted = np.expand_dims(dict_models[model]['y_pred'], axis=0)
@@ -206,7 +263,4 @@ def pred_rmsd_grapher(dict_models, model, data, test_prot, start, target):
     plt.yticks([], [])
     ax.tick_params(axis=u'both', which=u'both', length=0)
     ax.tick_params(axis='both', labelsize=5.5)
-
-    plt.colorbar()
     plt.title(model)
-    plt.show()
