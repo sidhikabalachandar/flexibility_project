@@ -1,0 +1,17 @@
+MAPK14 3HUC /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/MAPK14/3HUC.pkl
+Could not find atom " CG " of A:4 for chi1
+Could not find atom " CG " of A:14 for chi1
+0 63.74600891830097
+1 103.18874849507561
+2 53.66542678520043
+3 86.26558063466865
+4 40.44443446616541
+5 103.84627904571501
+6 68.10042381204751
+7 121.46093437949679
+8 102.76674139241311
+9 113.92403901198209
+10 84.26140553461099
+Could not find atom " CG1" of A:169B for chi1
+Could not find atom " CG " of A:198 for chi1
+Num exceptions = 4

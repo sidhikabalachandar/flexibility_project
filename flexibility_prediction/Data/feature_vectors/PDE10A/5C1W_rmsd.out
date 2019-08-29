@@ -1,0 +1,10 @@
+PDE10A 5C1W /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/PDE10A/5C1W.pkl
+Could not find atom " HG " of A:502 for chi2
+Can't do adjustment - atoms are in a ring: 1380, 1383
+Could not find atom " HG " of A:536 for chi2
+Can't do adjustment - atoms are in a ring: 1912, 1915
+Can't do adjustment - atoms are in a ring: 1929, 1932
+Could not find atom " CG " of A:577 for chi1
+Can't do adjustment - atoms are in a ring: 3660, 3663
+Could not find atom " CG " of A:709 for chi1
+Num exceptions = 8

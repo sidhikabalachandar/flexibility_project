@@ -1,0 +1,20 @@
+Glide version 79013 (mmshare version 42013)
+Copyright (c) Schrodinger, LLC.
+All Rights Reserved.
+
+--------------------------------------------------------------------------------
+JobId          : sh-106-15-1-5d533f9e
+Name           : 2BAJ_to_3E93
+Program        : Glide
+MMshareExec    : /share/software/user/restricted/schrodinger/2018-2/mmshare-v4.2/bin/Linux-x86_64
+Host           : sh-106-15.int
+Dir            : /home/users/sidhikab/flexibility_project/mutations/Data/grids/2BAJ_to_3E93
+HostEntry      : localhost
+JobHost        : sh-106-15.int
+JobDir         : /tmp/sidhikab/2BAJ_to_3E93
+JobMMshareExec : /share/software/user/restricted/schrodinger/2018-2/mmshare-v4.2/bin/Linux-x86_64
+Commandline    : /share/software/user/restricted/schrodinger/2018-2/glide -WAIT 2BAJ_to_3E93.in
+StartTime      : 2019-08-13-15:54:22
+--------------------------------------------------------------------------------
+
+Calling OPLS3e atomtyping ...

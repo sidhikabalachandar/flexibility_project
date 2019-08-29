@@ -1,0 +1,15 @@
+MAPK14 3HLL /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/MAPK14/3HLL.pkl
+0 43.66738385550218
+1 42.67669381580747
+2 36.976767200961426
+3 44.41225235603978
+4 32.12363392235411
+5 74.45188379674266
+6 33.47946421110807
+7 86.03468951136118
+8 44.25642747481169
+9 49.94611354840943
+10 51.47448180749589
+Could not find atom " CG1" of A:169D for chi1
+Could not find atom " OG1" of A:185 for chi1
+Num exceptions = 2

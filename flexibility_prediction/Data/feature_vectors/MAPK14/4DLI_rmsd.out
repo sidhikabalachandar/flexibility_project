@@ -1,0 +1,17 @@
+MAPK14 4DLI /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/MAPK14/4DLI.pkl
+Could not find atom " CG " of A:15 for chi1
+Could not find atom " CG " of A:35 for chi1
+Could not find atom " CG " of A:117 for chi1
+Could not find atom " CG " of A:117A for chi1
+0 61.79863643199577
+1 91.0349752783441
+2 52.42721359617642
+3 81.84380668746641
+4 43.95074384302296
+5 93.3717926228614
+6 58.42131691622345
+7 97.29353952132848
+8 93.76437628441028
+9 98.34812774947427
+10 87.32969344645224
+Num exceptions = 4

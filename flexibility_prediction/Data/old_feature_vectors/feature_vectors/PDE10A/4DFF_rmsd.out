@@ -1,0 +1,7 @@
+PDE10A /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/PDE10A/4DFF.pkl
+Could not find atom " HG " of A:498 for chi2
+Can't do adjustment - atoms are in a ring: 989, 992
+Could not find atom " HG " of A:536 for chi2
+Can't do adjustment - atoms are in a ring: 1521, 1524
+Can't do adjustment - atoms are in a ring: 1538, 1541
+Num exceptions = 5

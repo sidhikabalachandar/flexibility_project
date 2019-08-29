@@ -1,0 +1,16 @@
+MAPK14 3O8P /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/MAPK14/3O8P.pkl
+0 75.96018008028052
+1 72.66087969389143
+2 60.250453243694665
+3 75.70021219434408
+4 43.12445587030796
+5 92.71677339152852
+6 51.705978980741904
+7 93.17799781839351
+8 84.24832927606461
+9 82.52819106180652
+10 85.4720887664349
+Could not find atom " CG1" of A:184 for chi1
+Could not find atom " CG " of A:198 for chi1
+Could not find atom " CG " of A:199 for chi1
+Num exceptions = 3

@@ -1,0 +1,10 @@
+HSP90AA1 2UWD /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/HSP90AA1/2UWD.pkl
+Could not find atom " CG " of A:15 for chi1
+Could not find atom " CG " of A:123 for chi1
+Could not find atom " CD " of A:192 for chi2
+Could not find atom " CA " of A:224 for chi1
+Could not find atom " CG " of B:225 for chi1
+Could not find atom " CG " of B:332 for chi1
+Could not find atom " CD " of B:401 for chi2
+Could not find atom " CA " of B:433 for chi1
+Num exceptions = 8

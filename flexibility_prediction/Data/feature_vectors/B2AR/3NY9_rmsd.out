@@ -1,0 +1,32 @@
+B2AR 3NY9 /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/B2AR/3NY9.pkl
+Could not find atom " CG " of A:32 for chi1
+Could not find atom " CG " of A:60 for chi1
+Could not find atom " SD " of A:98 for chi2
+Could not find atom " OG1" of A:100 for chi1
+Could not find atom " HG " of A:106 for chi2
+Could not find atom " CG " of A:107 for chi1
+Could not find atom " CG " of A:147 for chi1
+0 39.50593475854424
+1 31.24886772987428
+2 50.1379749496561
+3 33.86572751441359
+4 34.70174637108069
+5 34.86999871541059
+6 39.10984773896839
+7 40.931060563120646
+8 30.72534921514565
+9 31.207633782277753
+10 34.10376978393454
+Could not find atom " HG " of A:184 for chi2
+Could not find atom " HG " of A:190 for chi2
+Could not find atom " HG " of A:191 for chi2
+Could not find atom " CG " of A:221 for chi1
+Could not find atom " CG " of A:299 for chi1
+Could not find atom " NE " of A:304 for chi3
+Could not find atom " CG " of A:306 for chi1
+Could not find atom " CG " of A:1016 for chi1
+Could not find atom " CG " of A:1044 for chi1
+Could not find atom " CE " of A:1081 for chi3
+Could not find atom " CG " of A:1141 for chi1
+Could not find atom " CG " of A:1147 for chi1
+Num exceptions = 19

@@ -1,0 +1,15 @@
+DHFR 2W3A /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/DHFR/2W3A.pkl
+Could not find atom " NE " of A:-154 for chi3
+Could not find atom " CE " of A:-118 for chi3
+Could not find atom " CG " of A:-106 for chi1
+Could not find atom " CD " of A:-95 for chi2
+Could not find atom " CG " of A:-45 for chi1
+Could not find atom " CD " of A:-43 for chi2
+Could not find atom " CG " of A:-36 for chi1
+Could not find atom " NE " of B:28 for chi3
+Could not find atom " CD " of B:84 for chi2
+Could not find atom " CG " of B:98 for chi1
+Could not find atom " CG " of B:101 for chi1
+Could not find atom " CG " of B:150 for chi1
+Could not find atom " CD " of B:161 for chi2
+Num exceptions = 13

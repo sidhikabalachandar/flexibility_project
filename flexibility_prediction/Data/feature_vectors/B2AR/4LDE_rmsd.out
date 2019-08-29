@@ -1,0 +1,35 @@
+B2AR 4LDE /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/B2AR/4LDE.pkl
+Could not find atom " CG " of A:-142 for chi1
+Could not find atom " CG " of A:-138 for chi1
+Could not find atom " CD " of A:-87 for chi2
+Could not find atom " CG " of A:60 for chi1
+Could not find atom " CG " of A:62 for chi1
+Could not find atom " HG " of A:106 for chi2
+Could not find atom " CG " of A:149 for chi1
+0 52.43297278455232
+1 33.75565008211002
+2 58.36728235561455
+3 44.356031613380175
+4 45.86707664063351
+5 41.39455123762223
+6 44.608266152398215
+7 40.368004213562045
+8 36.16577173547758
+9 32.412497424937186
+10 32.5380313863895
+Could not find atom " HG " of A:184 for chi2
+Could not find atom " HG " of A:190 for chi2
+Could not find atom " HG " of A:191 for chi2
+Could not find atom " CG " of A:223 for chi1
+Could not find atom " CG " of A:224 for chi1
+Could not find atom " CG " of A:1094 for chi1
+Could not find atom " CG " of A:270 for chi1
+Could not find atom " CG " of A:1152 for chi1
+Could not find atom " CG " of A:1159 for chi1
+Could not find atom " CG " of B:343 for chi1
+Could not find atom " CG " of B:355 for chi1
+Could not find atom " HG " of B:364 for chi2
+Could not find atom " OG " of B:367 for chi1
+Could not find atom " HG " of B:437 for chi2
+Could not find atom " OG " of B:462 for chi1
+Num exceptions = 22

@@ -1,0 +1,23 @@
+Glide version 79013 (mmshare version 42013)
+Copyright (c) Schrodinger, LLC.
+All Rights Reserved.
+
+--------------------------------------------------------------------------------
+JobId          : sh-106-15-0-5d533f9e
+Name           : 2BAJ_to_3GCP
+Program        : Glide
+MMshareExec    : /share/software/user/restricted/schrodinger/2018-2/mmshare-v4.2/bin/Linux-x86_64
+Host           : sh-106-15.int
+Dir            : /home/users/sidhikab/flexibility_project/mutations/Data/grids/2BAJ_to_3GCP
+HostEntry      : localhost
+JobHost        : sh-106-15.int
+JobDir         : /tmp/sidhikab/2BAJ_to_3GCP
+JobMMshareExec : /share/software/user/restricted/schrodinger/2018-2/mmshare-v4.2/bin/Linux-x86_64
+Commandline    : /share/software/user/restricted/schrodinger/2018-2/glide -WAIT 2BAJ_to_3GCP.in
+StartTime      : 2019-08-13-15:54:22
+--------------------------------------------------------------------------------
+
+Calling OPLS3e atomtyping ...
+Finished parameter assignment
+ VdW radii of protein atoms scaled by    1.00000000000000     
+ Charge cutoff for polarity  0.250000000000000     

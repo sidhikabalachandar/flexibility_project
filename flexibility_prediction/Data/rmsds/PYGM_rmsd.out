@@ -1,7 +1,26 @@
 PYGM /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/rmsds/PYGM_rmsds.csv
-Traceback (most recent call last):
-  File "rmsd_calculator.py", line 252, in <module>
-    compute_protein_rmsds(protein, rmsd_file, combind_root)
-  File "rmsd_calculator.py", line 123, in compute_protein_rmsds
-    infile = open('../Data/feature_vectors/' + protein, 'rb')
-FileNotFoundError: [Errno 2] No such file or directory: '../Data/feature_vectors/PYGM'
+../Data/feature_vectors/PYGM/1A8I.pkl
+../Data/feature_vectors/PYGM/2G9Q.pkl
+../Data/feature_vectors/PYGM/2PYI.pkl
+../Data/feature_vectors/PYGM/2QRG.pkl
+../Data/feature_vectors/PYGM/2QRH.pkl
+../Data/feature_vectors/PYGM/2QRM.pkl
+../Data/feature_vectors/PYGM/2QRP.pkl
+../Data/feature_vectors/PYGM/2QRQ.pkl
+../Data/feature_vectors/PYGM/3EBP.pkl
+Start 3G2H
+Start 3G2I
+Start 3G2J
+Start 3G2K
+Start 3G2L
+Start 3G2N
+../Data/feature_vectors/PYGM/3L79.pkl
+../Data/feature_vectors/PYGM/3L7A.pkl
+../Data/feature_vectors/PYGM/3L7B.pkl
+../Data/feature_vectors/PYGM/3L7C.pkl
+../Data/feature_vectors/PYGM/3L7D.pkl
+../Data/feature_vectors/PYGM/3SYM.pkl
+../Data/feature_vectors/PYGM/3SYR.pkl
+../Data/feature_vectors/PYGM/4EKY.pkl
+../Data/feature_vectors/PYGM/4EL0.pkl
+../Data/feature_vectors/PYGM/4EL5.pkl

@@ -1,0 +1,14 @@
+PDE10A /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/PDE10A/4MSN.pkl
+Could not find atom " OG " of A:453 for chi1
+Could not find atom " CG " of A:454 for chi1
+Could not find atom " HG " of A:502 for chi2
+Could not find atom " NE " of A:521 for chi3
+Can't do adjustment - atoms are in a ring: 1362, 1365
+Could not find atom " HG " of A:536 for chi2
+Can't do adjustment - atoms are in a ring: 1894, 1897
+Can't do adjustment - atoms are in a ring: 1911, 1914
+Could not find atom " CD " of A:577 for chi2
+Can't do adjustment - atoms are in a ring: 3645, 3648
+Could not find atom " OG1" of A:773 for chi1
+Could not find atom " CG1" of A:775 for chi1
+Num exceptions = 12

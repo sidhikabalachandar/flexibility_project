@@ -1,0 +1,15 @@
+BRAF 3Q96 /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/BRAF/3Q96.pkl
+Could not find atom " NE " of A:207 for chi3
+Could not find atom " CG " of A:213 for chi1
+Could not find atom " CG " of A:267 for chi1
+Could not find atom " CG " of A:354 for chi1
+Could not find atom " CG " of B:521 for chi1
+Could not find atom " NE " of B:557 for chi3
+Could not find atom " CG " of B:596D for chi1
+Could not find atom " CG " of B:626 for chi1
+Could not find atom " CG " of B:627 for chi1
+Could not find atom " CG " of B:627A for chi1
+Could not find atom " CG " of B:628 for chi1
+Could not find atom " CG " of B:690 for chi1
+Could not find atom " CG " of B:708 for chi1
+Num exceptions = 13

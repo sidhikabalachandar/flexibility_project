@@ -1,0 +1,21 @@
+F10 1MQ6 /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/F10/1MQ6.pkl
+Could not find atom " HG " of A:22 for chi2
+Could not find atom " HG " of A:27 for chi2
+Could not find atom " HG " of A:42 for chi2
+Could not find atom " HG " of A:58 for chi2
+Can't do adjustment - atoms are in a ring: 844, 847
+Can't do adjustment - atoms are in a ring: 955, 958
+Can't do adjustment - atoms are in a ring: 984, 987
+Could not find atom " HG " of A:122 for chi2
+Could not find atom " HG " of A:168 for chi2
+Could not find atom " HG " of A:182 for chi2
+Could not find atom " HG " of A:191 for chi2
+Could not find atom " HG " of A:220 for chi2
+Could not find atom " HG " of B:1 for chi2
+Could not find atom " HG " of B:8 for chi2
+Could not find atom " HG " of B:12 for chi2
+Could not find atom " HG " of B:21 for chi2
+Could not find atom " HG " of B:23 for chi2
+Could not find atom " HG " of B:36 for chi2
+Could not find atom " HG " of B:44 for chi2
+Num exceptions = 19

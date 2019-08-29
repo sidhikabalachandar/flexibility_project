@@ -1,0 +1,40 @@
+PDE10A 4ZO5 /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/PDE10A/4ZO5.pkl
+Could not find atom " CG " of A:460 for chi1
+Could not find atom " HG " of A:502 for chi2
+Could not find atom " CG " of A:504 for chi1
+Could not find atom " CG " of A:507 for chi1
+Could not find atom " CG " of A:521 for chi1
+Can't do adjustment - atoms are in a ring: 1342, 1345
+Could not find atom " HG " of A:536 for chi2
+Can't do adjustment - atoms are in a ring: 1874, 1877
+Can't do adjustment - atoms are in a ring: 1891, 1894
+Could not find atom " CG " of A:577 for chi1
+Could not find atom " CG " of A:606 for chi1
+Could not find atom " CG " of A:609 for chi1
+Could not find atom " CG1" of A:610 for chi1
+Could not find atom " CG " of A:643 for chi1
+Could not find atom " CG " of A:646 for chi1
+Can't do adjustment - atoms are in a ring: 3587, 3590
+Could not find atom " CG " of B:790 for chi1
+Could not find atom " CG " of B:793 for chi1
+Could not find atom " CG1" of B:795 for chi1
+Could not find atom " OG " of B:824 for chi1
+Can't do adjustment - atoms are in a ring: 6465, 6468
+Could not find atom " HG " of B:859 for chi2
+Could not find atom " CG " of B:864 for chi1
+Could not find atom " CG " of B:871 for chi1
+Could not find atom " CG " of B:873 for chi1
+Could not find atom " CG " of B:877 for chi1
+Could not find atom " CG " of B:879 for chi1
+Can't do adjustment - atoms are in a ring: 6955, 6958
+Can't do adjustment - atoms are in a ring: 6972, 6975
+Can't do adjustment - atoms are in a ring: 7407, 7410
+Could not find atom " CG " of B:929 for chi1
+Could not find atom " CG1" of B:933 for chi1
+Could not find atom " CG " of B:965 for chi1
+Could not find atom " CG " of B:977 for chi1
+Could not find atom " CG " of B:979 for chi1
+Could not find atom " CG " of B:982 for chi1
+Could not find atom " CG " of B:985 for chi1
+Can't do adjustment - atoms are in a ring: 8648, 8651
+Num exceptions = 38

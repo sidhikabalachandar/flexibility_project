@@ -2,7 +2,7 @@ DHFR /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/rmsds/
 Start 1BOZ
 Start 1DLR
 Start 1DLS
-Start 1HFP
+../Data/feature_vectors/DHFR/1HFP.pkl
 Start 1KMS
 Start 1KMV
 Start 1OHJ

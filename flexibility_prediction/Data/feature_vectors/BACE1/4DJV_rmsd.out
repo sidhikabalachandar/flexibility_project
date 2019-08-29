@@ -1,0 +1,19 @@
+BACE1 4DJV /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/BACE1/4DJV.pkl
+Could not find atom " HG " of A:155 for chi2
+0 32.09651709666965
+1 29.01548215501231
+2 33.78488482983466
+3 30.006051897758912
+4 31.103892140921477
+5 29.01548215501231
+6 30.090650859501334
+7 29.01548215501231
+8 29.06545830696601
+9 29.01548215501231
+10 35.06168081012222
+Could not find atom " HG " of A:217 for chi2
+Could not find atom " HG " of A:269 for chi2
+Could not find atom " HG " of A:319 for chi2
+Could not find atom " HG " of A:359 for chi2
+Could not find atom " HG " of A:382 for chi2
+Num exceptions = 6

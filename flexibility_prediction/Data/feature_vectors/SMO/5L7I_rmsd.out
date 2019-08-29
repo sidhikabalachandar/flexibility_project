@@ -1,0 +1,71 @@
+SMO 5L7I /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/SMO/5L7I.pkl
+There is no rotamer information for residue HIE 
+Could not find atom " HG " of A:64 for chi2
+Could not find atom " HG " of A:70 for chi2
+Could not find atom " HG " of A:78 for chi2
+There is no rotamer information for residue HIE 
+Could not find atom " HG " of A:118 for chi2
+Could not find atom " HG " of A:127 for chi2
+Could not find atom " HG " of A:134 for chi2
+Could not find atom " HG " of A:147 for chi2
+Could not find atom " HG " of A:154 for chi2
+0 74.60508169458717
+1 39.176675279036296
+2 64.52053663484014
+3 80.65134692307106
+4 83.94805043137109
+5 50.55869548977219
+6 71.25449348779475
+7 51.56023634342974
+8 49.02445504916444
+9 36.50742612341241
+10 43.00878500014373
+Could not find atom " HG " of A:169 for chi2
+Could not find atom " HG " of A:178 for chi2
+Could not find atom " HG " of A:193 for chi2
+Could not find atom " HG " of A:213 for chi2
+Could not find atom " HG " of A:217 for chi2
+There is no rotamer information for residue HIE 
+Could not find atom " HG " of A:295 for chi2
+Could not find atom " HG " of A:314 for chi2
+There is no rotamer information for residue HIE 
+There is no rotamer information for residue HIE 
+Could not find atom " HG " of A:390 for chi2
+Could not find atom " HG " of A:490 for chi2
+Could not find atom " HG " of A:507 for chi2
+There is no rotamer information for residue GLH 
+There is no rotamer information for residue HIE 
+Could not find atom " HG " of B:64 for chi2
+Could not find atom " HG " of B:70 for chi2
+Could not find atom " HG " of B:78 for chi2
+There is no rotamer information for residue HIE 
+Could not find atom " HG " of B:118 for chi2
+Could not find atom " HG " of B:127 for chi2
+Could not find atom " HG " of B:134 for chi2
+Could not find atom " HG " of B:147 for chi2
+Could not find atom " HG " of B:154 for chi2
+0 71.34462088732691
+1 37.87146997454236
+2 61.90098757634632
+3 78.37224181735412
+4 80.628635400568
+5 48.50554717795673
+6 68.20897347689215
+7 49.83458867419145
+8 47.79129937706427
+9 35.649324091517734
+10 41.19838331958315
+Could not find atom " HG " of B:169 for chi2
+Could not find atom " HG " of B:178 for chi2
+Could not find atom " HG " of B:193 for chi2
+Could not find atom " HG " of B:213 for chi2
+Could not find atom " HG " of B:217 for chi2
+There is no rotamer information for residue HIE 
+Could not find atom " HG " of B:295 for chi2
+Could not find atom " HG " of B:314 for chi2
+There is no rotamer information for residue HIE 
+Could not find atom " HG " of B:390 for chi2
+Could not find atom " HG " of B:490 for chi2
+Could not find atom " HG " of B:507 for chi2
+There is no rotamer information for residue GLH 
+Num exceptions = 47

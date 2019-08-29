@@ -1,0 +1,13 @@
+JAK2 3UGC /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/JAK2/3UGC.pkl
+Could not find atom " CG " of A:857 for chi1
+Could not find atom " CG " of A:872 for chi1
+Could not find atom " CD " of A:890 for chi2
+There is no rotamer information for residue HIE 
+Could not find atom " CD " of A:942 for chi2
+There is no rotamer information for residue HIE 
+There is no rotamer information for residue HIE 
+There is no rotamer information for residue ASH 
+Could not find atom " OG1" of A:998 for chi1
+Could not find atom " CG " of A:1015 for chi1
+Could not find atom " CG " of A:1097 for chi1
+Num exceptions = 11

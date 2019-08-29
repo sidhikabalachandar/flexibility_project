@@ -1,0 +1,15 @@
+MAPK14 3ROC /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/MAPK14/3ROC.pkl
+0 126.43737293309229
+1 47.1468216893379
+2 120.07950078669678
+3 97.55548219847554
+4 121.00675049626946
+5 69.62535609362352
+6 104.51152480827169
+7 74.1507298607933
+8 76.83664283878862
+9 52.17484810124885
+10 125.52029992411782
+Could not find atom " CG1" of A:169D for chi1
+Could not find atom " OG1" of A:185 for chi1
+Num exceptions = 2

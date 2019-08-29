@@ -1,0 +1,20 @@
+MAPK14 3GCU /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/MAPK14/3GCU.pkl
+Could not find atom " CG " of A:4 for chi1
+Could not find atom " CG " of A:15 for chi1
+Could not find atom " CG " of A:117 for chi1
+Could not find atom " CG " of A:117C for chi1
+0 214.50753956295017
+1 88.3659712974002
+2 204.92422887244973
+3 195.36192342947527
+4 210.59817947250824
+5 114.48587129935294
+6 199.7123805261237
+7 110.15381750088687
+8 134.9742489997365
+9 89.12701255612225
+10 174.79700288586233
+Could not find atom " CG " of B:363 for chi1
+Could not find atom " CG " of B:383 for chi1
+Could not find atom " CG " of B:536 for chi1
+Num exceptions = 7

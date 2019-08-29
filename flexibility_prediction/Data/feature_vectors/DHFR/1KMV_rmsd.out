@@ -1,0 +1,12 @@
+DHFR 1KMV /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/DHFR/1KMV.pkl
+Could not find atom " CG " of A:21 for chi1
+Could not find atom " NZ " of A:63 for chi4
+Could not find atom " CE " of A:68 for chi3
+Could not find atom " CD " of A:77 for chi2
+Could not find atom " CG " of A:78 for chi1
+Could not find atom " NZ " of A:98 for chi4
+Could not find atom " CD " of A:101 for chi2
+Could not find atom " CD " of A:123 for chi2
+Could not find atom " CD " of A:143 for chi2
+Could not find atom " CA " of A:186 for chi1
+Num exceptions = 10

@@ -1,0 +1,22 @@
+F10 2BOH /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/F10/2BOH.pkl
+Could not find atom " HG " of A:-35 for chi2
+Could not find atom " HG " of A:-28 for chi2
+Could not find atom " HG " of A:-24 for chi2
+Could not find atom " HG " of A:-15 for chi2
+Could not find atom " HG " of A:-13 for chi2
+Could not find atom " HG " of A:0 for chi2
+Could not find atom " HG " of A:8 for chi2
+Could not find atom " CA " of A:15 for chi1
+Could not find atom " HG " of B:22 for chi2
+Could not find atom " HG " of B:27 for chi2
+Could not find atom " HG " of B:42 for chi2
+Could not find atom " HG " of B:58 for chi2
+Can't do adjustment - atoms are in a ring: 1606, 1609
+Can't do adjustment - atoms are in a ring: 1746, 1749
+Could not find atom " HG " of B:122 for chi2
+Could not find atom " HG " of B:168 for chi2
+Could not find atom " HG " of B:182 for chi2
+Could not find atom " HG " of B:191 for chi2
+Could not find atom " HG " of B:220 for chi2
+Could not find atom " CA " of B:245 for chi1
+Num exceptions = 20
