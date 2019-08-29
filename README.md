@@ -3,7 +3,7 @@
 ## Docking:
 Contains code to conduct all ligand to all structure docking for a group of proteins
 
-  ### Calculations:
+  #### Calculations:
   dock_rmsd_delete.py -> code to conduct all ligand to all structure docking
                          if run_dock flag is provided, docking is conducted (see lxpowers33/docking)
                           produces a folder each protein and a subfolder for each ligand_to_structure pair
@@ -15,7 +15,7 @@ Contains code to conduct all ligand to all structure docking for a group of prot
                           
   aggregate_ligand_poses_MAPK14.py -> code to aggregate all poses into a single .mae file
   
-  ### Analysis:
+  #### Analysis:
   docking_evaluation.ipynb -> contains graphs for glide benchmark by docking type, protein, and protein group
   
   best_pose_without_4DLI_with_threshold -> contains 2D color graph of RMSDs clustered by ligands
@@ -26,7 +26,7 @@ Contains code to conduct all ligand to all structure docking for a group of prot
 Contains code to crate X and Y data for the train and test sets
 Also contains code to run regression based prediction algorithm 
 
-  ### Calculations:
+  #### Calculations:
   residue_feature_vector_creator.py -> obtains features dependent on only the protein structure
                                        features collected: residue name, residue num, raw bfactor, normalized bfactor, 
                                         previous residue's normalized bfactor, previous previous residue's normalized bfactor, 
@@ -42,7 +42,7 @@ Also contains code to run regression based prediction algorithm
                         additional features collected: ligand similarity (maximum common substructure), ligand similarity 
                           ratio, ligand size difference (difference in number of heavy atoms), ligand size ratio, 
                           
-  ### Analysis:
+  #### Analysis:
   all_protein_flexibility_prediction_analysis.ipynb -> graph of correlation between bfactor and residue flexibility
                                                        graph of average number of total residues and average number of      
                                                         flexible residues in the binding pocket
@@ -60,7 +60,7 @@ Also contains code to run regression based prediction algorithm
 Contains code to mutate residues to alanine (residues in the binding pocket), create .zip files, and then rerun docking to 
 obtain RMSD results
 
-  ### Calculations:
+  #### Calculations:
   flexible_mutation.py -> mutates all residues that have a flexibility RMSD above a certain cutoff
   
   conflict_mutation.py -> mutates all residues that conflict with the target ligand
@@ -73,7 +73,7 @@ obtain RMSD results
                
   dock_rmsd_delete.py -> same as above (reruns docking)
   
-  ### Analysis:
+  #### Analysis:
   mutated_rmsds_analysis.ipynb -> creates graph of cumulative frequency to portray docking accuracy
   
   mutation_analysis.ipynb -> calculates the average number of residues mutated
@@ -82,7 +82,7 @@ obtain RMSD results
 Contains code to calculate the rmsd of all of the residues in the binding pocket between each pair of structures for a given 
 protein
 
-  ### Calculations:
+  #### Calculations:
   sequence_finder.py -> obtains the amino acid sequence of a given protein structure
   
   pairwise_alignment.py	-> obtains two aligned strings for each pair of starting structure and the structure corresponding to 
@@ -91,7 +91,7 @@ protein
   rmsd_calculator.py -> calculates the rmsd of all of the residues in the binding pocket between each pair of structures for a 
                           given protein
                           
-  ### Analysis:
+  #### Analysis:
   rmsd_analysis.ipynb -> contains graph of rmsd of all of the residues in the binding pocket between each pair vs docking 
                           performance
                           
@@ -99,10 +99,10 @@ protein
 Contains code to calculate the maximum common substructure and tanimoto coefficient between every pair of ligands for a given 
 protein
 
-  ### Calculations:
+  #### Calculations:
   mcss_similarity.py -> creates a csv file containing the number of atoms in each ligand and the mcss of the pair of ligands
   
   similarity_vs_performance.py -> calculates the tanimoto coefficient between every pair of ligands
   
-  ### Analysis:
+  #### Analysis:
   similarity_analysis.ipynb -> graph of tanimoto coefficient vs docking performance
