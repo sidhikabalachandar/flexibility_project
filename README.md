@@ -54,6 +54,8 @@ Also contains code to run regression based prediction algorithm
                             also contains code to plot color bars to compare prediction outputs of a certain model for a 
                               certain protein, ligand_to_structure pair
                               
+  prediction.py -> contains decomposed code for the cycling_test_set.ipynb
+                              
   flexibility_prediction_analysis.ipynb -> graph of MAPK14 bfactor distributions before and after normalization
   
 ## Mutations:
