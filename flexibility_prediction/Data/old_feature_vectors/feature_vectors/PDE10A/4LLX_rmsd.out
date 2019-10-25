@@ -1,0 +1,13 @@
+PDE10A /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/PDE10A/4LLX.pkl
+Traceback (most recent call last):
+  File "residue_feature_vector_creator.py", line 171, in <module>
+    create_feature_vector(protein, ligand, pickle_file, combind_root)
+  File "residue_feature_vector_creator.py", line 132, in create_feature_vector
+    rot_s = list(StructureReader(combind_root + '/' + ending_1))[0]
+  File "/share/software/user/restricted/schrodinger/2018-2/internal/lib/python3.6/site-packages/schrodinger/structure.py", line 4361, in __next__
+    self._open()
+  File "/share/software/user/restricted/schrodinger/2018-2/internal/lib/python3.6/site-packages/schrodinger/structure.py", line 4300, in _open
+    self.fh = mm.m2io_open_file(self.filename, read_mode)
+  File "/share/software/user/restricted/schrodinger/2018-2/internal/lib/python3.6/site-packages/schrodinger/infra/mmcheck.py", line 93, in __call__
+    raise MmException(self, args, rc)
+schrodinger.infra.mmcheck.MmException: m2io_open_file returned error code -1 (M2IO_ERR) for arguments ('/scratch/PI/rondror/combind/bpp_data//PDE10A/structures/aligned_files/4LLX/4LLX_out.mae', 16). See the mmerr log (stderr by default) for messages from the mmlibs.

@@ -1,0 +1,19 @@
+BACE1 1M4H /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/BACE1/1M4H.pkl
+Could not find atom " HG " of A:155 for chi2
+0 31.64541755346203
+1 29.370009605944777
+2 33.19192743717372
+3 29.375170108111444
+4 35.32353697171577
+5 29.370009605944777
+6 29.539015709931633
+7 29.370009605944777
+8 29.409695628376028
+9 29.370009605944777
+10 38.456044895323934
+Could not find atom " HG " of A:217 for chi2
+Could not find atom " HG " of A:269 for chi2
+Could not find atom " HG " of A:319 for chi2
+Could not find atom " HG " of A:359 for chi2
+Could not find atom " HG " of A:382 for chi2
+Num exceptions = 6

@@ -46,8 +46,15 @@ class TestRotamers(TestCase):
         m = list(s.molecule)[0]
         r = list(m.residue)[0]
         (num_rots, avg_rot_rmsd, num_r_rots, avg_r_rot_rmsd) = residue_feature_vector_creator.rotamers(rot_s, rot_r, s, r, 50)
+        rot_s2 = list(StructureReader(
+            '/oak/stanford/groups/rondror/projects/combind/bpp_data/MAPK14/structures/aligned_files/1KV1/1KV1_out.mae'))[
+            0]
+        rot_m2 = list(rot_s2.molecule)[18]
+        rot_r2 = list(rot_m2.residue)[18]
+        s2 = list(StructureReader('/oak/stanford/groups/rondror/projects/combind/bpp_data/MAPK14/structures/aligned_files/1KV1/1KV1_out.mae'))[0]
+        m2 = list(s2.molecule)[18]
+        r2 = list(m2.residue)[18]
+        (num_rots2, avg_rot_rmsd2, num_r_rots2, avg_r_rot_rmsd2) = residue_feature_vector_creator.rotamers(rot_s2, rot_r2, s2, r2, 50)
 
-        self.assertEqual(num_rots, )
-        self.assertEqual(avg_rot_rmsd, )
-        self.assertEqual(num_r_rots, )
-        self.assertEqual(avg_r_rot_rmsd, )
+        self.assertEqual(num_rots, 34)
+        self.assertEqual(num_r_rots > num_r_rots2)

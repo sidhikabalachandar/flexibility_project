@@ -1,0 +1,5 @@
+DHFR /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/DHFR/1KMS.pkl
+Could not find atom " CD " of A:101 for chi2
+Could not find atom " CD " of A:143 for chi2
+Could not find atom " NZ " of A:173 for chi4
+Num exceptions = 3

@@ -1,0 +1,27 @@
+SMO /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/SMO/4N4W.pkl
+Could not find atom " CG " of A:47 for chi1
+Can't do adjustment - atoms are in a ring: 980, 983
+Can't do adjustment - atoms are in a ring: 1024, 1027
+Could not find atom " HG " of A:193 for chi2
+Could not find atom " CG " of A:194 for chi1
+Could not find atom " HG " of A:213 for chi2
+Could not find atom " HG " of A:217 for chi2
+Could not find atom " CG " of A:257 for chi1
+Could not find atom " CG " of A:261 for chi1
+Could not find atom " CG " of A:291 for chi1
+Could not find atom " HG " of A:295 for chi2
+Could not find atom " HG " of A:314 for chi2
+Could not find atom " CG " of A:344 for chi1
+Could not find atom " HG " of A:390 for chi2
+Could not find atom " CG " of A:430 for chi1
+Could not find atom " CG " of A:439 for chi1
+Could not find atom " CG " of A:446 for chi1
+Could not find atom " HG " of A:490 for chi2
+Could not find atom " HG " of A:507 for chi2
+Could not find atom " CD " of A:539 for chi2
+Could not find atom " CG " of A:546 for chi1
+Could not find atom " CG " of A:547 for chi1
+Could not find atom " OG1" of A:548 for chi1
+Could not find atom " SG " of A:550 for chi1
+Could not find atom " CG " of A:552 for chi1
+Num exceptions = 25

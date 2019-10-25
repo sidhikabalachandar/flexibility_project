@@ -1,0 +1,32 @@
+MEK1 /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/MEK1/3SLS.pkl
+Could not find atom " CG " of A:44 for chi1
+Could not find atom " CG " of A:48 for chi1
+Could not find atom " CG " of A:62 for chi1
+Could not find atom " CD " of A:64 for chi2
+Could not find atom " CE " of A:70 for chi3
+Could not find atom " CG1" of A:103 for chi1
+Could not find atom " CE " of A:103A for chi3
+Could not find atom " CG1" of A:107 for chi1
+Could not find atom " CG1" of A:111 for chi1
+Can't do adjustment - atoms are in a ring: 2400, 2403
+Can't do adjustment - atoms are in a ring: 2610, 2613
+Could not find atom " CG " of A:216 for chi1
+Could not find atom " CB " of A:220 for chi1
+Could not find atom " CB " of A:224 for chi1
+Could not find atom " CG1" of A:224A for chi1
+Could not find atom " CB " of A:382 for chi1
+Could not find atom " CD " of B:389 for chi2
+Could not find atom " CD " of B:397 for chi2
+Could not find atom " CG " of B:445 for chi1
+Could not find atom " CZ " of B:449 for chi4
+Could not find atom " CG " of B:454 for chi1
+Could not find atom " CE " of B:497 for chi3
+Can't do adjustment - atoms are in a ring: 6958, 6961
+Can't do adjustment - atoms are in a ring: 7168, 7171
+Could not find atom " N  " of B:559 for chi1
+Could not find atom " CA " of B:575 for chi1
+Could not find atom " N  " of B:575 for chi1
+Could not find atom " OG " of B:601 for chi1
+Could not find atom " NZ " of B:618 for chi4
+Could not find atom " CG " of B:647 for chi1
+Num exceptions = 30

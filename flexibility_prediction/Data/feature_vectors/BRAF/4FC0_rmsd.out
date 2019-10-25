@@ -1,0 +1,5 @@
+BRAF 4FC0 /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/BRAF/4FC0.pkl
+Could not find atom " CG " of A:467 for chi1
+Could not find atom " CG " of A:521 for chi1
+Could not find atom " CG " of B:521 for chi1
+Num exceptions = 3
