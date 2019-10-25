@@ -60,63 +60,16 @@ def get_all_res(s, rot_s):
             if r.secondary_structure == -1:
                 continue
 
-            try:
-                rotamer_lib = rotamers.Rotamers(rot_s, list(rot_r.atom)[0])
-                a_ls = r.getAtomList()
-                r_rmsd_ls = []
-                rmsd_ls = []
-                counter = 0
-
-                for k, rotamer in enumerate(list(rotamer_lib.rotamers)):
-                    rotamer.apply()
-                    rot_a_ls = rot_r.getAtomList()
-                    no_r_a_ls = [a.index for a in rot_s.atom if a.index not in rot_a_ls and a.chain != 'L']
-                    clash = steric_clash.clash_volume(rot_s, rot_a_ls, rot_s, no_r_a_ls)
-
-                    if 'LEU' in r.pdbres and r.resnum == 167:
-                        print(k, clash)
-
-                    if clash < cutoff:
-                        counter += 1
-                        r_rmsd_ls.append(rmsd.calculate_in_place_rmsd(s, a_ls, rot_s, rot_a_ls))
-
-                    rmsd_ls.append(rmsd.calculate_in_place_rmsd(s, a_ls, rot_s, rot_a_ls))
-
-                num_rots = len(rotamer_lib.rotamers)
-
-                if len(rotamer_lib.rotamers) == 0:
-                    avg_rot_rmsd = 0
-
-                else:
-                    avg_rot_rmsd = statistics.mean(rmsd_ls)
-
-                num_r_rots = len(r_rmsd_ls)
-
-                if len(r_rmsd_ls) == 0:
-                    avg_r_rot_rmsd = 0
-
-                else:
-                    avg_r_rot_rmsd = statistics.mean(r_rmsd_ls)
-
-            except Exception as e:
-                if 'ALA' not in r.pdbres and 'GLY' not in r.pdbres and 'PRO' not in r.pdbres:
-                    print(e)
-                    exception_counter += 1
-
-                num_rots = 0
-                avg_rot_rmsd = 0
-                num_r_rots = 0
-                avg_r_rot_rmsd = 0
-
             name = r.pdbres
             num = r.resnum
             bfactor = r.temperature_factor
-            normalized_bfactor = (r.temperature_factor - avg) / sdev
-            prevBfactor = (residues[(i - 1) % len(residues)].temperature_factor - avg) / sdev
-            nextBfactor = (residues[(i + 1) % len(residues)].temperature_factor - avg) / sdev
-            prev2Bfactor = (residues[(i - 2) % len(residues)].temperature_factor - avg) / sdev
-            next2Bfactor = (residues[(i + 2) % len(residues)].temperature_factor - avg) / sdev
-            mol_weight = sum(map(lambda x: x.atomic_weight, list(r.atom)))
+            normalized_bfactor = normalizedBFactor(residues, i, avg, sdev)
+            prevBfactor = normalizedBFactor(residues, i - 1, avg, sdev)
+            nextBfactor = normalizedBFactor(residues, i + 1, avg, sdev)
+            prev2Bfactor = normalizedBFactor(residues, i - 2, avg, sdev)
+            next2Bfactor = normalizedBFactor(residues, i + 2, avg, sdev)
+            mol_weight = molecularWeight(r)
+            (num_rots, avg_rot_rmsd, num_r_rots, avg_r_rot_rmsd) = rotamers(rot_s, rot_r, s, r, cutoff)
             sasa = analyze.calculate_sasa(s, r.atom)
             secondary_structure = r.secondary_structure
 
@@ -126,6 +79,94 @@ def get_all_res(s, rot_s):
 
     print("Num exceptions =", exception_counter)
     return r_dict
+
+
+'''
+This function finds the normalized bfactor for a particular residue
+:param residues: a list of all residues in the protein structure
+:param index: the index of the particular residue in question
+:param avg: the average bfactor over all residues in the protein structure
+:param sdev: the standard deviation calculated over all residues in the protein structure
+:return: the normalized bfactor value
+'''
+def normalizedBFactor(residues, index, avg, sdev):
+    return (residues[index % len(residues)].temperature_factor - avg) / sdev
+
+'''
+This function finds the molecular weight of a particular residue
+:param residue: a residue object corresponding to the residue in question
+:return: the molecular weight of the residue
+'''
+def molecularWeight(residue):
+    return sum(map(lambda x: x.atomic_weight, list(residue.atom)))
+
+
+'''
+This function finds the rotamer information of a particular residue
+:param rot_s: a structure object corresponding to the residue in question that will be mutated to the different rotamers
+:param rot_r: a structure object corresponding to the residue in question that will not be mutated to the different rotamers
+:param s: a structure object corresponding to the protein structure that will be mutated to the different rotamers
+:param r: a structure object corresponding to the protein structure that will not be mutated to the different rotamers
+:param cutoff: the cutoff for what is considered an acceptable rotamer option
+               if the clash of the rotamer and protein structure is less than cutoff then it is considered a viable rotamer option
+:return: the total number of available rotamers
+         the average rmsd between each available rotamer
+         the total number of viable rotamers
+         the average rmsd between each viable rotamer
+'''
+def rotamers(rot_s, rot_r, s, r, cutoff):
+    try:
+        rotamer_lib = rotamers.Rotamers(rot_s, list(rot_r.atom)[0])
+        a_ls = r.getAtomList()
+        r_rmsd_ls = []
+        rmsd_ls = []
+        counter = 0
+
+        for k, rotamer in enumerate(list(rotamer_lib.rotamers)):
+            rotamer.apply()
+            rot_a_ls = rot_r.getAtomList()
+            no_r_a_ls = [a.index for a in rot_s.atom if a.index not in rot_a_ls and a.chain != 'L']
+            clash = steric_clash.clash_volume(rot_s, rot_a_ls, rot_s, no_r_a_ls)
+
+            if 'LEU' in r.pdbres and r.resnum == 167:
+                print(k, clash)
+
+            if clash < cutoff:
+                counter += 1
+                r_rmsd_ls.append(rmsd.calculate_in_place_rmsd(s, a_ls, rot_s, rot_a_ls))
+
+            rmsd_ls.append(rmsd.calculate_in_place_rmsd(s, a_ls, rot_s, rot_a_ls))
+
+        num_rots = len(rotamer_lib.rotamers)
+        avg_rot_rmsd = safeAvg(num_rots, rmsd_ls)
+        num_r_rots = len(r_rmsd_ls)
+        avg_r_rot_rmsd = safeAvg(num_r_rots, r_rmsd_ls)
+
+    except Exception as e:
+        if 'ALA' not in r.pdbres and 'GLY' not in r.pdbres and 'PRO' not in r.pdbres:
+            print(e)
+
+        num_rots = 0
+        avg_rot_rmsd = 0
+        num_r_rots = 0
+        avg_r_rot_rmsd = 0
+
+    return (num_rots, avg_rot_rmsd, num_r_rots, avg_r_rot_rmsd)
+
+
+'''
+This function first checks if the number of elements is greater than 0, and only  then calculates the average
+:param num_elems: number of elements in the list
+:param ls: the list
+:return: 0 if there are no elements in the list
+         otherwise the average of the list
+'''
+def safeAvg(num_elems, ls):
+    if num_elems == 0:
+        return 0
+
+    else:
+        return statistics.mean(ls)
 
 
 '''
@@ -173,7 +214,7 @@ def create_feature_vector(protein, ligand, pickle_file, combind_root):
 
 if __name__ == '__main__':
     task = sys.argv[1]
-    combind_root = '/scratch/PI/rondror/combind/bpp_data/'
+    combind_root = '/oak/stanford/groups/rondror/projects/combind/bpp_data/'
     result_folder = '/home/users/sidhikab/flexibility_project/flexibility_prediction/Data'
     save_folder = result_folder + '/feature_vectors/'
     partition = 'owners'

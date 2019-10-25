@@ -194,17 +194,11 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 
 					if start < target:
 						(paired_str_s1, paired_str_s2) = paired_strs[start][target]
-						L1_mcss_data = mcss_data[mcss_data['L1'] == start]
-						mcss = L1_mcss_data[L1_mcss_data['L2'] == target].iat[0, 4]
-						start_atoms = L1_mcss_data[L1_mcss_data['L2'] == target].iat[0, 2]
-						target_atoms = L1_mcss_data[L1_mcss_data['L2'] == target].iat[0, 3]
 
 					else:
 						(paired_str_s2, paired_str_s1) = paired_strs[target][start]
-						L1_mcss_data = mcss_data[mcss_data['L1'] == target]
-						mcss = L1_mcss_data[L1_mcss_data['L2'] == start].iat[0, 4]
-						start_atoms = L1_mcss_data[L1_mcss_data['L2'] == start].iat[0, 3]
-						target_atoms = L1_mcss_data[L1_mcss_data['L2'] == start].iat[0, 2]
+
+					(ligSim, ligSimRatio, ligSizeDiff, ligSizeRatio) = ligSimMetrics(start, target, mcss_data)
 
 					r_list_s1 = get_all_res(s1)
 					r_list_s2 = get_all_res(s2)
@@ -267,16 +261,42 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 							feature = ASL_to_feature[asl_list_s1[k]]
 							writer.writerow([protein, start, target, feature[0], feature[1], feature[2], feature[3],
 											 feature[4], feature[5], feature[6], feature[7], feature[8], feature[9],
-											 feature[10], feature[11], feature[12],feature[13], feature[14], mcss,
-											 mcss / start_atoms, start_atoms - target_atoms, start_atoms / target_atoms,
-											 rmsd_val, backbone_rmsd_val, sidechain_rmsd_val])
+											 feature[10], feature[11], feature[12],feature[13], feature[14], ligSim,
+											 ligSimRatio, ligSizeDiff, ligSizeRatio, rmsd_val, backbone_rmsd_val,
+											 sidechain_rmsd_val])
+
+
+'''
+find the various similarity metrics between the starting and target ligands
+:param start: name of the starting ligand
+:param target: name of the target ligand
+:param mcss_data: data frame containing all of the mcss data for the protein corresponding to start and target
+:return: the mcss between start and target
+		 the ratio of the mcss to the size of start
+		 the difference in size between start and target
+		 the ratio of the size of start to the size of target
+'''
+def ligSimMetrics(start, target, mcss_data):
+	if start < target:
+		L1_mcss_data = mcss_data[mcss_data['L1'] == start]
+		mcss = L1_mcss_data[L1_mcss_data['L2'] == target].iat[0, 4]
+		start_atoms = L1_mcss_data[L1_mcss_data['L2'] == target].iat[0, 2]
+		target_atoms = L1_mcss_data[L1_mcss_data['L2'] == target].iat[0, 3]
+
+	else:
+		L1_mcss_data = mcss_data[mcss_data['L1'] == target]
+		mcss = L1_mcss_data[L1_mcss_data['L2'] == start].iat[0, 4]
+		start_atoms = L1_mcss_data[L1_mcss_data['L2'] == start].iat[0, 3]
+		target_atoms = L1_mcss_data[L1_mcss_data['L2'] == start].iat[0, 2]
+
+	return (mcss, mcss / start_atoms, start_atoms - target_atoms, start_atoms / target_atoms)
 
 
 
 if __name__ == '__main__':
 	max_ligands = 25
 	task = sys.argv[1]
-	combind_root = '/scratch/PI/rondror/combind/bpp_data/'
+	combind_root = '/oak/stanford/groups/rondror/projects/combind/bpp_data/'
 	result_folder = '/home/users/sidhikab/flexibility_project/flexibility_prediction/Data'
 	save_folder = result_folder+'/rmsds/'
 	partition = 'owners'
