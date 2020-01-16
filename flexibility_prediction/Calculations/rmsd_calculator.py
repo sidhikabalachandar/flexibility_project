@@ -165,6 +165,7 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 						 'prev prev bfactor', 'prev bfactor', 'next bfactor', 'next next bfactor', 'mol weight',
 						 'general number of rotamers', 'general avg rmsd of rotamers', 'specific number of rotamers',
 						 'specific avg rmsd of rotamers', 'solvent accessibility', 'secondary structure',
+						 'x', 'y', 'z',
 						 'ligand similarity', 'ligand similarity ratio', 'ligand size difference', 'ligand size ratio',
 						 'complete rmsd', 'backbone rmsd', 'sidechain rmsd'])
 
@@ -261,7 +262,8 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 							feature = ASL_to_feature[asl_list_s1[k]]
 							writer.writerow([protein, start, target, feature[0], feature[1], feature[2], feature[3],
 											 feature[4], feature[5], feature[6], feature[7], feature[8], feature[9],
-											 feature[10], feature[11], feature[12],feature[13], feature[14], ligSim,
+											 feature[10], feature[11], feature[12],feature[13], feature[14],
+											 feature[15], feature[16], feature[17], ligSim,
 											 ligSimRatio, ligSizeDiff, ligSizeRatio, rmsd_val, backbone_rmsd_val,
 											 sidechain_rmsd_val])
 
@@ -297,21 +299,22 @@ if __name__ == '__main__':
 	max_ligands = 25
 	task = sys.argv[1]
 	combind_root = '/oak/stanford/groups/rondror/projects/combind/bpp_data/'
-	result_folder = '/home/users/sidhikab/flexibility_project/flexibility_prediction/Data'
+	result_folder = '/home/users/lxpowers/projects/combind/flexibility/flex_new/flexibility_project/flexibility_prediction/Data'
 	save_folder = result_folder+'/rmsds/'
-	partition = 'owners'
+	partition = 'rondror'
 
 	if task == 'all':
 		proteins = get_proteins(combind_root)
+		proteins = ['MAPK14', 'MEK1', 'HSP90AA1']
 		#submit jobs for each protein
-		cmd = 'sbatch -p {} -t 1:00:00 -o {}_rmsd.out --wrap="$SCHRODINGER/run python3 rmsd_calculator.py protein {}"'
+		cmd = 'sbatch -J {} -p {} -t 1:00:00 -o {}_rmsd.out --wrap="$SCHRODINGER/run python3 rmsd_calculator.py protein {}"'
 		for prot_name in proteins:
 			print(prot_name)
-			if not os.path.exists(save_folder + '{}_rmsds.csv'.format(prot_name)):
-				os.system(cmd.format(partition, save_folder + '/' + prot_name, prot_name))
-				time.sleep(0.5)
-			else:
-				print("Exists")
+			#if not os.path.exists(save_folder + '{}_rmsds.csv'.format(prot_name)):
+			os.system(cmd.format(prot_name, partition, save_folder + '/' + prot_name, prot_name))
+			time.sleep(0.5)
+			#else:
+			#	print("Exists")
 
 	if task == 'protein':
 		protein = sys.argv[2]

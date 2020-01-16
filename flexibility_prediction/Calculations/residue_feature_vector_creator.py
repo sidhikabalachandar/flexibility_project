@@ -72,10 +72,11 @@ def get_all_res(s, rot_s):
             (num_rots, avg_rot_rmsd, num_r_rots, avg_r_rot_rmsd) = rotamers(rot_s, rot_r, s, r, cutoff)
             sasa = analyze.calculate_sasa(s, r.atom)
             secondary_structure = r.secondary_structure
-
+            #need to get the xyz position of residue
+            position = r.getAlphaCarbon().xyz
             r_dict[r.getAsl()] = (name, num, bfactor, normalized_bfactor, prevBfactor, prev2Bfactor,
                                   nextBfactor, next2Bfactor, mol_weight, num_rots, avg_rot_rmsd, num_r_rots,
-                                  avg_r_rot_rmsd, sasa, secondary_structure)
+                                  avg_r_rot_rmsd, sasa, secondary_structure, position[0], position[1], position[2])
 
     print("Num exceptions =", exception_counter)
     return r_dict
@@ -207,6 +208,7 @@ def create_feature_vector(protein, ligand, pickle_file, combind_root):
     s = list(StructureReader(combind_root + ending_1))[0]
     rot_s = list(StructureReader(combind_root + '/' + ending_1))[0]
     residues = get_all_res(s, rot_s)
+    print(residues)
     outfile = open(pickle_file, 'wb')
     pickle.dump(residues, outfile)
     outfile.close()
@@ -215,15 +217,17 @@ def create_feature_vector(protein, ligand, pickle_file, combind_root):
 if __name__ == '__main__':
     task = sys.argv[1]
     combind_root = '/oak/stanford/groups/rondror/projects/combind/bpp_data/'
-    result_folder = '/home/users/sidhikab/flexibility_project/flexibility_prediction/Data'
+    result_folder = '/home/users/lxpowers/projects/combind/flexibility/flex_new/flexibility_project/flexibility_prediction/Data'
     save_folder = result_folder + '/feature_vectors/'
-    partition = 'owners'
+    partition = 'rondror'
     max_ligands = 25
 
     if task == 'all':
         proteins = get_proteins(combind_root)
+        print(proteins)
+        proteins = ['MAPK14', 'MEK1'] #'HSP90AA1',
         #submit jobs for each protein
-        cmd = 'sbatch -p {} -t 1:00:00 -o {}_rmsd.out --wrap="$SCHRODINGER/run python3 residue_feature_vector_creator.py  protein {} ligand {}"'
+        cmd = 'sbatch -p {} -t 0:20:00 -o {}_rmsd.out --wrap="$SCHRODINGER/run python3 residue_feature_vector_creator.py  protein {} ligand {}"'
         for prot_name in proteins:
             protein_save_folder = save_folder + prot_name
             os.system('mkdir -p {}'.format(protein_save_folder))
@@ -232,6 +236,7 @@ if __name__ == '__main__':
             for lig_name in ligands:
                 print(lig_name)
                 if not os.path.exists(protein_save_folder + '/' + lig_name):
+                    print(cmd.format(partition, protein_save_folder + '/' + lig_name, prot_name, lig_name))
                     os.system(cmd.format(partition, protein_save_folder + '/' + lig_name, prot_name, lig_name))
                     time.sleep(0.5)
                 else:
