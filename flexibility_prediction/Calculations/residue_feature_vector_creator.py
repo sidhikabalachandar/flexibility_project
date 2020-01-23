@@ -225,7 +225,7 @@ if __name__ == '__main__':
     if task == 'all':
         proteins = get_proteins(combind_root)
         print(proteins)
-        proteins = ['MAPK14', 'MEK1'] #'HSP90AA1',
+        proteins = ['MAPK14', 'MEK1'] #'HSP90AA1']
         #submit jobs for each protein
         cmd = 'sbatch -p {} -t 0:20:00 -o {}_rmsd.out --wrap="$SCHRODINGER/run python3 residue_feature_vector_creator.py  protein {} ligand {}"'
         for prot_name in proteins:

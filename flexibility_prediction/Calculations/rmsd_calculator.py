@@ -174,7 +174,7 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 		infile.close()
 
 		for start in ligands:
-			ASL_to_feature_path = '../Data/feature_vectors/' + protein + '/' + start + '.pkl'
+			ASL_to_feature_path = '../Data/feature_vectors_packing/' + protein + '/' + start + '.pkl'
 
 			if not os.path.exists(ASL_to_feature_path):
 				print(ASL_to_feature_path)
@@ -303,6 +303,7 @@ if __name__ == '__main__':
 
 	if task == 'all':
 		proteins = get_proteins(combind_root)
+		proteins = ['MAPK14', 'MEK1']
 		#submit jobs for each protein
 		cmd = 'sbatch -p {} -t 1:00:00 -o {}_rmsd.out --wrap="$SCHRODINGER/run python3 rmsd_calculator.py protein {}"'
 		for prot_name in proteins:
