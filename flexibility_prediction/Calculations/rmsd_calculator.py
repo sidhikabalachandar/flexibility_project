@@ -299,7 +299,7 @@ if __name__ == '__main__':
 	combind_root = '/oak/stanford/groups/rondror/projects/combind/bpp_data/'
 	result_folder = '/home/users/sidhikab/flexibility_project/flexibility_prediction/Data'
 	save_folder = result_folder+'/rmsds_packing/'
-	partition = 'owners'
+	partition = 'rondror'
 
 	if task == 'all':
 		proteins = get_proteins(combind_root)
