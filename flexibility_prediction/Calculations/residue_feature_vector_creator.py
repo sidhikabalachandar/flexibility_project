@@ -218,7 +218,7 @@ if __name__ == '__main__':
     task = sys.argv[1]
     combind_root = '/oak/stanford/groups/rondror/projects/combind/bpp_data/'
     result_folder = '/home/users/sidhikab/flexibility_project/flexibility_prediction/Data'
-    save_folder = result_folder + '/feature_vectors/'
+    save_folder = result_folder + '/feature_vectors_packing/'
     partition = 'rondror'
     max_ligands = 25
 
