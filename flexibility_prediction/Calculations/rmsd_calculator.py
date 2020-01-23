@@ -164,7 +164,7 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 		writer.writerow(['protein', 'start ligand', 'target ligand', 'name', 'num', 'bfactor', 'normalized bfactor',
 						 'prev prev bfactor', 'prev bfactor', 'next bfactor', 'next next bfactor', 'mol weight',
 						 'general number of rotamers', 'general avg rmsd of rotamers', 'specific number of rotamers',
-						 'specific avg rmsd of rotamers', 'solvent accessibility', 'secondary structure',
+						 'specific avg rmsd of rotamers', 'packing', 'solvent accessibility', 'secondary structure',
 						 'ligand similarity', 'ligand similarity ratio', 'ligand size difference', 'ligand size ratio',
 						 'complete rmsd', 'backbone rmsd', 'sidechain rmsd'])
 
@@ -261,7 +261,7 @@ def compute_protein_rmsds(protein, rmsd_file, combind_root):
 							feature = ASL_to_feature[asl_list_s1[k]]
 							writer.writerow([protein, start, target, feature[0], feature[1], feature[2], feature[3],
 											 feature[4], feature[5], feature[6], feature[7], feature[8], feature[9],
-											 feature[10], feature[11], feature[12],feature[13], feature[14], ligSim,
+											 feature[10], feature[11], feature[12],feature[13], feature[14], feature[15], ligSim,
 											 ligSimRatio, ligSizeDiff, ligSizeRatio, rmsd_val, backbone_rmsd_val,
 											 sidechain_rmsd_val])
 

@@ -14,6 +14,7 @@ import schrodinger.structutils.analyze as analyze
 from schrodinger.protein import rotamers
 import schrodinger.structutils.rmsd as rmsd
 from schrodinger.structutils.interactions import steric_clash
+from schrodinger.structutils import measure
 import sys
 import time
 
@@ -70,15 +71,32 @@ def get_all_res(s, rot_s):
             next2Bfactor = normalizedBFactor(residues, i + 2, avg, sdev)
             mol_weight = molecularWeight(r)
             (num_rots, avg_rot_rmsd, num_r_rots, avg_r_rot_rmsd) = rotamers(rot_s, rot_r, s, r, cutoff)
+            packingVal = packing(s, r)
             sasa = analyze.calculate_sasa(s, r.atom)
             secondary_structure = r.secondary_structure
 
             r_dict[r.getAsl()] = (name, num, bfactor, normalized_bfactor, prevBfactor, prev2Bfactor,
                                   nextBfactor, next2Bfactor, mol_weight, num_rots, avg_rot_rmsd, num_r_rots,
-                                  avg_r_rot_rmsd, sasa, secondary_structure)
+                                  avg_r_rot_rmsd, packingVal, sasa, secondary_structure)
 
     print("Num exceptions =", exception_counter)
     return r_dict
+
+
+#questions: should ligand atoms be excluded?
+def packing(struct, residue):
+    cutoff = 5
+    packingVal = 0
+    for a in residue.getAtomList():
+        for neighbor in measure.get_atoms_close_to_subset(struct, [a], cutoff):
+            if struct.atom[neighbor].chain == 'L' or (struct.atom[a].pdbcode == struct.atom[neighbor].pdbcode and
+                struct.atom[a].chain == struct.atom[neighbor].chain and
+                struct.atom[a].resnum == struct.atom[neighbor].resnum and
+                struct.atom[a].inscode == struct.atom[neighbor].inscode):
+                continue
+            packingVal += 1 / rmsd.calculate_in_place_rmsd(struct, [a], struct, [neighbor])
+
+    return packingVal
 
 
 '''
@@ -214,9 +232,11 @@ def create_feature_vector(protein, ligand, pickle_file, combind_root):
 
 if __name__ == '__main__':
     task = sys.argv[1]
+    #save folder: scratch/groups/rondror/combind/flexibility
     combind_root = '/oak/stanford/groups/rondror/projects/combind/bpp_data/'
     result_folder = '/home/users/sidhikab/flexibility_project/flexibility_prediction/Data'
     save_folder = result_folder + '/feature_vectors/'
+    #change partition to rondror
     partition = 'owners'
     max_ligands = 25
 
