@@ -303,7 +303,6 @@ if __name__ == '__main__':
 
 	if task == 'all':
 		proteins = get_proteins(combind_root)
-		proteins = ['MAPK14', 'MEK1']
 		#submit jobs for each protein
 		cmd = 'sbatch -p {} -t 1:00:00 -o {}_rmsd.out --wrap="$SCHRODINGER/run python3 rmsd_calculator.py protein {}"'
 		for prot_name in proteins:
