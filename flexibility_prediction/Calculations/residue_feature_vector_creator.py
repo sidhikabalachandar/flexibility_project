@@ -217,7 +217,7 @@ def create_feature_vector(protein, ligand, pickle_file, combind_root):
 if __name__ == '__main__':
     task = sys.argv[1]
     combind_root = '/oak/stanford/groups/rondror/projects/combind/bpp_data/'
-    result_folder = '/home/users/lxpowers/projects/combind/flexibility/flex_new/flexibility_project/flexibility_prediction/Data'
+    result_folder = '/home/users/sidhikab/flexibility_project/flexibility_prediction/Data'
     save_folder = result_folder + '/feature_vectors/'
     partition = 'rondror'
     max_ligands = 25
