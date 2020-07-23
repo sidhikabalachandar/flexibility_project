@@ -1,0 +1,9 @@
+ERA /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/ERA/1GWQ.pkl
+Could not find atom " CG " of A:462 for chi1
+Could not find atom " CG " of A:533N for chi1
+Could not find atom " OG " of B:462A for chi1
+Could not find atom " CG " of B:548 for chi1
+Could not find atom " CG " of C:549 for chi1
+Could not find atom " CG " of C:557 for chi1
+Could not find atom " CG " of D:558 for chi1
+Num exceptions = 7

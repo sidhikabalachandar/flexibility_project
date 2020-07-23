@@ -1,11 +1,12 @@
 '''
-This protocol can be used to find the rmsd between every pair of protein structures
+This protocol can be used to find the rmsd between the residues in the binding pocket of every pair of structures of a protein
 Only the residues within 4 angstroms of either structures' ligands are considered
+
+how to run this file:
+ml load chemistry
+ml load schrodinger
+$SCHRODINGER/run python3 rmsd_calculator.py
 '''
-# how to run this file:
-# ml load chemistry
-# ml load schrodinger
-# $SCHRODINGER/run python3 rmsd_calculator.py
 
 from schrodinger.structure import StructureReader
 import schrodinger.structutils.measure as measure
@@ -18,6 +19,8 @@ import pickle
 '''
 This function gets the pdbcode, chain, resnum, and inscode of every residue in the protein structure
 It ignores any residues associated with the ligand
+:param s: the protein structure 
+:return: the list of every residue's pdbcode, chain, resnum, and inscode
 '''
 def get_all_res(s):
 	r_list = []
@@ -32,10 +35,11 @@ def get_all_res(s):
 '''
 Maps unique residue identifiers to list index in alignment string
 
-alignment_string: (string) output from alignment program, contains one letter codes and dashes
+:param alignment_string: (string) output from alignment program, contains one letter codes and dashes
 	example: 'TE--S--T-'
-r_list: list of unique identifiers of each residue in order of sequence
+:param r_list: list of unique identifiers of each residue in order of sequence
 	number of residues in r_list must be equal to number of residues in alignment_string
+:return: the map of residues to alignment_string index
 '''
 def map_residues_to_align_index(alignment_string, r_list):
 	r_to_i_map = {}
@@ -52,6 +56,8 @@ def map_residues_to_align_index(alignment_string, r_list):
 '''
 This function inverses an input map
 The keys become values and vice versa
+:param m: the map
+:return: the inversed map
 '''
 def inv_map(m):
 	return {v: k for k, v in m.items()}
@@ -59,6 +65,8 @@ def inv_map(m):
 
 '''
 This function gets the unique identifier for all residues within 4 angstroms of the ligand
+:param s: the protein structure
+:return: a list of information for all residues within 4 angstroms of the ligand
 '''
 def get_res_near_ligand(s):
 	cutoff = 4
@@ -71,6 +79,9 @@ def get_res_near_ligand(s):
 
 '''
 This function gets the atom list corresponding to a given list of unique residue identifiers from a given protein structure
+:param s: the protein structure
+:param final_r_list: the list of residues being compared between the two protein structures
+:return: a list of atoms for each residue
 '''
 def get_atom_list(s, final_r_list):
 	complete_a_list = []
@@ -84,77 +95,79 @@ def get_atom_list(s, final_r_list):
 	return complete_a_list
 
 
-folder = '/scratch/PI/rondror/combind/bpp_data/MAPK14/structures/aligned_files/'
-ligands = os.listdir(folder)
-ligands.remove("4DLI")
+if __name__ == '__main__':
+	folder = '/scratch/PI/rondror/combind/bpp_data/MAPK14/structures/aligned_files/'
+	ligands = os.listdir(folder)
+	ligands.remove("4DLI")
+	infile = open('MAPK14_pairwise_alignment','rb')
+	paired_strs = pickle.load(infile)
+	infile.close()
+	rmsds = []
 
-infile = open('MAPK14_pairwise_alignment','rb')
-paired_strs = pickle.load(infile)
-infile.close()
+	for i in range(len(ligands)):
+		ending_1 = '{}/{}_out.mae'.format(ligands[i], ligands[i])
+		s1 = list(StructureReader(folder + ending_1))[0]
+		arr = []
 
-rmsds = []
+		for j in range(len(ligands)):
 
-for i in range(len(ligands)):
-	ending_1 = '{}/{}_out.mae'.format(ligands[i], ligands[i])
-	s1 = list(StructureReader(folder + ending_1))[0]
+			#to monitor progress
+			print(i, ligands[i], j, ligands[j])
+			ending_2 = '{}/{}_out.mae'.format(ligands[j], ligands[j])
+			s2 = list(StructureReader(folder + ending_2))[0]
 
-	arr = []
+			(paired_str_s1, paired_str_s2) = paired_strs[i][j]
 
-	for j in range(len(ligands)):
-		#to monitor progress
-		print(i, ligands[i], j, ligands[j])
+			r_list_s1 = get_all_res(s1)
+			r_list_s2 = get_all_res(s2)
 
-		ending_2 = '{}/{}_out.mae'.format(ligands[j], ligands[j])
-		s2 = list(StructureReader(folder + ending_2))[0]
+			r_to_i_map_s1 = map_residues_to_align_index(paired_str_s1, r_list_s1)
+			r_to_i_map_s2 = map_residues_to_align_index(paired_str_s2, r_list_s2)
+			i_to_r_map_s1 = inv_map(r_to_i_map_s1)
+			i_to_r_map_s2 = inv_map(r_to_i_map_s2)
 
-		(paired_str_s1, paired_str_s2) = paired_strs[i][j]
+			valid_r_s1 = get_res_near_ligand(s1)
+			valid_r_s2 = get_res_near_ligand(s2)
 
-		r_list_s1 = get_all_res(s1)
-		r_list_s2 = get_all_res(s2)
+			final_r_list_s1 = []
+			final_r_list_s2 = []
 
-		r_to_i_map_s1 = map_residues_to_align_index(paired_str_s1, r_list_s1)
-		r_to_i_map_s2 = map_residues_to_align_index(paired_str_s2, r_list_s2)
-		i_to_r_map_s1 = inv_map(r_to_i_map_s1)
-		i_to_r_map_s2 = inv_map(r_to_i_map_s2)
+			for r in valid_r_s1:
+				s1index = r_to_i_map_s1[r]
 
-		valid_r_s1 = get_res_near_ligand(s1)
-		valid_r_s2 = get_res_near_ligand(s2)
+				if paired_str_s1[s1index] == paired_str_s2[s1index]:
+					if r not in final_r_list_s1:
+						final_r_list_s1.append(r)
 
-		final_r_list_s1 = []
-		final_r_list_s2 = []
+					if i_to_r_map_s2[s1index] not in final_r_list_s2:
+						final_r_list_s2.append(i_to_r_map_s2[s1index])
 
-		for r in valid_r_s1:
-			s1index = r_to_i_map_s1[r]
-			if paired_str_s1[s1index] == paired_str_s2[s1index]:
-				if r not in final_r_list_s1:
-					final_r_list_s1.append(r)
-				if i_to_r_map_s2[s1index] not in final_r_list_s2:
-					final_r_list_s2.append(i_to_r_map_s2[s1index])
+			for r in valid_r_s2:
+				s2index = r_to_i_map_s2[r]
 
-		for r in valid_r_s2:
-			s2index = r_to_i_map_s2[r]
-			if paired_str_s2[s2index] == paired_str_s1[s2index]:
-				if r not in final_r_list_s2:
-					final_r_list_s2.append(r)
-				if i_to_r_map_s1[s2index] not in final_r_list_s1:
-					final_r_list_s1.append(i_to_r_map_s1[s2index])
+				if paired_str_s2[s2index] == paired_str_s1[s2index]:
+					if r not in final_r_list_s2:
+						final_r_list_s2.append(r)
 
-		a_list_s1 = get_atom_list(s1, final_r_list_s1)
-		a_list_s2 = get_atom_list(s2, final_r_list_s2)
+					if i_to_r_map_s1[s2index] not in final_r_list_s1:
+						final_r_list_s1.append(i_to_r_map_s1[s2index])
 
-		final_a_list_s1 = []
-		final_a_list_s2 = []
+			a_list_s1 = get_atom_list(s1, final_r_list_s1)
+			a_list_s2 = get_atom_list(s2, final_r_list_s2)
 
-		for k in range(len(a_list_s1)):
-			if len(a_list_s1[k]) == len(a_list_s2[k]):
-				final_a_list_s1 += a_list_s1[k]
-				final_a_list_s2 += a_list_s2[k]
+			final_a_list_s1 = []
+			final_a_list_s2 = []
 
-		arr.append(rmsd.superimpose(s1, final_a_list_s1, s2, final_a_list_s2))
+			for k in range(len(a_list_s1)):
+				if len(a_list_s1[k]) == len(a_list_s2[k]):
+					final_a_list_s1 += a_list_s1[k]
+					final_a_list_s2 += a_list_s2[k]
 
-	rmsds.append(arr)
+			arr.append(rmsd.superimpose(s1, final_a_list_s1, s2, final_a_list_s2))
 
-print(rmsds)
-outfile = open('/home/users/sidhikab/MAPK14_pairwise_struc_rmsds', 'wb')
-pickle.dump(rmsds, outfile)
-outfile.close()
+		rmsds.append(arr)
+
+	print(rmsds)
+	outfile = open('/home/users/sidhikab/MAPK14_pairwise_struc_rmsds', 'wb')
+	pickle.dump(rmsds, outfile)
+	outfile.close()

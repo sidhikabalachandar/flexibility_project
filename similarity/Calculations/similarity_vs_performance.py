@@ -1,11 +1,9 @@
 """
-The purpose of this code is to collect the poses from crystal structures, glide docking, and combind docking
-and aggregate into a single .mae file.
-This file uses schrodinger structure library to read and save structure files.
+This file obtains the tanimoto coefficient for every pair of structures for MAPK14
 It can be run on sherlock using
 $ ml load chemistry
 $ ml load schrodinger
-$ $SCHRODINGER/run python3 aggregate_ligand_poses.py
+$ $SCHRODINGER/run python3 similarity_vs_performance.py
 """
 
 import os
@@ -14,8 +12,13 @@ from schrodinger.structure import StructureReader
 from schrodinger.application.canvas.fingerprint import CanvasFingerprintGenerator
 from schrodinger.application.canvas.similarity import CanvasFingerprintSimilarity
 import pickle
-import matplotlib.pyplot as plt
 
+
+'''
+Obtains the tanimoto coefficient for every pair of structures for MAPK14 and pickles them
+:param grid: path to the grid files of the MAPK14 structures
+:return:
+'''
 def docking(grid):
 
     ligands = os.listdir(grid)

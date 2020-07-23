@@ -1,0 +1,10 @@
+MEK1 /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/rmsds/MEK1_rmsds.csv
+Start 1S9J
+Traceback (most recent call last):
+  File "rmsd_calculator.py", line 260, in <module>
+    compute_protein_rmsds(protein, rmsd_file, combind_root)
+  File "rmsd_calculator.py", line 219, in compute_protein_rmsds
+    (asl_list_s1, a_list_s1, backbone_a_list_s1, sidechain_a_list_s1) = get_atoms(s1, final_r_list_s1)
+  File "rmsd_calculator.py", line 100, in get_atoms
+    backbone_a_list.append([r.getAlphaCarbon().index])
+AttributeError: 'NoneType' object has no attribute 'index'

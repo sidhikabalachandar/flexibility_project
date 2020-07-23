@@ -1,0 +1,20 @@
+B2AR 5X7D /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/B2AR/5X7D.pkl
+Could not find atom " HG " of A:106 for chi2
+0 52.97124531633727
+1 31.971372679175943
+2 68.85013952121727
+3 40.06683146722963
+4 43.47331981610747
+5 43.79217535609049
+6 53.63962813497361
+7 54.004819861012926
+8 30.849004918012515
+9 33.57628331513187
+10 39.031092045533555
+Could not find atom " HG " of A:184 for chi2
+Could not find atom " HG " of A:190 for chi2
+Could not find atom " HG " of A:191 for chi2
+Could not find atom " HG " of A:265 for chi2
+Could not find atom " CG " of A:304 for chi1
+There is no rotamer information for residue 8VS 
+Num exceptions = 7

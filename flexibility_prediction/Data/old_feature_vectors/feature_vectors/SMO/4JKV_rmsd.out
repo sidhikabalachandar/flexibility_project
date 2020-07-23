@@ -1,0 +1,48 @@
+SMO /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/SMO/4JKV.pkl
+Could not find atom " CG " of A:5 for chi1
+Could not find atom " CG " of A:15 for chi1
+Could not find atom " HG " of A:193 for chi2
+Could not find atom " CG " of A:194 for chi1
+Could not find atom " HG " of A:213 for chi2
+Could not find atom " HG " of A:217 for chi2
+Could not find atom " CG " of A:257 for chi1
+Could not find atom " CG " of A:291 for chi1
+Could not find atom " HG " of A:295 for chi2
+Could not find atom " HG " of A:314 for chi2
+Could not find atom " CG " of A:356 for chi1
+Could not find atom " HG " of A:390 for chi2
+Could not find atom " CG " of A:439 for chi1
+Could not find atom " HG " of A:490 for chi2
+Could not find atom " CG " of A:493 for chi1
+Could not find atom " HG " of A:507 for chi2
+Could not find atom " CG " of A:508 for chi1
+Could not find atom " CG " of A:539 for chi1
+Could not find atom " CG " of A:546 for chi1
+Could not find atom " CG " of A:547 for chi1
+Could not find atom " OG1" of A:548 for chi1
+Could not find atom " HG " of B:193 for chi2
+Could not find atom " CG " of B:194 for chi1
+Could not find atom " HG " of B:213 for chi2
+Could not find atom " HG " of B:217 for chi2
+Could not find atom " CG " of B:257 for chi1
+Could not find atom " CG " of B:258 for chi1
+Could not find atom " CG " of B:261 for chi1
+Could not find atom " HG " of B:295 for chi2
+Could not find atom " HG " of B:314 for chi2
+Could not find atom " CG " of B:344 for chi1
+Could not find atom " CG " of B:346 for chi1
+Could not find atom " CG " of B:356 for chi1
+Could not find atom " HG " of B:390 for chi2
+Could not find atom " CG " of B:444 for chi1
+Could not find atom " CG1" of B:445 for chi1
+Could not find atom " CG " of B:449 for chi1
+Could not find atom " HG " of B:490 for chi2
+Could not find atom " CG " of B:493 for chi1
+Could not find atom " HG " of B:507 for chi2
+Could not find atom " CG " of B:539 for chi1
+Could not find atom " CG " of B:547 for chi1
+Could not find atom " OG1" of B:548 for chi1
+Could not find atom " SG " of B:550 for chi1
+Could not find atom " CG " of B:551 for chi1
+Could not find atom " CG " of B:552 for chi1
+Num exceptions = 46

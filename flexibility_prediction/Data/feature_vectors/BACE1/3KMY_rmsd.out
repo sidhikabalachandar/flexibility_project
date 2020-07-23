@@ -1,0 +1,26 @@
+BACE1 3KMY /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/BACE1/3KMY.pkl
+Could not find atom " CG " of A:-352 for chi1
+Could not find atom " HG " of A:-189 for chi2
+Could not find atom " HG " of A:-127 for chi2
+Could not find atom " HG " of A:-75 for chi2
+Could not find atom " HG " of A:-25 for chi2
+Could not find atom " HG " of A:15 for chi2
+Could not find atom " HG " of A:38 for chi2
+Could not find atom " HG " of B:155 for chi2
+0 32.9472204413514
+1 29.04174856724723
+2 34.648744629298314
+3 30.340691643871715
+4 31.405629770333025
+5 29.04174856724723
+6 30.235970120221527
+7 29.04174856724723
+8 29.154816512962523
+9 29.04174856724723
+10 35.82109725786754
+Could not find atom " HG " of B:217 for chi2
+Could not find atom " HG " of B:269 for chi2
+Could not find atom " HG " of B:319 for chi2
+Could not find atom " HG " of B:359 for chi2
+Could not find atom " HG " of B:382 for chi2
+Num exceptions = 13

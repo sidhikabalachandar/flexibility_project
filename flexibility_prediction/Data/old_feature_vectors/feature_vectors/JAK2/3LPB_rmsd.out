@@ -1,0 +1,62 @@
+JAK2 /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/JAK2/3LPB.pkl
+Could not find atom " CG " of A:843 for chi1
+Could not find atom " CZ " of A:847 for chi4
+There is no rotamer information for residue HIE 
+Could not find atom " CE " of A:857 for chi3
+Could not find atom " CE " of A:883 for chi3
+There is no rotamer information for residue HID 
+Could not find atom " OG " of A:887 for chi1
+Could not find atom " CG " of A:889 for chi1
+Could not find atom " CG " of A:890 for chi1
+Could not find atom " CD " of A:893 for chi2
+Could not find atom " CD " of A:897 for chi2
+Could not find atom " OE1" of A:906 for chi3
+There is no rotamer information for residue HIE 
+Could not find atom " CG " of A:924 for chi1
+Could not find atom " CE " of A:926 for chi3
+Could not find atom " CD " of A:943 for chi2
+Could not find atom " NZ " of A:945 for chi4
+Could not find atom " CG " of A:947 for chi1
+There is no rotamer information for residue HIE 
+There is no rotamer information for residue HIE 
+Could not find atom " CG " of A:1003 for chi1
+There is no rotamer information for residue PTR 
+There is no rotamer information for residue PTR 
+Could not find atom " CG " of A:1015 for chi1
+Could not find atom " CE " of A:1053 for chi3
+Could not find atom " CG1" of A:1065 for chi1
+Could not find atom " CG " of A:1072 for chi1
+Could not find atom " CG " of A:1073 for chi1
+Could not find atom " CG1" of A:1074 for chi1
+Could not find atom " CG " of A:1083 for chi1
+Could not find atom " OG " of B:839 for chi1
+Could not find atom " CG " of B:840 for chi1
+Could not find atom " CG " of B:845 for chi1
+Could not find atom " CZ " of B:847 for chi4
+There is no rotamer information for residue HIE 
+Could not find atom " CG " of B:850 for chi1
+Could not find atom " CD " of B:857 for chi2
+Could not find atom " CG " of B:859 for chi1
+Could not find atom " CG " of B:874 for chi1
+Could not find atom " CG " of B:877 for chi1
+There is no rotamer information for residue HIE 
+Could not find atom " CG " of B:890 for chi1
+Could not find atom " CD " of B:896 for chi2
+Could not find atom " CZ " of B:897 for chi4
+There is no rotamer information for residue HIE 
+Could not find atom " CE " of B:912 for chi3
+Could not find atom " CG " of B:924 for chi1
+Could not find atom " CE " of B:945 for chi3
+There is no rotamer information for residue HIE 
+There is no rotamer information for residue HIE 
+Could not find atom " CD " of B:1003 for chi2
+Could not find atom " CE " of B:1005 for chi3
+There is no rotamer information for residue PTR 
+There is no rotamer information for residue PTR 
+Could not find atom " CG " of B:1011 for chi1
+Could not find atom " CG " of B:1015 for chi1
+Could not find atom " OG " of B:1029 for chi1
+Could not find atom " CG " of B:1053 for chi1
+Could not find atom " CG " of B:1070 for chi1
+Could not find atom " CG " of B:1072 for chi1
+Num exceptions = 60

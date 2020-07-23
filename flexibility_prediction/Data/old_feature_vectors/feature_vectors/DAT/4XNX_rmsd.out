@@ -1,0 +1,48 @@
+DAT /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/feature_vectors/DAT/4XNX.pkl
+Could not find atom " CG " of A:33 for chi1
+Could not find atom " HG " of A:148 for chi2
+Could not find atom " HG " of A:157 for chi2
+Could not find atom " CG " of A:256 for chi1
+Could not find atom " CG " of A:290 for chi1
+Could not find atom " CG " of A:305 for chi1
+Could not find atom " CG " of A:306 for chi1
+Could not find atom " CG " of A:308 for chi1
+Could not find atom " CG " of A:343 for chi1
+Could not find atom " CG " of A:442 for chi1
+Could not find atom " CG " of A:446 for chi1
+Could not find atom " CG1" of A:457 for chi1
+Could not find atom " CG " of A:517 for chi1
+Could not find atom " CG " of A:578 for chi1
+Could not find atom " CG " of A:586 for chi1
+Could not find atom " CG " of A:587 for chi1
+Could not find atom " CG " of A:588 for chi1
+Could not find atom " CG " of A:598 for chi1
+Could not find atom " CG " of A:599A for chi1
+Could not find atom " CG " of A:599B for chi1
+Could not find atom " CG " of B:1 for chi1
+Could not find atom " CG " of B:3 for chi1
+Could not find atom " HG " of B:22 for chi2
+Could not find atom " OG " of B:30 for chi1
+Could not find atom " CG " of B:76 for chi1
+Could not find atom " HG " of B:96 for chi2
+Could not find atom " CG " of B:111 for chi1
+Could not find atom " CG1" of B:133 for chi1
+Could not find atom " OG1" of B:139 for chi1
+Could not find atom " HG " of B:146 for chi2
+Could not find atom " CG1" of B:189 for chi1
+Could not find atom " OG " of B:198 for chi1
+Could not find atom " OG1" of B:200 for chi1
+Could not find atom " HG " of B:201 for chi2
+Could not find atom " CG " of B:217 for chi1
+Could not find atom " CG " of B:218A for chi1
+Could not find atom " HG " of C:23 for chi2
+Could not find atom " HG " of C:89 for chi2
+Could not find atom " HG " of C:135 for chi2
+Could not find atom " CG " of C:143 for chi1
+Could not find atom " CG " of C:148 for chi1
+Could not find atom " OG " of C:169 for chi1
+Could not find atom " CG " of C:170 for chi1
+Could not find atom " CG " of C:189 for chi1
+Could not find atom " CG " of C:191 for chi1
+Could not find atom " HG " of C:195 for chi2
+Num exceptions = 46

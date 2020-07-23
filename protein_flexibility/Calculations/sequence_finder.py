@@ -16,22 +16,37 @@ from schrodinger.structure import StructureReader
 import os
 import pickle
 
+
+'''
+Get the list of all proteins
+:param combind_root: path to the combind root folder
+:return: list of protein name strings
+'''
 def get_proteins(combind_root):
-    '''
-    Get the list of all proteins
-    :param combind_root: path to the combind root folder
-    :return: list of protein name strings
-    '''
     proteins = sorted(os.listdir(combind_root))
     proteins = [p for p in proteins if p[0] != '.']
     print(proteins)
     return proteins
 
+
+'''
+Get the list of all ligands
+:param protein: name of the protein
+:param max_ligands: maximum number of ligands to analyze for each protein
+:param combind_root: path to the combind root folder
+:return: list of ligand name strings
+'''
 def get_ligands(protein, max_ligands, combind_root):
     ligand_folder = combind_root + "/" + protein + "/docking/grids"
     ligands = sorted(os.listdir(ligand_folder))[:max_ligands]  # sorted
     return ligands
 
+
+'''
+Get the amino acid sequence
+:param file: .mae file for the structure
+:return: the amino acid string for all amino acids in chain A
+'''
 def get_sequence_from_str(file):
     s = list(StructureReader(file))[0]
     str = ''

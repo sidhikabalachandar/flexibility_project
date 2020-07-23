@@ -1,0 +1,9 @@
+PLK1 /home/users/sidhikab/flexibility_project/flexibility_prediction/Data/rmsds/PLK1_rmsds.csv
+Traceback (most recent call last):
+  File "rmsd_calculator.py", line 260, in <module>
+    compute_protein_rmsds(protein, rmsd_file, combind_root)
+  File "rmsd_calculator.py", line 136, in compute_protein_rmsds
+    ligands = get_ligands(protein, max_ligands, combind_root)
+  File "rmsd_calculator.py", line 108, in get_ligands
+    ligands = sorted(os.listdir(ligand_folder))[:max_ligands]  # sorted
+OSError: [Errno 24] Too many open files: '/scratch/PI/rondror/combind/bpp_data//PLK1/docking/grids'
